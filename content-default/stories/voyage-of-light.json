@@ -2,6 +2,8 @@
   "theme": "dark-cinematic",
   "title": "Voyage of Light",
   "subtitle": "How light reveals the universe",
+  "description": "Trace auroras, prisms, and telescopes in a cinematic journey through color and cosmos.",
+  "publishedAt": "2026-01-10T00:00:00Z",
   "backgroundMusic": "/audio/ambient-aurora.mp3",
   "badge": "Featured",
   "pages": [

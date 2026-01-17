@@ -44,6 +44,8 @@ export interface StoryConfig {
   theme: ThemeName;
   title: string;
   subtitle?: string;
+  description?: string;
+  publishedAt?: string;
   backgroundMusic?: string;
   badge?: string;
   pages: StoryPage[];

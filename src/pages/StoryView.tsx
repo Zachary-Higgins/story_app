@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { StoryConfig, StoryPage, ThemeName } from '../types/story';
 import { storyConfigSchema } from '../storySchema';
 import { applyTheme } from '../theme/themes';
-import { stories, findStory, StoryMeta, formatDate } from '../data/stories';
+import { StoryMeta, formatDate } from '../data/stories';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { AudioController } from '../components/AudioController';
 import { ScrollProgress } from '../components/ScrollProgress';
@@ -12,6 +12,11 @@ import { HeroSection } from '../components/sections/HeroSection';
 import { SplitSection } from '../components/sections/SplitSection';
 import { TimelineSection } from '../components/sections/TimelineSection';
 import { ImmersiveSection } from '../components/sections/ImmersiveSection';
+
+const storyRegistry = [
+  { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
+  { id: 'tides-of-the-blue', configPath: '/stories/tides-of-the-blue.json' },
+];
 
 function renderSection(page: StoryPage, index: number) {
   switch (page.layout) {
@@ -30,43 +35,53 @@ function renderSection(page: StoryPage, index: number) {
 
 export function StoryView() {
   const { id } = useParams();
-  const meta: StoryMeta | undefined = findStory(id ?? undefined);
   const navigate = useNavigate();
 
+  const [meta, setMeta] = useState<StoryMeta | undefined>(undefined);
   const [story, setStory] = useState<StoryConfig | null>(null);
-  const [theme, setTheme] = useState<ThemeName>(meta?.theme ?? 'dark-cinematic');
+  const [theme, setTheme] = useState<ThemeName>('dark-cinematic');
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Load story metadata from registry
   useEffect(() => {
-    if (!meta) return;
-    setTheme(meta.theme);
-  }, [meta]);
-
-  useEffect(() => {
-    if (!meta) return;
-    const loadStory = async () => {
+    const reg = storyRegistry.find((s) => s.id === id);
+    if (!reg) {
+      setLoading(false);
+      return;
+    }
+    const loadMeta = async () => {
       try {
-        setLoading(true);
-        setError(null);
-        const res = await fetch(meta.configPath);
-        if (!res.ok) throw new Error('Unable to load story file');
+        const res = await fetch(reg.configPath);
+        if (!res.ok) throw new Error('Unable to load story');
         const raw = await res.json();
-        const parsed = storyConfigSchema.parse(raw);
-        setStory(parsed);
-        setTheme(parsed.theme);
-      } catch (err) {
-        if (err instanceof z.ZodError) {
-          setError('Story config failed validation.');
+        const parsed = storyConfigSchema.safeParse(raw);
+        if (parsed.success) {
+          const config = parsed.data;
+          setMeta({
+            id: reg.id,
+            title: config.title,
+            subtitle: config.subtitle,
+            description: config.description || config.subtitle || config.title,
+            theme: config.theme,
+            cover: '',
+            configPath: reg.configPath,
+            badge: config.badge,
+            publishedAt: config.publishedAt || new Date().toISOString(),
+          });
+          setTheme(config.theme);
+          setStory(config);
         } else {
-          setError((err as Error).message);
+          setError('Story config failed validation.');
         }
+      } catch (err) {
+        setError((err as Error).message);
       } finally {
         setLoading(false);
       }
     };
-    loadStory();
-  }, [meta]);
+    loadMeta();
+  }, [id]);
 
   useEffect(() => {
     applyTheme(theme);
@@ -143,15 +158,15 @@ export function StoryView() {
               More journeys
             </span>
             <div className="flex flex-wrap gap-2">
-              {stories
-                .filter((s) => s.id !== meta.id)
+              {storyRegistry
+                .filter((s) => s.id !== id)
                 .map((s) => (
                   <Link
                     key={s.id}
                     to={`/story/${s.id}`}
                     className="rounded-full bg-surface px-3 py-1 text-xs font-semibold text-white hover:text-accent"
                   >
-                    {s.title}
+                    {s.id}
                   </Link>
                 ))}
             </div>

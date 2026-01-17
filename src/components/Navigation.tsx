@@ -20,6 +20,7 @@ interface SocialLink {
 
 export function Navigation({ stories }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCompact, setIsCompact] = useState<boolean>(false); // aspect ratio <= 1 (portrait/square)
   const [homeConfig, setHomeConfig] = useState<HomeConfig>({ navTitle: 'Story Atlas' });
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const location = useLocation();
@@ -31,6 +32,18 @@ export function Navigation({ stories }: NavigationProps) {
       .catch(() => {
         setHomeConfig({ navTitle: 'Story Atlas' });
       });
+  }, []);
+
+  // Detect portrait/square layout: aspect ratio height >= width (w/h <= 1)
+  useEffect(() => {
+    const updateScreen = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      setIsCompact(w <= h);
+    };
+    updateScreen();
+    window.addEventListener('resize', updateScreen);
+    return () => window.removeEventListener('resize', updateScreen);
   }, []);
 
   useEffect(() => {
@@ -46,16 +59,35 @@ export function Navigation({ stories }: NavigationProps) {
   return (
     <>
       {isOpen && <div className="fixed inset-0 z-30 bg-black/40 md:hidden" onClick={() => setIsOpen(false)} />}
-      <aside
-        className={clsx(
-          'fixed left-0 top-0 z-40 flex h-full flex-col border-r border-white/5 bg-gradient-to-b from-surface/95 via-surface/92 to-elevated/95 backdrop-blur-lg transition-all duration-500',
-          isOpen ? 'w-72 shadow-2xl shadow-black/30' : 'w-16 md:w-20 shadow-lg shadow-black/20'
-        )}
-      >
+      {/* Floating expand button when aspect ratio < 1 and menu is collapsed */}
+      {isCompact && !isOpen && (
+        <button
+          aria-label="Open menu"
+          aria-expanded={false}
+          onClick={() => setIsOpen(true)}
+          className="fixed left-3 top-3 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-elevated/90 text-white shadow-soft backdrop-blur-md"
+        >
+          <span className="space-y-1">
+            <span className="block h-0.5 w-5 rounded-full bg-white" />
+            <span className="block h-0.5 w-3 rounded-full bg-white" />
+            <span className="block h-0.5 w-4 rounded-full bg-white" />
+          </span>
+        </button>
+      )}
+
+      {(!isCompact || isOpen) && (
+        <aside
+          className={clsx(
+            'fixed left-0 top-0 z-40 flex h-full flex-col border-r border-white/5 bg-gradient-to-b from-surface/95 via-surface/92 to-elevated/95 backdrop-blur-lg transition-all duration-500',
+            isOpen ? 'w-72 shadow-2xl shadow-black/30' : 'w-16 md:w-20 shadow-lg shadow-black/20'
+          )}
+          aria-hidden={!isOpen && isCompact}
+        >
         <div className="flex items-center gap-3 px-3 py-4 text-sm font-semibold uppercase tracking-[0.24em] text-accent">
           <button
-            aria-label="Toggle menu"
-            onClick={toggle}
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isOpen}
+            onClick={() => setIsOpen((prev) => !prev)}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated/80 text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-elevated"
           >
             <span className="space-y-1">
@@ -117,6 +149,7 @@ export function Navigation({ stories }: NavigationProps) {
                     isOpen ? 'h-16 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
                     active && 'border-accent/60 bg-elevated/90 shadow-soft'
                   )}
+                  tabIndex={isCompact && !isOpen ? -1 : 0}
                 >
                   <span
                     className={clsx(
@@ -196,7 +229,8 @@ export function Navigation({ stories }: NavigationProps) {
             <span className="block text-center">❖</span>
           )}
         </div>
-      </aside>
+        </aside>
+      )}
 
       <div
         className={clsx(

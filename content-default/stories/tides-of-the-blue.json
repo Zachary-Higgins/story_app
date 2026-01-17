@@ -2,6 +2,8 @@
   "theme": "bold-gradient",
   "title": "Tides of the Blue",
   "subtitle": "Stories from the living ocean",
+  "description": "Dive through currents, reef cities, and the twilight zone with soundscapes and gradients.",
+  "publishedAt": "2026-01-15T00:00:00Z",
   "backgroundMusic": "/audio/ambient-aurora.mp3",
   "pages": [
     {

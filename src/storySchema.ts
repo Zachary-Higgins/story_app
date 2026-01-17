@@ -38,6 +38,8 @@ export const storyConfigSchema = z.object({
   theme: z.enum(['dark-cinematic', 'light-editorial', 'bold-gradient']),
   title: z.string(),
   subtitle: z.string().optional(),
+  description: z.string().optional(),
+  publishedAt: z.string().optional(), // ISO 8601 date string
   backgroundMusic: z.string().optional(),
   badge: z.string().optional(),
   pages: z.array(storyPageSchema),
