@@ -1,0 +1,24 @@
+{
+  "kicker": "About Me",
+  "title": "Zachary Higgins",
+  "description": "Data Scientist. Builder. Storyteller.",
+  "sections": [
+    {
+      "title": "Who I am",
+      "content": "My name is Zach. I'm a builder at heart—equal parts data scientist, systems thinker, and someone who can't stop turning ideas into real things. I like complexity when it has a purpose, and I get obsessed with details when they're the difference between something that merely works and something that feels right."
+    },
+    {
+      "title": "What I believe",
+      "items": [
+        "Technology should earn its place in the world—teaching, empowering, and leaving people better than it found them.",
+        "The human side of innovation is the real test: not what we can build, but what it does to the people living with it."
+      ]
+    },
+    {
+      "title": "Why this project",
+      "content": "Stories are how we understand the world. This tool makes it possible to craft immersive, scroll-based narratives that guide people through complex ideas. Built with care for both creator and audience.",
+      "tags": ["React + Vite", "Tailwind CSS", "Framer Motion", "JSON-first"]
+    }
+  ],
+  "cta": "Ready to tell your story? Start by duplicating a story JSON and making it your own. Add media, adjust the theme, and publish. The world needs more ideas worth exploring."
+}

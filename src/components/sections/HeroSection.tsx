@@ -13,7 +13,7 @@ export function HeroSection({ page, index }: HeroSectionProps) {
     <SectionShell page={page} index={index}>
       <div className="relative isolate flex min-h-[80vh] flex-col justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-surface/80 via-surface/60 to-elevated/80 p-10 shadow-2xl">
         <div className="absolute inset-0 opacity-60">
-          <Media media={page.background} className="" />
+          <Media media={page.background} className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent" />
         </div>
         <div className="relative z-10 grid gap-8 md:grid-cols-2 md:items-center">

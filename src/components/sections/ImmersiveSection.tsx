@@ -12,10 +12,14 @@ export function ImmersiveSection({ page, index }: ImmersiveSectionProps) {
   return (
     <SectionShell page={page} index={index}>
       <div className="relative min-h-[75vh] overflow-hidden rounded-3xl">
-        <Media media={page.background} className="" />
-        <div className="absolute inset-0 bg-gradient-to-b from-surface/70 via-surface/50 to-surface/90" />
-        <div className="absolute inset-0 bg-overlay" />
-        <div className="relative z-10 flex h-full items-center px-6 py-12 md:px-12">
+        {page.background && (
+          <div className="absolute inset-0 z-0">
+            <Media media={page.background} className="absolute inset-0 h-full w-full object-cover" />
+          </div>
+        )}
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-surface/40 via-surface/30 to-surface/60" />
+        <div className="absolute inset-0 z-20 bg-overlay opacity-20" />
+        <div className="relative z-30 flex h-full items-center px-6 py-12 md:px-12">
           <motion.div
             className="max-w-3xl space-y-4"
             initial={{ opacity: 0, y: 24 }}

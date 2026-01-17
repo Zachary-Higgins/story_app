@@ -1,0 +1,111 @@
+{
+  "theme": "dark-cinematic",
+  "title": "Voyage of Light",
+  "subtitle": "How light reveals the universe",
+  "backgroundMusic": "/audio/ambient-aurora.mp3",
+  "pages": [
+    {
+      "id": "arrival",
+      "layout": "hero",
+      "transition": "zoom",
+      "title": "Step into the Aurora",
+      "kicker": "Prelude",
+      "body": [
+        "You arrive beneath a sky draped in shimmering curtains of color.",
+        "Scroll to trace light's path—from atoms to galaxies."
+      ],
+      "background": {
+        "type": "image",
+        "src": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fm=jpg&q=80&w=1600&fit=crop",
+        "alt": "Aurora sky"
+      },
+      "foreground": {
+        "type": "image",
+        "src": "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=900&q=80",
+        "alt": "Person looking at sky"
+      }
+    },
+    {
+      "id": "refraction",
+      "layout": "split",
+      "transition": "slide-left",
+      "kicker": "Chapter 1",
+      "title": "Bending Through Glass",
+      "body": [
+        "Refraction slows light as it crosses into denser mediums, bending its path and splitting color.",
+        "Every rainbow is a spectrum unwound."],
+      "background": {
+        "type": "image",
+        "src": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=80",
+        "alt": "Prism"
+      },
+      "emphasis": "Fun fact: The refractive index of diamond is 2.42—why it sparkles so intensely."
+    },
+    {
+      "id": "timeline",
+      "layout": "timeline",
+      "transition": "fade",
+      "kicker": "Milestones",
+      "title": "Light's Breakthroughs",
+      "body": ["Moments when light reshaped our understanding."],
+      "timeline": [
+        {
+          "title": "1666 — Newton",
+          "subtitle": "Spectrum revealed",
+          "description": "Newton used a prism to split sunlight, proving white light carries every hue.",
+          "marker": "Dispersion"
+        },
+        {
+          "title": "1801 — Young",
+          "subtitle": "Interference",
+          "description": "Thomas Young's double-slit experiment showed light behaving like a wave.",
+          "marker": "Wave"
+        },
+        {
+          "title": "1905 — Einstein",
+          "subtitle": "Photoelectric",
+          "description": "Einstein explained how photons kick electrons free, ushering in quantum theory.",
+          "marker": "Photon"
+        },
+        {
+          "title": "1995 — LIGO",
+          "subtitle": "Interferometry",
+          "description": "Laser interferometers detected ripples in spacetime—gravitational waves from colliding black holes.",
+          "marker": "Gravity"
+        }
+      ]
+    },
+    {
+      "id": "cosmos",
+      "layout": "immersive",
+      "transition": "slide-up",
+      "kicker": "Chapter 2",
+      "title": "Light Across the Cosmos",
+      "body": [
+        "Galaxies whisper through photons stretched by expansion.",
+        "Telescopes listen—mapping what our eyes cannot."],
+      "background": {
+        "type": "video",
+        "src": "/videos/galaxy.mp4",
+        "loop": true,
+        "autoPlay": true,
+        "alt": "Galaxy"
+      }
+    },
+    {
+      "id": "call-to-action",
+      "layout": "split",
+      "transition": "zoom",
+      "kicker": "Take Part",
+      "title": "Curate Your Own Light Trail",
+      "body": [
+        "Remix this story with your media—change themes, swap chapters, and guide your audience.",
+        "All content is driven by a simple JSON file: update, refresh, and explore."],
+      "background": {
+        "type": "image",
+        "src": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=80",
+        "alt": "Prism"
+      }
+    }
+  ]
+}
