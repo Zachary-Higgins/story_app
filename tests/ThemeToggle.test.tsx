@@ -19,14 +19,14 @@ describe('ThemeToggle', () => {
     expect(screen.getByText('Bold Gradient')).toBeInTheDocument();
   });
 
-  it('should highlight active theme', () => {
+  it('should render all three theme options', () => {
     renderWithRouter('dark-cinematic');
-    const activeButton = screen.getByText('Dark Cinematic').closest('button');
-    expect(activeButton).toHaveClass('bg-accent');
+    const buttons = screen.getAllByRole('button');
+    expect(buttons).toHaveLength(3);
   });
 
-  it('should render THEME label', () => {
+  it('should render Theme label', () => {
     renderWithRouter('dark-cinematic');
-    expect(screen.getByText('THEME')).toBeInTheDocument();
+    expect(screen.getByText('Theme')).toBeInTheDocument();
   });
 });

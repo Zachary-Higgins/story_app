@@ -11,26 +11,10 @@ describe('storyConfigSchema', () => {
       {
         id: 'page-1',
         layout: 'hero',
-        kicker: 'Test',
         title: 'Page Title',
-        body: 'Page content',
-        image: '/images/test.jpg',
+        body: ['Page content line 1', 'Page content line 2'],
       },
     ],
-    timeline: [
-      {
-        date: '2026-01-01',
-        event: 'Test Event',
-      },
-    ],
-    emphasis: 'Key message',
-    media: {
-      'test-img': {
-        type: 'image',
-        src: '/images/test.jpg',
-        alt: 'Test image',
-      },
-    },
   };
 
   it('should validate a correct story config', () => {
@@ -50,6 +34,12 @@ describe('storyConfigSchema', () => {
     expect(result.success).toBe(false);
   });
 
+  it('should require pages array', () => {
+    const { pages, ...invalid } = validStoryConfig;
+    const result = storyConfigSchema.safeParse(invalid);
+    expect(result.success).toBe(false);
+  });
+
   it('should validate hero page layout', () => {
     const heroPage = {
       ...validStoryConfig,
@@ -57,10 +47,9 @@ describe('storyConfigSchema', () => {
         {
           id: 'hero-1',
           layout: 'hero',
-          kicker: 'Kicker',
           title: 'Hero Title',
-          body: 'Hero body',
-          image: '/images/hero.jpg',
+          body: ['Hero body text'],
+          kicker: 'Kicker text',
         },
       ],
     };
@@ -76,8 +65,7 @@ describe('storyConfigSchema', () => {
           id: 'split-1',
           layout: 'split',
           title: 'Split Title',
-          body: 'Split body',
-          image: '/images/split.jpg',
+          body: ['Split body text'],
         },
       ],
     };
@@ -93,9 +81,9 @@ describe('storyConfigSchema', () => {
           id: 'timeline-1',
           layout: 'timeline',
           title: 'Timeline Title',
-          events: [
+          body: ['Timeline content'],
+          timeline: [
             {
-              date: '2026-01-01',
               title: 'Event 1',
               description: 'Event description',
             },
@@ -115,8 +103,7 @@ describe('storyConfigSchema', () => {
           id: 'immersive-1',
           layout: 'immersive',
           title: 'Immersive Title',
-          body: 'Immersive content',
-          backgroundImage: '/images/bg.jpg',
+          body: ['Immersive content'],
         },
       ],
     };
@@ -128,13 +115,12 @@ describe('storyConfigSchema', () => {
     const minimal = {
       theme: 'dark-cinematic',
       title: 'Minimal Story',
-      subtitle: 'Subtitle',
       pages: [
         {
           id: 'page-1',
           layout: 'hero',
           title: 'Page',
-          body: 'Content',
+          body: ['Content'],
         },
       ],
     };
@@ -142,16 +128,40 @@ describe('storyConfigSchema', () => {
     expect(result.success).toBe(true);
   });
 
-  it('should validate media asset types', () => {
+  it('should validate media assets in background/foreground', () => {
     const withMedia = {
       ...validStoryConfig,
-      media: {
-        img1: { type: 'image', src: '/img.jpg', alt: 'Alt' },
-        vid1: { type: 'video', src: '/vid.mp4' },
-        aud1: { type: 'audio', src: '/aud.mp3' },
-      },
+      pages: [
+        {
+          id: 'page-1',
+          layout: 'hero',
+          title: 'Page',
+          body: ['Content'],
+          background: {
+            type: 'image',
+            src: '/img.jpg',
+            alt: 'Alt text',
+          },
+        },
+      ],
     };
     const result = storyConfigSchema.safeParse(withMedia);
     expect(result.success).toBe(true);
+  });
+
+  it('should reject invalid body format (requires array)', () => {
+    const invalid = {
+      ...validStoryConfig,
+      pages: [
+        {
+          id: 'page-1',
+          layout: 'hero',
+          title: 'Page',
+          body: 'This should be an array',
+        },
+      ],
+    };
+    const result = storyConfigSchema.safeParse(invalid);
+    expect(result.success).toBe(false);
   });
 });
