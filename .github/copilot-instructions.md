@@ -1,20 +1,33 @@
-- [ ] Verify that the copilot-instructions.md file in the .github directory is created.
+# Copilot Instructions
 
-- [ ] Clarify Project Requirements
+Use these guardrails for Copilot agents working on Story Atlas (React 18 + Vite 7 + TypeScript + Tailwind).
 
-- [ ] Scaffold the Project
+## Project context
+- Stories and assets live in `content-default/` (served as `publicDir`). Story registry is in `src/App.tsx`; schema is in `src/storySchema.ts`.
+- UI and routing live in `src/components/`, `src/pages/`, `src/utils/`, and `src/theme/`.
+- Tests live in `tests/` using Vitest + React Testing Library.
 
-- [ ] Customize the Project
+## Core commands (run from repo root)
+- `npm install`
+- `npm run lint`
+- `npm test`
+- `npm run build`
+- `npm run dev` (http://localhost:5173) / `npm run preview`
 
-- [ ] Install Required Extensions
+## Boundaries
+- Keep `content-default/` paths stable; validate JSON changes against `src/storySchema.ts` and tests.
+- Prefer minimal diffs; avoid adding dependencies unless necessary.
+- Do not alter GitHub workflows or deployment settings unless requested.
+- Keep docs (`README.md`, `AGENTS.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `.github/agents`) consistent when updating guidance.
 
-- [ ] Compile the Project
+## Agents
+Use the playbooks in `.github/agents`:
+- `docs-agent`: documentation and examples.
+- `test-agent`: Vitest + React Testing Library coverage.
+- `lint-agent`: ESLint fixes for TS/React.
+- `api-agent`: data loading, schema, and base path handling.
+- `dev-deploy-agent`: dev server, builds, and release handoff.
 
-- [ ] Create and Run Task
-
-- [ ] Launch the Project
-
-- [ ] Ensure Documentation is Complete
-- Work through each checklist item systematically.
-- Keep communication concise and focused.
-- Follow development best practices.
+## Workflow
+- Make the smallest change that solves the task.
+- Run lint/tests before handoff; include a short summary of what changed and why.
