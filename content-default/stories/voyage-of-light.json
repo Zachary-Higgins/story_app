@@ -3,6 +3,7 @@
   "title": "Voyage of Light",
   "subtitle": "How light reveals the universe",
   "backgroundMusic": "/audio/ambient-aurora.mp3",
+  "badge": "Featured",
   "pages": [
     {
       "id": "arrival",
@@ -16,12 +17,12 @@
       ],
       "background": {
         "type": "image",
-        "src": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fm=jpg&q=80&w=1600&fit=crop",
+        "src": "/images/voyages_card1_bg.jpg",
         "alt": "Aurora sky"
       },
       "foreground": {
         "type": "image",
-        "src": "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=900&q=80",
+        "src": "/images/voyages_card1.jpg",
         "alt": "Person looking at sky"
       }
     },
@@ -35,9 +36,11 @@
         "Refraction slows light as it crosses into denser mediums, bending its path and splitting color.",
         "Every rainbow is a spectrum unwound."],
       "background": {
-        "type": "image",
-        "src": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=80",
-        "alt": "Prism"
+        "type": "video",
+        "src": "/videos/voyages_card2.mp4",
+        "alt": "Prism",
+        "loop": true,
+        "autoPlay": true
       },
       "emphasis": "Fun fact: The refractive index of diamond is 2.42—why it sparkles so intensely."
     },
@@ -86,7 +89,7 @@
         "Telescopes listen—mapping what our eyes cannot."],
       "background": {
         "type": "video",
-        "src": "/videos/galaxy.mp4",
+        "src": "/videos/voyages_card3.mp4",
         "loop": true,
         "autoPlay": true,
         "alt": "Galaxy"
@@ -102,9 +105,11 @@
         "Remix this story with your media—change themes, swap chapters, and guide your audience.",
         "All content is driven by a simple JSON file: update, refresh, and explore."],
       "background": {
-        "type": "image",
-        "src": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=80",
-        "alt": "Prism"
+        "type": "video",
+        "src": "/videos/voyages_card4.mp4",
+        "loop": true,
+        "autoPlay": true,
+        "alt": "Galaxy"
       }
     }
   ]

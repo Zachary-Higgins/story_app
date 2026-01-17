@@ -18,13 +18,14 @@ Story Atlas is a JSON-driven interactive narrative platform built with React, Vi
 ### Story Data Structure
 Stories are defined in two places:
 1. **app/data/stories.ts** - `StoryMeta` interface with metadata (id, title, subtitle, theme, configPath, publishedAt)
-2. **content/stories/{id}.json** - Full story configuration matching `StoryConfig` schema
+2. **content/stories/{id}.json** - Full story configuration matching `StoryConfig` schema (supports optional `badge` to display on the homepage)
 
 When adding a story:
 - Add entry to `stories` array in `app/data/stories.ts`
 - Create corresponding JSON file in `content/stories/`
 - Always include `publishedAt` (ISO 8601 format) for proper sorting
 - Validate against `storySchema.ts`
+ - Optional: set `badge` (e.g., "Featured", "New") in the story JSON to control the homepage badge
 
 ### Configuration Files
 Located in **content/** and served as static assets:

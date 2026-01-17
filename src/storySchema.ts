@@ -39,6 +39,7 @@ export const storyConfigSchema = z.object({
   title: z.string(),
   subtitle: z.string().optional(),
   backgroundMusic: z.string().optional(),
+  badge: z.string().optional(),
   pages: z.array(storyPageSchema),
 });
 

@@ -15,12 +15,12 @@
         "Scroll to dive from surface light to the twilight blue."],
       "background": {
         "type": "image",
-        "src": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fm=jpg&q=80&w=1800&fit=crop",
+        "src": "/images/reef_card1_bg.jpg",
         "alt": "Ocean wave"
       },
       "foreground": {
         "type": "image",
-        "src": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fm=jpg&q=80&w=900&fit=crop",
+        "src": "/images/reef_card1.jpg",
         "alt": "Diver"
       }
     },
@@ -35,7 +35,7 @@
         "Satellites trace eddies as living fingerprints of motion."],
       "background": {
         "type": "image",
-        "src": "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fm=jpg&q=80&w=1400&fit=crop",
+        "src": "/images/reef_card2.jpg",
         "alt": "Ocean current"
       },
       "emphasis": "The Gulf Stream moves 150 Sverdrups—more than 300 Amazon Rivers combined."
@@ -102,7 +102,7 @@
         "Change the JSON to swap chapters, colors, and soundscapes."],
       "background": {
         "type": "image",
-        "src": "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fm=jpg&q=80&w=1400&fit=crop",
+        "src": "/images/reef_card4.jpg",
         "alt": "Ocean current"
       }
     }
