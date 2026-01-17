@@ -166,4 +166,26 @@ describe('storyConfigSchema', () => {
     const result = storyConfigSchema.safeParse(invalid);
     expect(result.success).toBe(false);
   });
+
+  it('should reject unsafe URLs in links and media', () => {
+    const unsafe = {
+      ...validStoryConfig,
+      backgroundMusic: 'javascript:alert(1)',
+      pages: [
+        {
+          id: 'page-1',
+          layout: 'hero',
+          title: 'Page',
+          body: ['Content'],
+          actions: [{ label: 'Bad', href: 'javascript:alert(1)' }],
+          background: {
+            type: 'image',
+            src: '//malicious.test/img.jpg',
+          },
+        },
+      ],
+    };
+    const result = storyConfigSchema.safeParse(unsafe);
+    expect(result.success).toBe(false);
+  });
 });

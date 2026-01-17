@@ -1,8 +1,13 @@
 import { z } from 'zod';
+import { isSafeAssetUrl } from './utils/safeUrl';
+
+const safeUrlString = z
+  .string()
+  .refine(isSafeAssetUrl, 'URL must be http(s) or a relative path; protocol-relative URLs are blocked');
 
 const mediaAssetSchema = z.object({
   type: z.enum(['image', 'video']),
-  src: z.string(),
+  src: safeUrlString,
   alt: z.string().optional(),
   loop: z.boolean().optional(),
   autoPlay: z.boolean().optional(),
@@ -17,7 +22,7 @@ const timelineEntrySchema = z.object({
 
 const actionLinkSchema = z.object({
   label: z.string(),
-  href: z.string(),
+  href: safeUrlString,
 });
 
 const storyPageSchema = z.object({
@@ -40,10 +45,9 @@ export const storyConfigSchema = z.object({
   subtitle: z.string().optional(),
   description: z.string().optional(),
   publishedAt: z.string().optional(), // ISO 8601 date string
-  backgroundMusic: z.string().optional(),
+  backgroundMusic: safeUrlString.optional(),
   badge: z.string().optional(),
   pages: z.array(storyPageSchema),
 });
 
 export type StoryConfig = z.infer<typeof storyConfigSchema>;
-

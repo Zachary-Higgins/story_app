@@ -23,4 +23,9 @@ describe('withBasePath', () => {
   it('returns empty string for falsy input', () => {
     expect(withBasePath('')).toBe('');
   });
+
+  it('returns empty string for unsafe URLs', () => {
+    expect(withBasePath('javascript:alert(1)')).toBe('');
+    expect(withBasePath('//malicious.test/steal')).toBe('');
+  });
 });
