@@ -5,7 +5,7 @@
 **Stack context**: React 18, Vite 7, TypeScript, Zod (`src/storySchema.ts`), React Router (`src/App.tsx`), base path helper (`src/utils/basePath.ts`).
 
 ## Primary tasks
-- Adjust schema and loading logic for stories, ensuring compatibility with `content-default/` JSON and `storyRegistry` entries in `src/App.tsx`.
+- Adjust schema and loading logic for stories, ensuring compatibility with `content-default/` fallback JSON and `storyRegistry` entries in `src/App.tsx`. When a `content/` directory exists, it must override `content-default/` (no merging).
 - Verify base path handling for GitHub Pages and asset fetching via `withBasePath`.
 - Coordinate schema changes with docs/test agents and update related guidance.
 

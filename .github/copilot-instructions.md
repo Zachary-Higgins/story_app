@@ -3,7 +3,7 @@
 Use these guardrails for Copilot agents working on Story Atlas (React 18 + Vite 7 + TypeScript + Tailwind).
 
 ## Project context
-- Stories and assets live in `content-default/` (served as `publicDir`). Story registry is in `src/App.tsx`; schema is in `src/storySchema.ts`.
+- Stories and assets live in `content-default/` (served as `publicDir`). If a `content/` directory exists it supersedes `content-default/`; they are not merged. Story registry is in `src/App.tsx`; schema is in `src/storySchema.ts`.
 - UI and routing live in `src/components/`, `src/pages/`, `src/utils/`, and `src/theme/`.
 - Tests live in `tests/` using Vitest + React Testing Library.
 
