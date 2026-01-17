@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { StoryConfig, StoryPage, ThemeName } from '../types/story';
 import { storyConfigSchema } from '../storySchema';
 import { applyTheme } from '../theme/themes';
-import { stories, findStory, StoryMeta } from '../data/stories';
+import { stories, findStory, StoryMeta, formatDate } from '../data/stories';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { AudioController } from '../components/AudioController';
 import { ScrollProgress } from '../components/ScrollProgress';
@@ -96,6 +96,7 @@ export function StoryView() {
             <p className="text-xs uppercase tracking-[0.28em] text-accent">Interactive Story</p>
             <h1 className="font-display text-2xl text-white md:text-3xl">{story?.title ?? meta.title}</h1>
             <p className="text-sm text-muted">{story?.subtitle ?? meta.subtitle}</p>
+            <p className="text-xs text-muted/70">{formatDate(meta.publishedAt)}</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <ThemeToggle value={theme} onChange={setTheme} />
