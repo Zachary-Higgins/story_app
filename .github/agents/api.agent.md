@@ -1,3 +1,10 @@
+---
+name: "@api-agent"
+description: "Maintain data loading, schema validation, and routing base paths."
+tools:
+  - "terminal"
+---
+
 # @api-agent
 
 **Role**: Maintain data loading, schema validation, and routing base paths.

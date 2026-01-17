@@ -1,3 +1,10 @@
+---
+name: "@dev-deploy-agent"
+description: "Run local builds and prepare releases without altering production workflows."
+tools:
+  - "terminal"
+---
+
 # @dev-deploy-agent
 
 **Role**: Run local builds and prepare releases without altering production workflows.
