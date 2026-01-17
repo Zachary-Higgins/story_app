@@ -29,12 +29,14 @@ describe('storyConfigSchema', () => {
   });
 
   it('should require title field', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { title, ...invalid } = validStoryConfig;
     const result = storyConfigSchema.safeParse(invalid);
     expect(result.success).toBe(false);
   });
 
   it('should require pages array', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { pages, ...invalid } = validStoryConfig;
     const result = storyConfigSchema.safeParse(invalid);
     expect(result.success).toBe(false);

@@ -1,7 +1,6 @@
 import { StoryPage } from '../../types/story';
 import { SectionShell } from '../SectionShell';
 import { Media } from '../Media';
-import { motion } from 'framer-motion';
 
 interface SplitSectionProps {
   page: StoryPage;
