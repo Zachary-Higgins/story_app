@@ -22,6 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -36,6 +39,8 @@ jobs:
 
       - name: Build app
         run: npm run build
+        env:
+          GITHUB_PAGES: 'true'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
