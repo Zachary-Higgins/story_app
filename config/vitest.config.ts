@@ -6,7 +6,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './tests/setup.ts',
+    setupFiles: [new URL('../tests/setup.ts', import.meta.url).pathname],
     css: true,
   },
 });
