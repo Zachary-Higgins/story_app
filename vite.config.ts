@@ -3,8 +3,9 @@ import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import { appConfig } from './app.config';
 
+const packageName = process.env.npm_package_name?.split('/').pop();
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1]
-  ?? process.env.npm_package_name
+  ?? packageName
   ?? 'story_app';
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 // Check if content directory exists, otherwise use fallback
