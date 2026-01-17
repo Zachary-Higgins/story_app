@@ -18,7 +18,7 @@ Use these guardrails for Copilot agents working on Story Atlas (React 18 + Vite 
 - Keep `content-default/` paths stable; validate JSON changes against `src/storySchema.ts` and tests.
 - Prefer minimal diffs; avoid adding dependencies unless necessary.
 - Do not alter GitHub workflows or deployment settings unless requested.
-- Keep docs (`README.md`, `AGENTS.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `.github/agents`) consistent when updating guidance.
+- Keep docs (`README.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `AGENTS.md` overview) and `.github/agents/*` playbooks in sync when updating guidance.
 
 ## Agents
 Use the playbooks in `.github/agents`:

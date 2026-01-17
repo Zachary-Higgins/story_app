@@ -5,7 +5,7 @@
 **Stack context**: React 18, Vite 7, TypeScript 5, Tailwind CSS 3, Markdown.
 
 ## Primary tasks
-- Maintain `README.md`, `AGENTS.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `.github/copilot-instructions.md`, and the agent playbooks.
+- Maintain `README.md`, `AGENTS.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `.github/copilot-instructions.md`, and the agent playbooks in `.github/agents/`.
 - Add concise examples that mirror existing React/TypeScript patterns and story schema expectations.
 - Keep links relative and align instructions when workflows or commands change.
 
