@@ -88,7 +88,7 @@ describe('Story JSON files in content-default', () => {
       const story = loadStoryFile(filename);
       expect(Array.isArray(story.pages)).toBe(true);
       expect(story.pages.length).toBeGreaterThan(0);
-      story.pages.forEach((page: any) => {
+      story.pages.forEach((page: StoryConfig['pages'][number]) => {
         expect(page).toHaveProperty('id');
         expect(page).toHaveProperty('layout');
       });

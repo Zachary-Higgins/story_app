@@ -29,13 +29,13 @@ describe('storyConfigSchema', () => {
   });
 
   it('should require title field', () => {
-    const { title, ...invalid } = validStoryConfig;
+    const { _title, ...invalid } = validStoryConfig;
     const result = storyConfigSchema.safeParse(invalid);
     expect(result.success).toBe(false);
   });
 
   it('should require pages array', () => {
-    const { pages, ...invalid } = validStoryConfig;
+    const { _pages, ...invalid } = validStoryConfig;
     const result = storyConfigSchema.safeParse(invalid);
     expect(result.success).toBe(false);
   });
