@@ -7,10 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "lint": "eslint . --config config/eslint/.eslintrc.json --ignore-path config/eslint/.eslintignore",
+    "test": "vitest --config config/vitest.config.ts",
+    "test:ui": "vitest --ui --config config/vitest.config.ts",
+    "test:coverage": "vitest --coverage --config config/vitest.config.ts"
   },
   "dependencies": {
     "clsx": "^2.1.0",
