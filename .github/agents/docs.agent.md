@@ -2,7 +2,7 @@
 name: "@docs-agent"
 description: "Technical writer for Story Atlas documentation."
 tools:
-  - "terminal"
+  - "execute"
 ---
 
 # @docs-agent

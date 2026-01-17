@@ -2,7 +2,7 @@
 name: "@dev-deploy-agent"
 description: "Run local builds and prepare releases without altering production workflows."
 tools:
-  - "terminal"
+  - "execute"
 ---
 
 # @dev-deploy-agent

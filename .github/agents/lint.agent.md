@@ -2,7 +2,7 @@
 name: "@lint-agent"
 description: "Enforce linting and style rules for Story Atlas."
 tools:
-  - "terminal"
+  - "execute"
 ---
 
 # @lint-agent
