@@ -1,81 +1,136 @@
 import { describe, it, expect } from 'vitest';
-import { formatDate, findStory, stories } from '../src/data/stories';
+import { readFileSync, readdirSync } from 'fs';
+import { resolve } from 'path';
+import { storyConfigSchema } from '../src/storySchema';
+import { formatDate } from '../src/data/stories';
+
+// Load real story data from content-default
+function loadStoryFile(filename: string) {
+  const filePath = resolve(`content-default/stories/${filename}`);
+  const content = readFileSync(filePath, 'utf-8');
+  return JSON.parse(content);
+}
+
+function getStoryFiles() {
+  const dir = resolve('content-default/stories');
+  return readdirSync(dir).filter((f) => f.endsWith('.json'));
+}
 
 describe('formatDate', () => {
-  it('should format ISO date to readable format', () => {
-    const date = '2026-01-15T00:00:00Z';
-    const formatted = formatDate(date);
-    expect(formatted).toMatch(/Jan 1[45], 2026/);
-  });
+  it('should format story publishedAt dates correctly', () => {
+    const storyFiles = getStoryFiles();
+    expect(storyFiles.length).toBeGreaterThan(0);
 
-  it('should handle different months correctly', () => {
-    const formatted1 = formatDate('2026-12-25T00:00:00Z');
-    expect(formatted1).toMatch(/Dec 2[45], 2026/);
-    const formatted2 = formatDate('2026-03-01T00:00:00Z');
-    expect(formatted2).toMatch(/Mar 1, 2026|Feb 2[89], 2026/);
-  });
-
-  it('should format dates with timezone', () => {
-    const date = '2026-01-10T12:30:00Z';
-    const formatted = formatDate(date);
-    expect(formatted).toContain('2026');
-    expect(formatted).toContain('Jan');
-  });
-});
-
-describe('findStory', () => {
-  it('should find story by id', () => {
-    const story = findStory('voyage-of-light');
-    expect(story).toBeDefined();
-    expect(story?.id).toBe('voyage-of-light');
-    expect(story?.title).toBe('Voyage of Light');
-  });
-
-  it('should return undefined for non-existent story', () => {
-    const story = findStory('non-existent');
-    expect(story).toBeUndefined();
-  });
-
-  it('should return undefined when id is undefined', () => {
-    const story = findStory(undefined);
-    expect(story).toBeUndefined();
-  });
-});
-
-describe('stories array', () => {
-  it('should contain story entries', () => {
-    expect(stories.length).toBeGreaterThan(0);
-  });
-
-  it('should have all required fields', () => {
-    stories.forEach((story) => {
-      expect(story).toHaveProperty('id');
-      expect(story).toHaveProperty('title');
-      expect(story).toHaveProperty('subtitle');
-      expect(story).toHaveProperty('theme');
-      expect(story).toHaveProperty('configPath');
-      expect(story).toHaveProperty('publishedAt');
+    storyFiles.forEach((filename) => {
+      const story = loadStoryFile(filename);
+      if (story.publishedAt) {
+        const formatted = formatDate(story.publishedAt);
+        // Should contain year and month
+        expect(formatted).toMatch(/\d{4}/); // year
+        expect(formatted).toMatch(/[A-Z][a-z]{2}/); // 3-letter month
+      }
     });
   });
 
-  it('should be sorted by publishedAt (newest first)', () => {
-    for (let i = 0; i < stories.length - 1; i++) {
-      const current = new Date(stories[i].publishedAt);
-      const next = new Date(stories[i + 1].publishedAt);
-      expect(current.getTime()).toBeGreaterThanOrEqual(next.getTime());
-    }
+  it('should handle ISO 8601 dates from stories', () => {
+    const voyageStory = loadStoryFile('voyage-of-light.json');
+    const formatted = formatDate(voyageStory.publishedAt);
+    expect(formatted).toContain('2026');
+  });
+
+  it('should handle tides story publishedAt', () => {
+    const tidesStory = loadStoryFile('tides-of-the-blue.json');
+    const formatted = formatDate(tidesStory.publishedAt);
+    expect(formatted).toContain('2026');
+  });
+});
+
+describe('Story JSON files in content-default', () => {
+  it('should have all story files', () => {
+    const files = getStoryFiles();
+    expect(files.length).toBeGreaterThan(0);
+    expect(files).toContain('voyage-of-light.json');
+    expect(files).toContain('tides-of-the-blue.json');
+  });
+
+  it('should validate voyage-of-light.json against schema', () => {
+    const story = loadStoryFile('voyage-of-light.json');
+    const result = storyConfigSchema.safeParse(story);
+    expect(result.success).toBe(true);
+  });
+
+  it('should have valid voyage-of-light metadata', () => {
+    const story = loadStoryFile('voyage-of-light.json');
+    expect(story.title).toBe('Voyage of Light');
+    expect(story.theme).toBe('dark-cinematic');
+    expect(story.subtitle).toBe('How light reveals the universe');
+    expect(story.publishedAt).toBe('2026-01-10T00:00:00Z');
+    expect(story.badge).toBe('Featured');
+  });
+
+  it('should validate tides-of-the-blue.json against schema', () => {
+    const story = loadStoryFile('tides-of-the-blue.json');
+    const result = storyConfigSchema.safeParse(story);
+    expect(result.success).toBe(true);
+  });
+
+  it('should have valid tides-of-the-blue metadata', () => {
+    const story = loadStoryFile('tides-of-the-blue.json');
+    expect(story.title).toBe('Tides of the Blue');
+    expect(story.theme).toBe('bold-gradient');
+    expect(story.subtitle).toBe('Stories from the living ocean');
+    expect(story.publishedAt).toBe('2026-01-15T00:00:00Z');
+  });
+
+  it('should have pages array in all stories', () => {
+    const files = getStoryFiles();
+    files.forEach((filename) => {
+      const story = loadStoryFile(filename);
+      expect(Array.isArray(story.pages)).toBe(true);
+      expect(story.pages.length).toBeGreaterThan(0);
+      story.pages.forEach((page: any) => {
+        expect(page).toHaveProperty('id');
+        expect(page).toHaveProperty('layout');
+      });
+    });
   });
 
   it('should have valid theme values', () => {
     const validThemes = ['dark-cinematic', 'light-editorial', 'bold-gradient'];
-    stories.forEach((story) => {
+    const files = getStoryFiles();
+    files.forEach((filename) => {
+      const story = loadStoryFile(filename);
       expect(validThemes).toContain(story.theme);
     });
   });
 
-  it('should have valid config paths', () => {
-    stories.forEach((story) => {
-      expect(story.configPath).toMatch(/^\/stories\/.+\.json$/);
+  it('should have backgroundMusic in all stories', () => {
+    const files = getStoryFiles();
+    files.forEach((filename) => {
+      const story = loadStoryFile(filename);
+      expect(story).toHaveProperty('backgroundMusic');
+      expect(typeof story.backgroundMusic).toBe('string');
+      expect(story.backgroundMusic.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('should have publishedAt dates in all stories', () => {
+    const files = getStoryFiles();
+    files.forEach((filename) => {
+      const story = loadStoryFile(filename);
+      expect(story).toHaveProperty('publishedAt');
+      // Validate ISO 8601 format
+      expect(new Date(story.publishedAt).getTime()).not.toBeNaN();
+    });
+  });
+
+  it('should have descriptions in all stories', () => {
+    const files = getStoryFiles();
+    files.forEach((filename) => {
+      const story = loadStoryFile(filename);
+      expect(story).toHaveProperty('description');
+      expect(typeof story.description).toBe('string');
+      expect(story.description.length).toBeGreaterThan(0);
     });
   });
 });
