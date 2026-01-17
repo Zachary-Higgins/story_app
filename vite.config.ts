@@ -12,6 +12,7 @@ console.log(`Using content directory: ${contentDir}`);
 
 export default defineConfig({
   plugins: [react()],
+  base: process.env.GITHUB_PAGES === 'true' ? '/story_app/' : '/',
   publicDir: contentDir,
   root: '.',
   build: {
