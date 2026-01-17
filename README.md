@@ -1,6 +1,6 @@
-# Story Trails
+# Story Atlas
 
-A scrollable, JSON-driven storytelling atlas built with React, Vite, TypeScript, Tailwind, Framer Motion, Zod, and React Router. Pick a story from the left menu or the landing grid, then scroll through themed, animated chapters.
+A reusable, scrollable, JSON-driven storytelling atlas built with React, Vite, TypeScript, Tailwind, Framer Motion, Zod, and React Router. Use it as a base app for new deployments—swap in your own content directory to tell rich, custom stories without redesigning the UI.
 
 ## Getting Started
 
@@ -11,7 +11,7 @@ A scrollable, JSON-driven storytelling atlas built with React, Vite, TypeScript,
 
 ## Configuration
 
-- Content lives in `content-default/` (served as static assets via Vite `publicDir`). Stories reside in `content-default/stories/*.json`.
+- Content lives in `content-default/` (served as static assets via Vite `publicDir`). For real deployments, copy it to `content/` and swap in your own JSON + media; the app automatically prefers `content/` and falls back to `content-default/`.
 - Story registry is defined in `src/App.tsx` (`storyRegistry` array). Each entry needs `id` and `configPath` (e.g., `/stories/voyage-of-light.json`).
 - All story metadata (title, subtitle, description, theme, badge, publishedAt) now comes from the JSON itself. The cover on the home/menu is auto-derived from the first page's `foreground` image, falling back to `background`.
 

@@ -1,6 +1,6 @@
 # Contributing to Story Atlas
 
-We appreciate your interest in contributing to Story Atlas! This document provides guidelines for contributing to the project.
+We appreciate your interest in contributing to Story Atlas, the base app used to ship custom story deployments by swapping in different content directories. This document provides guidelines for contributing to the project.
 
 ## Getting Started
 
@@ -21,13 +21,13 @@ The app will be available at `http://localhost:5173` (or the next available port
 ## Project Structure
 
 - **src/** - React/TypeScript source code
-- **content-default/** (or **content/** if provided) - JSON configuration files and media assets
+- **content-default/** (or **content/** if provided) - JSON configuration files and media assets. Copy `content-default/` to `content/` when preparing a new deployment so the app uses your version automatically.
   - `stories/` - Story JSON configurations
   - `home.json` - Homepage configuration
   - `about.json` - About page configuration
   - `social.json` - Social links configuration
   - `audio/`, `images/`, `videos/` - Media assets
-- **config/** - Build and styling configurations
+- **Root config files** - `vite.config.ts`, `tailwind.config.js`, `postcss.config.js`, and TypeScript configs
 - **tests/** - Unit and integration tests
 
 ## Code Style

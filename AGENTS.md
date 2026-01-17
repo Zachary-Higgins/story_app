@@ -10,8 +10,8 @@ Story Atlas is a JSON-driven interactive narrative platform built with React, Vi
 
 ### File Organization
 - **src/** - All TypeScript/React source code
-- **content-default/** (or **content/** if provided) - JSON configs and static assets served as `publicDir`
-- **config/** - Build configuration files
+- **content-default/** (or **content/** if provided) - JSON configs and static assets served as `publicDir`; app prefers `content/` and falls back to `content-default/`
+- **Root config files** - `vite.config.ts`, `tailwind.config.js`, `postcss.config.js`, and TypeScript configs
 - **tests/** - Test files
 - **Root** - Entry point (index.html), Vite config, and package files
 
