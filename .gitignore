@@ -9,7 +9,7 @@ dist/
 dist-ssr/
 *.local
 
-# User content directory (overrides default static/)
+# User content directory (falls back to content-default)
 content/
 
 # Environment variables

@@ -3,19 +3,16 @@ import { readFileSync, readdirSync } from 'fs';
 import { resolve } from 'path';
 import { storyConfigSchema, type StoryConfig } from '../src/storySchema';
 import { formatDate } from '../src/data/stories';
-import { resolveContentDir } from '../app.config';
 
-// Load real story data from the active static content directory
-const contentDir = resolveContentDir();
-
+// Load real story data from content-default
 function loadStoryFile(filename: string) {
-  const filePath = resolve(`${contentDir}/stories/${filename}`);
+  const filePath = resolve(`content-default/stories/${filename}`);
   const content = readFileSync(filePath, 'utf-8');
   return JSON.parse(content);
 }
 
 function getStoryFiles() {
-  const dir = resolve(`${contentDir}/stories`);
+  const dir = resolve('content-default/stories');
   return readdirSync(dir).filter((f) => f.endsWith('.json'));
 }
 
@@ -48,7 +45,7 @@ describe('formatDate', () => {
   });
 });
 
-describe('Story JSON files in static content', () => {
+describe('Story JSON files in content-default', () => {
   it('should have all story files', () => {
     const files = getStoryFiles();
     expect(files.length).toBeGreaterThan(0);

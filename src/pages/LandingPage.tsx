@@ -1,19 +1,89 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StoryMeta, formatDate } from '../data/stories';
-import { useHomeConfig } from '../hooks/useHomeConfig';
+import { storyConfigSchema } from '../storySchema';
+import { withBasePath } from '../utils/basePath';
 
 interface LandingPageProps {
   stories: StoryMeta[];
 }
 
+interface HomeConfig {
+  hero: {
+    kicker: string;
+    title: string;
+    body: string;
+    tags: string[];
+    image: string;
+    imageAlt: string;
+    note: string;
+  };
+}
+
 export function LandingPage({ stories }: LandingPageProps) {
-  const { homeConfig, loading, error } = useHomeConfig();
+  const [homeConfig, setHomeConfig] = useState<HomeConfig | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [badges, setBadges] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch(withBasePath('/home.json'))
+      .then((res) => res.json())
+      .then((data) => {
+        setHomeConfig({
+          ...data,
+          hero: {
+            ...data.hero,
+            image: withBasePath(data.hero.image),
+          },
+        });
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  // Load badge from each story JSON (if present) and override metadata
+  useEffect(() => {
+    let active = true;
+    const loadBadges = async () => {
+      try {
+        const results = await Promise.all(
+          stories.map(async (s) => {
+            try {
+              const res = await fetch(withBasePath(s.configPath));
+              const raw = await res.json();
+              const parsed = storyConfigSchema.safeParse(raw);
+              if (parsed.success && parsed.data.badge) {
+                return { id: s.id, badge: parsed.data.badge };
+              }
+            } catch {
+              // ignore individual fetch/parse errors
+            }
+            return { id: s.id, badge: undefined } as { id: string; badge?: string };
+          })
+        );
+        if (!active) return;
+        const map: Record<string, string> = {};
+        for (const r of results) {
+          if (r.badge) map[r.id] = r.badge;
+        }
+        setBadges(map);
+      } catch {
+        // ignore
+      }
+    };
+    loadBadges();
+    return () => {
+      active = false;
+    };
+  }, [stories]);
 
   if (loading) {
     return <div className="flex h-96 items-center justify-center text-muted">Loading...</div>;
   }
 
-  if (error || !homeConfig) {
+  if (!homeConfig) {
     return <div className="text-center text-muted">Unable to load home configuration.</div>;
   }
   return (
@@ -52,9 +122,9 @@ export function LandingPage({ stories }: LandingPageProps) {
             <div className="relative h-56 w-full overflow-hidden">
               <img src={story.cover} alt={story.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-surface/80" />
-              {story.badge && (
+              {(badges[story.id] ?? story.badge) && (
                 <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-surface shadow-soft">
-                  {story.badge}
+                  {badges[story.id] ?? story.badge}
                 </span>
               )}
             </div>
