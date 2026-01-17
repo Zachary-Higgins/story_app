@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { StoryMeta } from '../data/stories';
 import { clsx } from 'clsx';
+import { withBasePath } from '../utils/basePath';
 
 interface NavigationProps {
   stories: StoryMeta[];
@@ -26,7 +27,7 @@ export function Navigation({ stories }: NavigationProps) {
   const location = useLocation();
 
   useEffect(() => {
-    fetch('/home.json')
+    fetch(withBasePath('/home.json'))
       .then((res) => res.json())
       .then((data) => setHomeConfig(data))
       .catch(() => {
@@ -47,7 +48,7 @@ export function Navigation({ stories }: NavigationProps) {
   }, []);
 
   useEffect(() => {
-    fetch('/social.json')
+    fetch(withBasePath('/social.json'))
       .then((res) => res.json())
       .then((data) => setSocialLinks(data.links))
       .catch(() => {

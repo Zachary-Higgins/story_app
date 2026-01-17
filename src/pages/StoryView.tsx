@@ -11,6 +11,7 @@ import { HeroSection } from '../components/sections/HeroSection';
 import { SplitSection } from '../components/sections/SplitSection';
 import { TimelineSection } from '../components/sections/TimelineSection';
 import { ImmersiveSection } from '../components/sections/ImmersiveSection';
+import { withBasePath } from '../utils/basePath';
 
 const storyRegistry = [
   { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
@@ -51,7 +52,8 @@ export function StoryView() {
     }
     const loadMeta = async () => {
       try {
-        const res = await fetch(reg.configPath);
+        const configPath = withBasePath(reg.configPath);
+        const res = await fetch(configPath);
         if (!res.ok) throw new Error('Unable to load story');
         const raw = await res.json();
         const parsed = storyConfigSchema.safeParse(raw);
@@ -64,7 +66,7 @@ export function StoryView() {
             description: config.description || config.subtitle || config.title,
             theme: config.theme,
             cover: '',
-            configPath: reg.configPath,
+            configPath,
             badge: config.badge,
             publishedAt: config.publishedAt || new Date().toISOString(),
           });

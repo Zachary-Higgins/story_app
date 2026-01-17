@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { withBasePath } from '../utils/basePath';
 
 interface AboutConfig {
   kicker: string;
@@ -18,7 +19,7 @@ export function AboutPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/about.json')
+    fetch(withBasePath('/about.json'))
       .then((res) => res.json())
       .then((data) => {
         setAboutConfig(data);

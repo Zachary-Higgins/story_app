@@ -6,6 +6,7 @@ import { LandingPage } from './pages/LandingPage';
 import { StoryView } from './pages/StoryView';
 import { AboutPage } from './pages/AboutPage';
 import { storyConfigSchema } from './storySchema';
+import { withBasePath } from './utils/basePath';
 
 const storyRegistry = [
   { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
@@ -22,22 +23,23 @@ export default function App() {
         const loaded = await Promise.all(
           storyRegistry.map(async (reg) => {
             try {
-              const res = await fetch(reg.configPath);
+              const configPath = withBasePath(reg.configPath);
+              const res = await fetch(configPath);
               const raw = await res.json();
               const parsed = storyConfigSchema.safeParse(raw);
               if (parsed.success) {
                 const config = parsed.data;
                 // Extract cover from first page's foreground or background
                 const firstPage = config.pages?.[0];
-                const cover = firstPage?.foreground?.src || firstPage?.background?.src || '';
+                const coverSrc = firstPage?.foreground?.src || firstPage?.background?.src || '';
                 return {
                   id: reg.id,
                   title: config.title,
                   subtitle: config.subtitle,
                   description: config.description || config.subtitle || config.title,
                   theme: config.theme,
-                  cover,
-                  configPath: reg.configPath,
+                  cover: withBasePath(coverSrc),
+                  configPath,
                   badge: config.badge,
                   publishedAt: config.publishedAt || new Date().toISOString(),
                 } as StoryMeta;
