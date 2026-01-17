@@ -2,16 +2,18 @@
  * @vitest-environment node
  */
 
+import type { UserConfig } from 'vite';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 const loadConfig = async () => {
   const configModule = await import('../vite.config');
-  return configModule.default as { base?: string };
+  return configModule.default as UserConfig;
 };
 
 describe('vite.config base', () => {
   afterEach(() => {
     delete process.env.GITHUB_PAGES;
+    delete process.env.GITHUB_REPOSITORY;
     vi.resetModules();
   });
 
@@ -23,7 +25,8 @@ describe('vite.config base', () => {
 
   it('sets repository base when building for GitHub Pages', async () => {
     process.env.GITHUB_PAGES = 'true';
+    process.env.GITHUB_REPOSITORY = 'owner/custom-repo';
     const config = await loadConfig();
-    expect(config.base).toBe('/story_app/');
+    expect(config.base).toBe('/custom-repo/');
   });
 });
