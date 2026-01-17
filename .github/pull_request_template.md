@@ -1,5 +1,5 @@
 ## Summary
-- 
+- Brief description of changes
 
 ## Testing
 - [ ] npm run lint
@@ -12,4 +12,4 @@
 - [ ] Screenshots or artifacts attached (if applicable)
 
 ## Additional Context
-- 
+- Optional links, references, or additional notes
