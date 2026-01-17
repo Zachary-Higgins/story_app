@@ -3,14 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { StoryMeta } from '../data/stories';
 import { clsx } from 'clsx';
 import { withBasePath } from '../utils/basePath';
+import { useHomeConfig } from '../hooks/useHomeConfig';
 
 interface NavigationProps {
   stories: StoryMeta[];
-}
-
-interface HomeConfig {
-  navTitle: string;
-  description?: string;
 }
 
 interface SocialLink {
@@ -22,18 +18,9 @@ interface SocialLink {
 export function Navigation({ stories }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCompact, setIsCompact] = useState<boolean>(false); // aspect ratio <= 1 (portrait/square)
-  const [homeConfig, setHomeConfig] = useState<HomeConfig>({ navTitle: 'Story Atlas' });
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const location = useLocation();
-
-  useEffect(() => {
-    fetch(withBasePath('/home.json'))
-      .then((res) => res.json())
-      .then((data) => setHomeConfig(data))
-      .catch(() => {
-        setHomeConfig({ navTitle: 'Story Atlas' });
-      });
-  }, []);
+  const { homeConfig } = useHomeConfig();
 
   // Detect portrait/square layout: aspect ratio height >= width (w/h <= 1)
   useEffect(() => {
@@ -97,7 +84,7 @@ export function Navigation({ stories }: NavigationProps) {
               <span className="block h-0.5 w-4 rounded-full bg-white" />
             </span>
           </button>
-          {isOpen && <span className="text-xs text-muted">{homeConfig.navTitle}</span>}
+          {isOpen && <span className="text-xs text-muted">{homeConfig?.navTitle ?? 'Story Atlas'}</span>}
         </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto px-2 pb-6">

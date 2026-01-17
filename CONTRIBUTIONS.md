@@ -21,7 +21,7 @@ The app will be available at `http://localhost:5173` (or the next available port
 ## Project Structure
 
 - **src/** - React/TypeScript source code
-- **content-default/** (or **content/** if provided) - JSON configuration files and media assets
+- **static/** (or **content/** if provided) - JSON configuration files and media assets
   - `stories/` - Story JSON configurations
   - `home.json` - Homepage configuration
   - `about.json` - About page configuration
@@ -39,9 +39,9 @@ The app will be available at `http://localhost:5173` (or the next available port
 
 ## Adding New Stories
 
-1. Create a new JSON file in `content-default/stories/` (or your content dir) following `src/storySchema.ts`.
+1. Create a new JSON file in `static/stories/` (or your content dir) following `src/storySchema.ts`.
 2. Include `title`, `theme`, `pages`, and recommended `description`, `badge`, `publishedAt`.
-3. Add `{ id, configPath }` to `storyRegistry` in `src/App.tsx`.
+3. Add `{ id, configPath }` to `storyRegistry` in `src/data/stories.ts`.
 
 ## Testing
 

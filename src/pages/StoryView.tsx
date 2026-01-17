@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { StoryConfig, StoryPage, ThemeName } from '../types/story';
-import { storyConfigSchema } from '../storySchema';
 import { applyTheme } from '../theme/themes';
-import { StoryMeta, formatDate } from '../data/stories';
+import { StoryMeta, formatDate, storyRegistry, loadStoryConfig, toStoryMeta, findStoryConfig } from '../data/stories';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { AudioController } from '../components/AudioController';
 import { ScrollProgress } from '../components/ScrollProgress';
@@ -11,12 +10,6 @@ import { HeroSection } from '../components/sections/HeroSection';
 import { SplitSection } from '../components/sections/SplitSection';
 import { TimelineSection } from '../components/sections/TimelineSection';
 import { ImmersiveSection } from '../components/sections/ImmersiveSection';
-import { withBasePath } from '../utils/basePath';
-
-const storyRegistry = [
-  { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
-  { id: 'tides-of-the-blue', configPath: '/stories/tides-of-the-blue.json' },
-];
 
 function renderSection(page: StoryPage, index: number) {
   switch (page.layout) {
@@ -45,36 +38,17 @@ export function StoryView() {
 
   // Load story metadata from registry
   useEffect(() => {
-    const reg = storyRegistry.find((s) => s.id === id);
+    const reg = findStoryConfig(id);
     if (!reg) {
       setLoading(false);
       return;
     }
     const loadMeta = async () => {
       try {
-        const configPath = withBasePath(reg.configPath);
-        const res = await fetch(configPath);
-        if (!res.ok) throw new Error('Unable to load story');
-        const raw = await res.json();
-        const parsed = storyConfigSchema.safeParse(raw);
-        if (parsed.success) {
-          const config = parsed.data;
-          setMeta({
-            id: reg.id,
-            title: config.title,
-            subtitle: config.subtitle,
-            description: config.description || config.subtitle || config.title,
-            theme: config.theme,
-            cover: '',
-            configPath,
-            badge: config.badge,
-            publishedAt: config.publishedAt || new Date().toISOString(),
-          });
-          setTheme(config.theme);
-          setStory(config);
-        } else {
-          setError('Story config failed validation.');
-        }
+        const { config, configPath } = await loadStoryConfig(reg);
+        setMeta(toStoryMeta(reg, config, configPath));
+        setTheme(config.theme);
+        setStory(config);
       } catch (err) {
         setError((err as Error).message);
       } finally {

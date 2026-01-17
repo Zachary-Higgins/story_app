@@ -8,7 +8,7 @@ interface ThemeToggleProps {
 
 export function ThemeToggle({ value, onChange }: ThemeToggleProps) {
   return (
-    <div className="flex items-center gap-2 rounded-full bg-elevated/70 px-3 py-2 text-xs text-muted">
+    <div className="control-bar">
       <span className="font-semibold uppercase tracking-[0.18em] text-accent">Theme</span>
       <div className="flex gap-2">
         {THEMES.map((theme) => (

@@ -90,7 +90,7 @@ The project demonstrates good security practices overall with TypeScript strict 
 - **Status:** Sample images use Unsplash (external URLs)
 - **Risk:** Low — demonstration assets only
 - **Recommendation:** 
-  - For production, replace with self-hosted images in `content-default/images/`
+  - For production, replace with self-hosted images in `static/images/`
   - Verify all external URLs are from trusted sources
   - Consider Content Security Policy (CSP) headers for deployment
 
@@ -130,7 +130,7 @@ The project demonstrates good security practices overall with TypeScript strict 
 3. **Configure GitHub Pages deployment**:
    - Enable GitHub Pages in repo settings
    - Use custom domain with HTTPS if applicable
-   - Consider adding CNAME file to `content-default/` if using custom domain
+  - Consider adding CNAME file to `static/` if using custom domain
 
 ### Priority 3 (Nice to Have)
 1. **Add Content Security Policy headers** to deployment:
@@ -156,7 +156,7 @@ The project demonstrates good security practices overall with TypeScript strict 
 - [ ] ✅ Update Vite to fix esbuild vulnerability
 - [ ] Enable branch protection on `main`
 - [ ] Configure GitHub Pages (Settings → Pages → Source: GitHub Actions)
-- [ ] Replace sample Unsplash images with local assets in `content-default/images/`
+- [ ] Replace sample Unsplash images with local assets in `static/images/`
 - [ ] Test deployment workflow manually
 - [ ] Verify HTTPS is enabled on GitHub Pages domain
 - [ ] Add SECURITY.md to document vulnerability reporting

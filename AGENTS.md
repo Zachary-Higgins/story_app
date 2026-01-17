@@ -10,24 +10,24 @@ Story Atlas is a JSON-driven interactive narrative platform built with React, Vi
 
 ### File Organization
 - **src/** - All TypeScript/React source code
-- **content-default/** (or **content/** if provided) - JSON configs and static assets served as `publicDir`
+- **static/** (or **content/** if provided) - JSON configs and static assets served as `publicDir`
 - **config/** - Build configuration files
 - **tests/** - Test files
 - **Root** - Entry point (index.html), Vite config, and package files
 
 ### Story Data Structure
 Stories are defined in:
-1. **src/App.tsx** - `storyRegistry` array with `id` and `configPath` entries.
-2. **content-default/stories/{id}.json** - Full story configuration matching `StoryConfig` schema (includes optional `badge`, `description`, `publishedAt`).
+1. **src/data/stories.ts** - `storyRegistry` array with `id` and `configPath` entries.
+2. **static/stories/{id}.json** - Full story configuration matching `StoryConfig` schema (includes optional `badge`, `description`, `publishedAt`).
 
 When adding a story:
-- Add an entry to `storyRegistry` in `src/App.tsx` with `id` and `configPath`.
-- Create the JSON in `content-default/stories/` (or your content dir) including `title`, `theme`, `pages`, and recommended `publishedAt`/`description`/`badge`.
+- Add an entry to `storyRegistry` in `src/data/stories.ts` with `id` and `configPath`.
+- Create the JSON in `static/stories/` (or your content dir) including `title`, `theme`, `pages`, and recommended `publishedAt`/`description`/`badge`.
 - Validate against `src/storySchema.ts`.
 - Badge on the homepage is driven by the JSON `badge`; cover image is auto-derived from the first page `foreground` or `background`.
 
 ### Configuration Files
-Located in **content-default/** (or provided content dir) and served as static assets:
+Located in **static/** (or provided content dir) and served as static assets:
 - `home.json` - Hero section, navigation title
 - `about.json` - About page content
 - `social.json` - Social media links array
@@ -82,7 +82,7 @@ All stories must validate against `src/storySchema.ts` Zod schema. Schema includ
 - `media` - asset definitions
 
 ### Audio Handling
-- Audio files in `content/audio/`
+- Audio files in `content/audio/` or the default `static/audio/`
 - Muted autoplay on page load (browser compliance)
 - First user interaction unmutes audio
 - Verify paths reference existing files before deploying
@@ -101,8 +101,8 @@ All stories must validate against `src/storySchema.ts` Zod schema. Schema includ
 ## Common Tasks
 
 ### Adding a New Story
-1. Create JSON in `content-default/stories/my-story.json` with full configuration (include `title`, `theme`, `pages`, and recommended `publishedAt`, `description`, `badge`).
-2. Add `{ id: 'my-story', configPath: '/stories/my-story.json' }` to `storyRegistry` in `src/App.tsx`.
+1. Create JSON in `static/stories/my-story.json` with full configuration (include `title`, `theme`, `pages`, and recommended `publishedAt`, `description`, `badge`).
+2. Add `{ id: 'my-story', configPath: '/stories/my-story.json' }` to `storyRegistry` in `src/data/stories.ts`.
 3. Validate against `src/storySchema.ts` using Zod.
 
 ### Modifying Home/About/Social
@@ -111,7 +111,7 @@ All stories must validate against `src/storySchema.ts` Zod schema. Schema includ
 3. No code changes needed unless schema changes
 
 ### Updating Configuration Files
-Always use Vite's `publicDir: 'content'` setting. This serves the entire content/ folder as static assets.
+Static assets are served from the resolved content directory (default `static/`, overridden by a project-level `content/` folder). Vite's `publicDir` points to that directory.
 
 ### Debugging
 - Check browser console for client-side errors

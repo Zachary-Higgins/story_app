@@ -11,8 +11,8 @@ A scrollable, JSON-driven storytelling atlas built with React, Vite, TypeScript,
 
 ## Configuration
 
-- Content lives in `content-default/` (served as static assets via Vite `publicDir`). Stories reside in `content-default/stories/*.json`.
-- Story registry is defined in `src/App.tsx` (`storyRegistry` array). Each entry needs `id` and `configPath` (e.g., `/stories/voyage-of-light.json`).
+- Content lives in `static/` (served as static assets via Vite `publicDir`). If you provide your own `content/` directory it will override the default. Stories reside in `static/stories/*.json`.
+- Story registry is defined in `src/data/stories.ts` (`storyRegistry` array). Each entry needs `id` and `configPath` (e.g., `/stories/voyage-of-light.json`).
 - All story metadata (title, subtitle, description, theme, badge, publishedAt) now comes from the JSON itself. The cover on the home/menu is auto-derived from the first page's `foreground` image, falling back to `background`.
 
 Story JSON key fields:
@@ -25,7 +25,7 @@ Story JSON key fields:
 
 ### Audio assets
 
-- Drop MP3s into `content-default/audio/` (or `content/audio/` if you provide your own directory).
+- Drop MP3s into `static/audio/` (or `content/audio/` if you provide your own directory).
 - Reference them in story JSON with `"backgroundMusic": "/audio/your-file.mp3"`.
 
 ## Theming

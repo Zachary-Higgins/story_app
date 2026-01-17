@@ -72,7 +72,7 @@ export function AudioController({ src }: AudioControllerProps) {
   const label = isMuted ? 'Sound on' : 'Sound off';
 
   return (
-    <div className="flex items-center gap-2 rounded-full bg-elevated/70 px-3 py-2 text-xs text-muted">
+    <div className="control-bar">
       <span className="font-semibold uppercase tracking-[0.18em] text-accent">Audio</span>
       <button
         onClick={() => setMuted((prev) => !prev)}
