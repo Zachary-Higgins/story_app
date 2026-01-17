@@ -1,18 +1,21 @@
+import { isSafeAssetUrl } from './safeUrl';
+
 const ABSOLUTE_PATTERN = /^[a-z][a-z0-9+.-]*:/i;
-const PROTOCOL_RELATIVE_PATTERN = /^\/\//;
 
 export function withBasePath(path?: string): string {
   if (!path) return '';
+  const trimmed = path.trim();
+  if (!isSafeAssetUrl(trimmed)) return '';
 
-  if (ABSOLUTE_PATTERN.test(path) || PROTOCOL_RELATIVE_PATTERN.test(path)) {
-    return path;
+  if (ABSOLUTE_PATTERN.test(trimmed)) {
+    return trimmed;
   }
 
   const base = `${(import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '')}/`;
-  if (path.startsWith(base)) {
-    return path;
+  if (trimmed.startsWith(base)) {
+    return trimmed;
   }
 
-  const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
+  const normalizedPath = trimmed.startsWith('/') ? trimmed.slice(1) : trimmed;
   return `${base}${normalizedPath}`;
 }
