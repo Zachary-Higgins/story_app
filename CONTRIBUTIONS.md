@@ -1,0 +1,71 @@
+# Contributing to Story Atlas
+
+We appreciate your interest in contributing to Story Atlas! This document provides guidelines for contributing to the project.
+
+## Getting Started
+
+1. Fork the repository
+2. Clone your fork locally
+3. Install dependencies: `npm install`
+4. Create a feature branch: `git checkout -b feature/your-feature-name`
+
+## Development
+
+Start the development server:
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173` (or the next available port).
+
+## Project Structure
+
+- **app/** - React/TypeScript source code
+- **content/** - JSON configuration files and media assets
+  - `stories/` - Story JSON configurations
+  - `home.json` - Homepage configuration
+  - `about.json` - About page configuration
+  - `social.json` - Social links configuration
+  - `audio/` - Audio assets
+- **config/** - Build and styling configurations
+- **tests/** - Unit and integration tests
+
+## Code Style
+
+- Use TypeScript for all source files
+- Follow existing code patterns and naming conventions
+- Use Tailwind CSS for styling
+- Components should be functional and use React hooks
+
+## Adding New Stories
+
+1. Create a new JSON file in `content/stories/`
+2. Follow the story schema defined in `app/storySchema.ts`
+3. Include a `publishedAt` field for proper sorting
+4. Add story metadata to `app/data/stories.ts`
+
+## Testing
+
+Run tests with:
+```bash
+npm test
+```
+
+## Submitting Changes
+
+1. Commit with clear, descriptive messages
+2. Push to your fork
+3. Create a Pull Request with a clear description
+4. Wait for review and address any feedback
+
+## Reporting Issues
+
+Please use GitHub Issues to report bugs or suggest features. Include:
+- Clear description of the issue
+- Steps to reproduce (for bugs)
+- Expected vs actual behavior
+- Screenshots if applicable
+
+## Code of Conduct
+
+Please be respectful and inclusive in all interactions with the community.
