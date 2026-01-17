@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { withBasePath } from '../utils/basePath';
 
 interface AudioControllerProps {
   src?: string;
@@ -11,11 +12,12 @@ export function AudioController({ src }: AudioControllerProps) {
   const [isMuted, setMuted] = useState(true);
   const [isReady, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const resolvedSrc = src ? withBasePath(src) : '';
 
   // Create and clean up audio element when source changes
   useEffect(() => {
-    if (!src) return undefined;
-    const el = new Audio(src);
+    if (!resolvedSrc) return undefined;
+    const el = new Audio(resolvedSrc);
     el.loop = true;
     el.preload = 'auto';
     el.volume = 0.6;
@@ -49,7 +51,7 @@ export function AudioController({ src }: AudioControllerProps) {
       setError(null);
       setMuted(true);
     };
-  }, [src]);
+  }, [resolvedSrc]);
 
   // Toggle mute/unmute and ensure playback on unmute
   useEffect(() => {
@@ -65,7 +67,7 @@ export function AudioController({ src }: AudioControllerProps) {
     }
   }, [isMuted]);
 
-  if (!src) return null;
+  if (!resolvedSrc) return null;
 
   const label = isMuted ? 'Sound on' : 'Sound off';
 

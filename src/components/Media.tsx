@@ -1,5 +1,6 @@
 import { MediaAsset } from '../types/story';
 import { useEffect, useRef } from 'react';
+import { withBasePath } from '../utils/basePath';
 
 interface MediaProps {
   media?: MediaAsset;
@@ -19,13 +20,15 @@ export function Media({ media, className = '' }: MediaProps) {
   }, [media]);
 
   if (!media) return null;
+
+  const resolvedSrc = withBasePath(media.src);
   
   if (media.type === 'video') {
     return (
       <video
         ref={videoRef}
         className={`h-full w-full object-cover ${className}`}
-        src={media.src}
+        src={resolvedSrc}
         autoPlay
         loop
         muted
@@ -36,5 +39,5 @@ export function Media({ media, className = '' }: MediaProps) {
     );
   }
   
-  return <img className={`h-full w-full object-cover ${className}`} src={media.src} alt={media.alt ?? ''} />;
+  return <img className={`h-full w-full object-cover ${className}`} src={resolvedSrc} alt={media.alt ?? ''} />;
 }

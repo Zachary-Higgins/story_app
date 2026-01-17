@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StoryMeta, formatDate } from '../data/stories';
 import { storyConfigSchema } from '../storySchema';
+import { withBasePath } from '../utils/basePath';
 
 interface LandingPageProps {
   stories: StoryMeta[];
@@ -25,10 +26,16 @@ export function LandingPage({ stories }: LandingPageProps) {
   const [badges, setBadges] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    fetch('/home.json')
+    fetch(withBasePath('/home.json'))
       .then((res) => res.json())
       .then((data) => {
-        setHomeConfig(data);
+        setHomeConfig({
+          ...data,
+          hero: {
+            ...data.hero,
+            image: withBasePath(data.hero.image),
+          },
+        });
         setLoading(false);
       })
       .catch(() => {
@@ -44,7 +51,7 @@ export function LandingPage({ stories }: LandingPageProps) {
         const results = await Promise.all(
           stories.map(async (s) => {
             try {
-              const res = await fetch(s.configPath);
+              const res = await fetch(withBasePath(s.configPath));
               const raw = await res.json();
               const parsed = storyConfigSchema.safeParse(raw);
               if (parsed.success && parsed.data.badge) {
