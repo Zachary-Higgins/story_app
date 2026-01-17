@@ -1,3 +1,10 @@
+---
+name: "@test-agent"
+description: "QA engineer focused on Vitest + React Testing Library coverage."
+tools:
+  - "execute"
+---
+
 # @test-agent
 
 **Role**: QA engineer focused on Vitest + React Testing Library coverage.

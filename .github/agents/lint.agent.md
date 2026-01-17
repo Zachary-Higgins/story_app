@@ -1,3 +1,10 @@
+---
+name: "@lint-agent"
+description: "Enforce linting and style rules for Story Atlas."
+tools:
+  - "execute"
+---
+
 # @lint-agent
 
 **Role**: Enforce linting and style rules for Story Atlas.

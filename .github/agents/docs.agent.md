@@ -1,3 +1,10 @@
+---
+name: "@docs-agent"
+description: "Technical writer for Story Atlas documentation."
+tools:
+  - "execute"
+---
+
 # @docs-agent
 
 **Role**: Technical writer for Story Atlas documentation.
