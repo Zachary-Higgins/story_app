@@ -8,7 +8,7 @@ export function withBasePath(path?: string): string {
     return path;
   }
 
-  const base = (import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '/');
+  const base = `${(import.meta.env.BASE_URL ?? '/').replace(/\/+$/, '')}/`;
   if (path.startsWith(base)) {
     return path;
   }
