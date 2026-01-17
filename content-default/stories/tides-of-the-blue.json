@@ -2,7 +2,7 @@
   "theme": "bold-gradient",
   "title": "Tides of the Blue",
   "subtitle": "Stories from the living ocean",
-  "description": "Dive through currents, reef cities, and the twilight zone with soundscapes and gradients.",
+  "description": "Drift from sunlit shallows to abyssal plains while the sea narrates its own memory in color, pressure, and pulse.",
   "publishedAt": "2026-01-15T00:00:00Z",
   "backgroundMusic": "/audio/ambient-aurora.mp3",
   "pages": [
@@ -13,8 +13,11 @@
       "title": "Breathe with the Sea",
       "kicker": "Prologue",
       "body": [
-        "At dawn, the ocean mirrors the sky—gradients of coral and cobalt.",
-        "Scroll to dive from surface light to the twilight blue."],
+        "At dawn, the ocean mirrors the sky—coral and cobalt painted across a moving horizon, salt on the air, foam on your lips.",
+        "Every inhale tastes like distance; every exhale threads you to the tides as sunlight braids itself into waves.",
+        "Stay here a moment—feel how the sea carries the memory of mountains ground to sand and stories whispered across centuries.",
+        "You float in a cathedral of moving glass; the pews are ripples, the hymns are gull cries, the incense is brine.",
+        "Somewhere beyond the swell, whales trade paragraphs of song; their voices arc through water like pen strokes on vellum."],
       "background": {
         "type": "image",
         "src": "/images/reef_card1_bg.jpg",
@@ -33,8 +36,11 @@
       "kicker": "Flow",
       "title": "Rivers Within the Sea",
       "body": [
-        "Currents ferry heat and life—gyres spinning slow choreography across basins.",
-        "Satellites trace eddies as living fingerprints of motion."],
+        "Currents ferry heat and life—slow spirals that stitch hemispheres together, moving plankton, song, and salt.",
+        "Gyres write invisible calligraphy on the surface, patient handwriting that takes seasons to finish a single loop.",
+        "Satellites watch the eddies bloom and fade, each swirl a fingerprint of motion, each whirlpool a brief kingdom of drifting light.",
+        "Beneath the skin, thermoclines step down like chapters—warm on top, then cool, then the deep paragraph where light forgets its name.",
+        "Currents are the sea's memory made moving; they remember where heat was born, where salt was shed, and where storms exhaled."],
       "background": {
         "type": "image",
         "src": "/images/reef_card2.jpg",
@@ -49,8 +55,11 @@
       "kicker": "City",
       "title": "Reef Cities",
       "body": [
-        "Coral architecture turns sunlight into color and shelter.",
-        "Polyps build limestone skyscrapers, housing thousands of species."],
+        "Coral cities turn hard sunlight into softness—color, refuge, and resonance humming through limestone streets.",
+        "Polyps lay down limestone skyscrapers grain by grain, tenants of their own architecture, housing a carnival of species.",
+        "Fish gossip in currents between coral towers, while shrimp drum on shells and parrotfish carve sand from stone.",
+        "Night flips the switch: bioluminescent scripts run across the reef, neon margins on a living manuscript.",
+        "Every crevice is a library of microhabitats, shelved with brittle stars, tucked-in blennies, and the quiet punctuation of clams closing."],
       "background": {
         "type": "video",
         "src": "/videos/reef.mp4",
@@ -65,7 +74,9 @@
       "transition": "fade",
       "kicker": "Milestones",
       "title": "Listening to the Deep",
-      "body": ["Breakthroughs that revealed the ocean's pulse."],
+      "body": [
+        "Breakthroughs that revealed the ocean's pulse, translating mystery into maps, and silence into measurable rhythm.",
+        "Each discovery is a lantern lowered down the water column, turning rumor into contour and echo into chart."],
       "timeline": [
         {
           "title": "1872 — Challenger",
@@ -100,8 +111,9 @@
       "kicker": "Action",
       "title": "Guardians of the Blue",
       "body": [
-        "Map your own tide story—pair local footage with data and music.",
-        "Change the JSON to swap chapters, colors, and soundscapes."],
+        "Map your own tide story—pair local footage with data, with music, with the meteorology of your own coastline.",
+        "Swap chapters, colors, and soundscapes to match your memory of the sea; let the JSON be your pen and the water your ink.",
+        "Every edit is a tidepool of choice—what you include, what you omit, what you let drift back into the deep."],
       "background": {
         "type": "image",
         "src": "/images/reef_card4.jpg",

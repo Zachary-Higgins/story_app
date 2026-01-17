@@ -9,32 +9,31 @@ Story Atlas is a JSON-driven interactive narrative platform built with React, Vi
 ## Key Constraints
 
 ### File Organization
-- **app/** - All TypeScript/React source code (imported files)
-- **content/** - All JSON configs and static assets (not code; served as static files)
+- **src/** - All TypeScript/React source code
+- **content-default/** (or **content/** if provided) - JSON configs and static assets served as `publicDir`
 - **config/** - Build configuration files
 - **tests/** - Test files
-- **Root** - Only entry point (index.html), Vite config, and package files
+- **Root** - Entry point (index.html), Vite config, and package files
 
 ### Story Data Structure
-Stories are defined in two places:
-1. **app/data/stories.ts** - `StoryMeta` interface with metadata (id, title, subtitle, theme, configPath, publishedAt)
-2. **content/stories/{id}.json** - Full story configuration matching `StoryConfig` schema (supports optional `badge` to display on the homepage)
+Stories are defined in:
+1. **src/App.tsx** - `storyRegistry` array with `id` and `configPath` entries.
+2. **content-default/stories/{id}.json** - Full story configuration matching `StoryConfig` schema (includes optional `badge`, `description`, `publishedAt`).
 
 When adding a story:
-- Add entry to `stories` array in `app/data/stories.ts`
-- Create corresponding JSON file in `content/stories/`
-- Always include `publishedAt` (ISO 8601 format) for proper sorting
-- Validate against `storySchema.ts`
- - Optional: set `badge` (e.g., "Featured", "New") in the story JSON to control the homepage badge
+- Add an entry to `storyRegistry` in `src/App.tsx` with `id` and `configPath`.
+- Create the JSON in `content-default/stories/` (or your content dir) including `title`, `theme`, `pages`, and recommended `publishedAt`/`description`/`badge`.
+- Validate against `src/storySchema.ts`.
+- Badge on the homepage is driven by the JSON `badge`; cover image is auto-derived from the first page `foreground` or `background`.
 
 ### Configuration Files
-Located in **content/** and served as static assets:
+Located in **content-default/** (or provided content dir) and served as static assets:
 - `home.json` - Hero section, navigation title
 - `about.json` - About page content
 - `social.json` - Social media links array
 - `stories/` - Individual story configurations
 
-These are loaded dynamically via fetch() and must remain in content folder.
+These are loaded dynamically via fetch() and must remain in the content folder.
 
 ## Development Workflow
 
@@ -58,11 +57,10 @@ npm run build    # Build for production
 - **pages/** - Route-level components (LandingPage, StoryView, AboutPage)
 - **components/** - Reusable UI components
   - **sections/** - Story layout renderers (HeroSection, SplitSection, TimelineSection, ImmersiveSection)
-  - **Navigation.tsx** - Sidebar with expand/collapse
+  - **Navigation.tsx** - Sidebar with expand/collapse (compact mode at aspect ≤ 1)
   - **ThemeToggle.tsx** - Theme switcher
   - **AudioController.tsx** - Music player
   - **ScrollProgress.tsx** - Scroll indicator
-- **data/** - Data utilities (stories.ts with story metadata and formatDate)
 - **types/** - TypeScript interfaces
 - **theme/** - Theme definitions and CSS variables
 
@@ -70,13 +68,15 @@ npm run build    # Build for production
 - Tailwind CSS with responsive design (md: breakpoints)
 - Three themes: dark-cinematic, light-editorial, bold-gradient
 - CSS variables for dynamic theming (--color-surface, --color-text, --color-accent, etc.)
-- Responsive layout: sidebar fixed at w-16 (collapsed) / w-72 (expanded), main content pl-16 md:pl-80
+- Responsive layout: sidebar collapses; on aspect ≤ 1 it hides until expanded via floating button.
 
 ### Story Validation
-All stories must validate against `storySchema.ts` Zod schema. Schema includes:
+All stories must validate against `src/storySchema.ts` Zod schema. Schema includes:
 - `theme` - ThemeName
-- `title`, `subtitle` - strings
-- `backgroundMusic` - audio file reference
+- `title`, `subtitle`, `description` (optional)
+- `publishedAt` (optional but recommended)
+- `badge` (optional)
+- `backgroundMusic`
 - `pages` - array of StoryPage objects with layouts (hero, split, timeline, immersive)
 - `timeline`, `emphasis` - metadata arrays
 - `media` - asset definitions
@@ -101,19 +101,9 @@ All stories must validate against `storySchema.ts` Zod schema. Schema includes:
 ## Common Tasks
 
 ### Adding a New Story
-1. Create JSON in `content/stories/my-story.json` with full configuration
-2. Add to `app/data/stories.ts`:
-   ```typescript
-   {
-     id: 'my-story',
-     title: 'Story Title',
-     subtitle: 'Story subtitle',
-     theme: 'dark-cinematic',
-     configPath: '/stories/my-story.json',
-     publishedAt: '2026-01-17T00:00:00Z'
-   }
-   ```
-3. Validate against storySchema using Zod
+1. Create JSON in `content-default/stories/my-story.json` with full configuration (include `title`, `theme`, `pages`, and recommended `publishedAt`, `description`, `badge`).
+2. Add `{ id: 'my-story', configPath: '/stories/my-story.json' }` to `storyRegistry` in `src/App.tsx`.
+3. Validate against `src/storySchema.ts` using Zod.
 
 ### Modifying Home/About/Social
 1. Edit the JSON in `content/`

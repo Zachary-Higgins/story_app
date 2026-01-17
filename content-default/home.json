@@ -1,8 +1,8 @@
 {
-  "navTitle": "Atlas",
+  "navTitle": "Atlas (Default)",
   "description": "Curated narrative experiences",
   "hero": {
-    "kicker": "Atlas",
+    "kicker": "Atlas (Default Content)",
     "title": "Choose your journey",
     "body": "Scroll-crafted narratives with motion, media, and music. Pick a story to enter, or remix the JSON to build your own.",
     "tags": [
