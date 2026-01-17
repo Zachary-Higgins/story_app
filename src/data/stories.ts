@@ -13,7 +13,7 @@ export interface StoryMeta {
 }
 
 // Minimal registry: only id and configPath. All other data comes from story JSON configs.
-const storyRegistry = [
+const _storyRegistry = [
   { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
   { id: 'tides-of-the-blue', configPath: '/stories/tides-of-the-blue.json' },
 ];

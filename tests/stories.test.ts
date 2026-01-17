@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'fs';
 import { resolve } from 'path';
-import { storyConfigSchema } from '../src/storySchema';
+import { storyConfigSchema, type StoryConfig } from '../src/storySchema';
 import { formatDate } from '../src/data/stories';
 
 // Load real story data from content-default

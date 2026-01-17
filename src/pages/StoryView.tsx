@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { z } from 'zod';
 import { StoryConfig, StoryPage, ThemeName } from '../types/story';
 import { storyConfigSchema } from '../storySchema';
 import { applyTheme } from '../theme/themes';
