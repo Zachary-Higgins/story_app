@@ -1,6 +1,6 @@
 # Contributing to Story Atlas
 
-We appreciate your interest in contributing to Story Atlas, the base app used to ship custom story deployments by swapping in different content directories. This document provides guidelines for contributing to the project.
+We appreciate your interest in contributing to Story Atlas, the base app used to ship custom story deployments by swapping in different content directories. This repository is **only** for the reusable application—please do not submit custom story content here. Separate usage guidelines for running your own stories will be provided separately. This document provides guidelines for contributing to the project.
 
 ## Getting Started
 

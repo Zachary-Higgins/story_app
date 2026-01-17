@@ -2,6 +2,8 @@
 
 A reusable, scrollable, JSON-driven storytelling atlas built with React, Vite, TypeScript, Tailwind, Framer Motion, Zod, and React Router. Use it as a base app for new deployments—swap in your own content directory to tell rich, custom stories without redesigning the UI.
 
+This repository hosts the base application only. Do not submit custom story content here; separate usage guidelines will explain how to run your own stories on top of this app.
+
 ## Getting Started
 
 1. Install dependencies: `npm install`
