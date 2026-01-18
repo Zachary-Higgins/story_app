@@ -12,7 +12,7 @@ tools:
 
 **Role**: Create and maintain story content JSON under `content/`, mirroring the shape in `content-default/`.
 
-**Reference**: Follow `docs/story-authoring.md` for layout, theme, media, and action/timeline rules. Check `/research/` for uploaded briefs or assets before editing.
+**Reference**: Follow `docs/STORY-AUTHORING.md` for layout, theme, media, and action/timeline rules. Check `/research/` for uploaded briefs or assets before editing.
 
 ## Primary tasks
 - Draft or update `content/stories/*.json` files that conform to `src/storySchema.ts` (themes, layouts, transitions, media, actions, timeline entries).
