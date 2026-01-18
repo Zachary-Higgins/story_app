@@ -1,11 +1,11 @@
 # Copilot Instructions
 
-Use these guardrails for Copilot agents working on Story Atlas (React 18 + Vite 7 + TypeScript + Tailwind).
+Use these guardrails for Copilot agents working on Story Engine (React 18 + Vite 7 + TypeScript + Tailwind).
 
 ## Project context
-- This is **Story Engine**, a reusable npm package. Content is consumer-provided (not in this repo).
-- The engine exports `StoryEngine` component and utilities from `src/index.ts`.
-- Story discovery is content-driven: `src/App.tsx` loads `/content/index.json` at runtime (schema: `contentIndexSchema`).
+- This is **Story Engine**, a GitHub-installable React package. Consumers install via `npm install github:Zachary-Higgins/story_app#v1.0.0`.
+- The engine exports `StoryEngine` component and `storyEnginePlugin` (Vite plugin) as separate entry points.
+- Plugin auto-discovers stories: `src/plugins/contentDiscovery.ts` scans `content/stories/*.json` and generates `content/index.json`.
 - Story config schema: `src/storySchema.ts` (Zod); types: `src/types/story.ts`.
 - Context state: `src/context/StoryContext.tsx` (provides stories via `useStories()`).
 - UI and routing live in `src/components/`, `src/pages/`, `src/utils/`, and `src/theme/`.
@@ -15,25 +15,32 @@ Use these guardrails for Copilot agents working on Story Atlas (React 18 + Vite 
 - `npm install`
 - `npm run lint`
 - `npm test`
-- `npm run build`
-- `npm run dev` (http://localhost:5173) / `npm run preview`
+- `npm run dev` (http://localhost:5173, plugin auto-generates index.json)
+- `npm run build:dist` (builds package to dist/)
+- `npm run build:release` (lint + test + build package)
 
 ## Boundaries
-- Do not add hardcoded story registry or default content to the engine package.
-- Content discovery must remain dynamic (via `/content/index.json`).
-- Prefer minimal diffs; avoid adding dependencies unless necessary.
-- Do not alter GitHub workflows or deployment settings unless requested.
-- Keep docs (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `docs/AGENTS.md`) and `.github/agents/*` playbooks in sync.
+- Do not add hardcoded story registry; plugin generates index at build/dev time.
+- Plugin must work in both local dev and GitHub-installed context.
+- No npm publishing; GitHub releases only.
+- Keep docs (`README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/`) in sync.
 - `/content` dev folder is for testing only; not shipped in npm package.
 
-## AgentsPackage documentation and consuming project examples.
-- `test-agent`: Vitest + React Testing Library coverage (tests gracefully handle missing content).
-- `lint-agent`: ESLint fixes for TS/React.
-- `api-agent`: Content discovery, schema validation, and package exports.
-- `dev-deploy-agent`: Dev/app builds and npm package builds
-- `api-agent`: data loading, schema, and base path handling.
-- `dev-deploy-agent`: dev server, builds, and release handoff.
+## Package structure
+- **Dual entry points**: `src/index.ts` (components) + `src/plugins/contentDiscovery.ts` (plugin)
+- **Build outputs**: `dist/index.js` (main), `dist/plugin.js` (plugin), `dist/story-engine.css` (styles)
+- **Install**: Consumers use `npm install github:Zachary-Higgins/story_app#v1.0.0`
+- **Plugin usage**: `import { storyEnginePlugin } from 'story-engine/plugin'` in vite.config
+
+## Agents
+- `test-agent`: Vitest + React Testing Library coverage, tests plugin behavior
+- `lint-agent`: ESLint for TS/React, allows Node.js APIs in plugin code
+- `api-agent`: Plugin architecture, schema validation, package exports
+- `dev-deploy-agent`: GitHub releases, package builds, validation
+- `docs-agent`: Maintains README, docs/, CONTRIBUTING, agent playbooks
 
 ## Workflow
 - Make the smallest change that solves the task.
-- Run lint/tests before handoff; include a short summary of what changed and why.
+- Run `npm run lint` and `npm test` before handoff.
+- Update CHANGELOG.md for user-facing changes.
+- Include a short summary of what changed and why.
