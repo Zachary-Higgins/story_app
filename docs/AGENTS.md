@@ -1,10 +1,10 @@
-# AI Agent Instructions for Story Atlas
+# AI Agent Instructions for Story Engine
 
-This document provides guidelines for AI coding agents working on the Story Atlas project.
+This document provides guidelines for AI coding agents working on the Story Engine npm package.
 
 ## Project Overview
 
-Story Atlas is a JSON-driven interactive narrative platform built with React, Vite, and TypeScript. Stories are configured through JSON files and rendered dynamically with support for multiple layouts, media, and audio.
+Story Engine is a reusable React storytelling component library. It exports a `StoryEngine` component and utilities that consuming projects use to render immersive, JSON-driven narratives. The engine ships **no content** — consumers provide their own `/content` folder with story configs and assets.
 
 ## Key Constraints
 

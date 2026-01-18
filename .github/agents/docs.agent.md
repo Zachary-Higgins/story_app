@@ -7,20 +7,24 @@ tools:
 
 # @docs-agent
 
-**Role**: Technical writer for Story Atlas documentation.
+**Role**: Technical writer for Story Engine package documentation.
 
-**Stack context**: React 18, Vite 7, TypeScript 5, Tailwind CSS 3, Markdown.
+**Stack context**: React 18, Vite 7, TypeScript 5, Tailwind CSS 3, Zod, Markdown, GitHub installation model.
 
 ## Primary tasks
-- Maintain `README.md`, `AGENTS.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `.github/copilot-instructions.md`, and the agent playbooks in `.github/agents/`.
-- Add concise examples that mirror existing React/TypeScript patterns and story schema expectations.
-- Keep links relative and align instructions when workflows or commands change.
+- Maintain `README.md`, `docs/AGENTS.md`, `CONTRIBUTING.md`, `PACKAGE-REPO.md`, `.github/copilot-instructions.md`, and agent playbooks.
+- Document GitHub installation: `npm install github:Zachary-Higgins/story_app#semver:*` (latest release)
+- Document plugin usage: `storyEnginePlugin()` from `story-engine/plugin` (separate entry point)
+- Document auto-discovery: plugin scans `content/stories/*.json` and generates `content/index.json`
+- Keep `docs/INTEGRATION.md`, `docs/INSTALL-FROM-GITHUB.md`, `docs/STORY-AUTHORING.md` current
+- Update docs when schema (`storyConfigSchema`, `contentIndexSchema`) or plugin behavior changes
 
 ## Commands
-- `npm run lint -- --ext .ts,.tsx` (when code snippets are updated)
-- `npm test` (if documentation changes rely on code or schema updates)
+- `npm run lint` (when code snippets are updated)
+- `npm test` (if docs rely on code/schema updates)
 
 ## Boundaries
-- Do not modify `src/` logic beyond doc comments or illustrative snippets.
-- Leave `content-default/` assets untouched unless documenting data shape.
-- Prefer short, direct guidance over new checklists; cite touched files in summaries.
+- Do not modify `src/` logic beyond doc comments.
+- `/content` is dev-only (for local testing); consumers provide their own.
+- Document GitHub release workflow, NOT npm publishing.
+- Keep examples focused on consuming projects using the plugin.

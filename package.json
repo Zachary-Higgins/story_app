@@ -1,22 +1,72 @@
 {
-  "name": "story_app",
-  "private": true,
+  "name": "story-engine",
   "version": "0.0.1",
+  "description": "A reusable React storytelling component library with JSON-driven content discovery",
+  "author": "Zachary Higgins",
+  "license": "MIT",
+  "private": false,
   "type": "module",
+  "homepage": "https://github.com/Zachary-Higgins/story_app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zachary-Higgins/story_app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Zachary-Higgins/story_app/issues"
+  },
+  "keywords": [
+    "react",
+    "storytelling",
+    "content-driven",
+    "json",
+    "narrative",
+    "immersive",
+    "vite"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./plugin": {
+      "import": "./dist/plugin.js",
+      "types": "./dist/plugins/contentDiscovery.d.ts"
+    },
+    "./dist/story-engine.css": "./dist/story-engine.css"
+  },
   "scripts": {
     "dev": "vite",
+    "dev:validate": "npm run lint && npm test",
     "build": "vite build",
+    "build:app": "npm run lint && npm test && npm run build",
+    "build:package": "cross-env BUILD_TARGET=package vite build",
+    "build:types": "tsc --project tsconfig.build.json",
+    "build:dist": "npm run build:package && npm run build:types",
+    "build:release": "npm run lint && npm test && npm run build:dist",
     "preview": "vite preview",
     "lint": "eslint . --config config/eslint/.eslintrc.json --ignore-path config/eslint/.eslintignore",
     "test": "vitest --config config/vitest.config.ts",
     "test:ui": "vitest --ui --config config/vitest.config.ts",
-    "test:coverage": "vitest --coverage --config config/vitest.config.ts"
+    "test:coverage": "vitest --coverage --config config/vitest.config.ts",
+    "validate": "npm run build:release && npm run build:app",
+    "prepare": "npm run build:dist",
+    "prepublishOnly": "npm run build:release"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
   },
   "dependencies": {
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.3",
     "zod": "^3.23.8"
   },
@@ -24,6 +74,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -34,6 +85,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "cross-env": "^7.0.3",
     "jsdom": "^27.4.0",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
