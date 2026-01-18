@@ -4,12 +4,12 @@ Story Engine can be installed directly from GitHub without using npm.
 
 ## Installation
 
-### Option 1: Specific Version (Recommended)
+### Option 1: Latest Release (Recommended)
 
-Install a specific tagged release:
+Install the latest tagged release:
 
 ```bash
-npm install github:Zachary-Higgins/story_app#v1.0.0
+npm install github:Zachary-Higgins/story_app#semver:*
 ```
 
 Or add to `package.json`:
@@ -17,19 +17,21 @@ Or add to `package.json`:
 ```json
 {
   "dependencies": {
-    "story-engine": "github:Zachary-Higgins/story_app#v1.0.0"
+    "story-engine": "github:Zachary-Higgins/story_app#semver:*"
   }
 }
 ```
 
+This installs the highest version tag (e.g., v1.2.0 > v1.1.0 > v1.0.0).
+
 Then run `npm install`.
 
-### Option 2: Latest from Main Branch
+### Option 2: Specific Version
 
-Install the latest code from main:
+Install a specific tagged release:
 
 ```bash
-npm install github:Zachary-Higgins/story_app
+npm install github:Zachary-Higgins/story_app#v1.0.0
 ```
 
 Or in `package.json`:
@@ -37,7 +39,7 @@ Or in `package.json`:
 ```json
 {
   "dependencies": {
-    "story-engine": "github:Zachary-Higgins/story_app"
+    "story-engine": "github:Zachary-Higgins/story_app#v1.0.0"
   }
 }
 ```
@@ -85,19 +87,31 @@ createRoot(document.getElementById('root')!).render(
 
 ## Updating
 
-To update to a new version:
+To update to the latest release:
 
 ```bash
-# Update to specific version
-npm install github:Zachary-Higgins/story_app#v1.1.0
+npm install github:Zachary-Higgins/story_app#semver:*
+```
 
-# Or update to latest
-npm install github:Zachary-Higgins/story_app
+Or to update to a specific version:
+
+```bash
+npm install github:Zachary-Higgins/story_app#v1.1.0
 ```
 
 ## Version Pinning
 
-**Best practice**: Pin to specific tags for stability:
+**Recommended**: Use latest release for automatic updates:
+
+```json
+{
+  "dependencies": {
+    "story-engine": "github:Zachary-Higgins/story_app#semver:*"
+  }
+}
+```
+
+Or pin to a specific tag for stability:
 
 ```json
 {
@@ -107,7 +121,15 @@ npm install github:Zachary-Higgins/story_app
 }
 ```
 
-This ensures your project doesn't break when new versions are released.
+Or use main branch (unreleased code):
+
+```json
+{
+  "dependencies": {
+    "story-engine": "github:Zachary-Higgins/story_app"
+  }
+}
+```
 
 ## Releases
 
@@ -152,7 +174,7 @@ This creates a symlink and avoids rebuilding on every install.
 If the repo becomes private, you'll need a GitHub token:
 
 ```bash
-npm install git+https://${GITHUB_TOKEN}@github.com/Zachary-Higgins/story_app.git#v1.0.0
+npm install git+https://${GITHUB_TOKEN}@github.com/Zachary-Higgins/story_app.git
 ```
 
 Or configure git credentials:

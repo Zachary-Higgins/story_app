@@ -17,7 +17,7 @@ tools:
 - Test GitHub install workflow: verify `prepare` script builds `dist/` correctly
 - Check package exports: `src/index.ts` (components), `src/plugins/contentDiscovery.ts` (plugin as separate entry)
 - Verify dual entry points work: main (`dist/index.js`) + plugin (`dist/plugin.js`)
-- Keep dependencies lean; package installed via `github:Zachary-Higgins/story_app#v1.0.0`
+- Keep dependencies lean; package installed via `github:Zachary-Higgins/story_app#semver:*` (latest release)
 
 ## Commands
 - `npm install`

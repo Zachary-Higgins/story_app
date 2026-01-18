@@ -13,7 +13,7 @@ tools:
 
 ## Primary tasks
 - Maintain `README.md`, `docs/AGENTS.md`, `CONTRIBUTING.md`, `PACKAGE-REPO.md`, `.github/copilot-instructions.md`, and agent playbooks.
-- Document GitHub installation: `npm install github:Zachary-Higgins/story_app#v1.0.0`
+- Document GitHub installation: `npm install github:Zachary-Higgins/story_app#semver:*` (latest release)
 - Document plugin usage: `storyEnginePlugin()` from `story-engine/plugin` (separate entry point)
 - Document auto-discovery: plugin scans `content/stories/*.json` and generates `content/index.json`
 - Keep `docs/INTEGRATION.md`, `docs/INSTALL-FROM-GITHUB.md`, `docs/STORY-AUTHORING.md` current

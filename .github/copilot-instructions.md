@@ -3,7 +3,7 @@
 Use these guardrails for Copilot agents working on Story Engine (React 18 + Vite 7 + TypeScript + Tailwind).
 
 ## Project context
-- This is **Story Engine**, a GitHub-installable React package. Consumers install via `npm install github:Zachary-Higgins/story_app#v1.0.0`.
+- This is **Story Engine**, a GitHub-installable React package. Consumers install via `npm install github:Zachary-Higgins/story_app#semver:*` (latest release) or pinned version.
 - The engine exports `StoryEngine` component and `storyEnginePlugin` (Vite plugin) as separate entry points.
 - Plugin auto-discovers stories: `src/plugins/contentDiscovery.ts` scans `content/stories/*.json` and generates `content/index.json`.
 - Story config schema: `src/storySchema.ts` (Zod); types: `src/types/story.ts`.
@@ -29,7 +29,7 @@ Use these guardrails for Copilot agents working on Story Engine (React 18 + Vite
 ## Package structure
 - **Dual entry points**: `src/index.ts` (components) + `src/plugins/contentDiscovery.ts` (plugin)
 - **Build outputs**: `dist/index.js` (main), `dist/plugin.js` (plugin), `dist/story-engine.css` (styles)
-- **Install**: Consumers use `npm install github:Zachary-Higgins/story_app#v1.0.0`
+- **Install**: Consumers use `npm install github:Zachary-Higgins/story_app#semver:*` (latest release)
 - **Plugin usage**: `import { storyEnginePlugin } from 'story-engine/plugin'` in vite.config
 
 ## Agents
