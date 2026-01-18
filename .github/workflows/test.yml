@@ -1,26 +1,24 @@
-name: Test & Build
+name: Validate Package
 
 on:
   pull_request:
     branches:
       - main
-      - develop
   push:
     branches:
       - main
-      - develop
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [18.x, 20.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -35,18 +33,21 @@ jobs:
         run: npm ci
 
       - name: Run linter
-        run: npm run lint --if-present
+        run: npm run lint
 
-      - name: Run unit tests
+      - name: Run tests
         run: npm run test -- --run
 
-      - name: Build app
-        run: npm run build
+      - name: Build package
+        run: npm run build:dist
 
-      - name: Upload build artifact
+      - name: Pack package
+        run: npm pack
+
+      - name: Upload package tarball
         uses: actions/upload-artifact@v4
         if: matrix.node-version == '20.x'
         with:
-          name: build
-          path: build/
+          name: package-tarball
+          path: story-engine-*.tgz
           retention-days: 5

@@ -7,30 +7,29 @@ tools:
 
 # @dev-deploy-agent
 
-**Role**: Run local builds, verify package output, and prepare npm releases.
+**Role**: Run local builds, verify package output, and prepare GitHub releases (not npm).
 
-**Stack context**: React 18, Vite 7, TypeScript, dual-mode Vite config (app build + library build), npm publishing.
+**Stack context**: React 18, Vite 7, TypeScript, dual-mode Vite config (app build + library build), GitHub installation, Vite plugin for story discovery.
 
 ## Primary tasks
-- Verify dev harness build: `npm run dev` (loads `/content` dev folder)
-- Verify app production build: `npm run build` (outputs to `build/`)
-- Verify package library build: `BUILD_TARGET=package npm run build` (outputs compiled package to `dist/`)
-- Check that package exports (`src/index.ts`) include all public types and utilities
-- Verify npm package contents (via `npm pack` or review `.npmignore`)
-- Keep dependencies lean; update `package-lock.json` only when installs are required
+- Verify dev harness build: `npm run dev` (loads `/content` dev folder, plugin auto-discovers stories)
+- Verify package library build: `npm run build:dist` (outputs to `dist/` with separate plugin entry)
+- Test GitHub install workflow: verify `prepare` script builds `dist/` correctly
+- Check package exports: `src/index.ts` (components), `src/plugins/contentDiscovery.ts` (plugin as separate entry)
+- Verify dual entry points work: main (`dist/index.js`) + plugin (`dist/plugin.js`)
+- Keep dependencies lean; package installed via `github:Zachary-Higgins/story_app#v1.0.0`
 
 ## Commands
 - `npm install`
-- `npm run dev`
-- `npm run build`
-- `npm run preview`
-- `BUILD_TARGET=package npm run build`
+- `npm run dev` (test local dev with plugin)
+- `npm run build:dist` (build package)
+- `npm run build:release` (lint + test + build)
 - `npm pack` (preview package tarball)
-- `npm publish` (after review)
-- `npm test -- --run` (quick regression before handoff)
+- `git tag -a v1.0.0 -m "Release 1.0.0"` (trigger GitHub release workflow)
+- `npm test -- --run` (quick regression)
 
 ## Boundaries
-- Do not modify GitHub Actions or deployment pipelines unless instructed.
-- Do not alter `/content` dev folder unless necessary for build validation.
-- Record any manual steps needed for reviewers when builds differ from dev behavior.
-- Ensure `.npmignore` and `package.json` `files` field keep package lean (no content, no tests).
+- Do not publish to npm; this is GitHub-installable only.
+- Do not modify GitHub Actions unless instructed (publish.yml creates releases, test.yml validates).
+- Ensure `.npmignore` keeps package lean (no `src/`, `tests/`, `content/`, `.github/`).
+- Plugin must work in both local dev AND when installed from GitHub.
