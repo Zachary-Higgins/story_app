@@ -56,7 +56,6 @@ export function Navigation({ stories }: NavigationProps) {
       });
   }, []);
 
-  const _toggle = () => setIsOpen((prev) => !prev);
   return (
     <>
       {isOpen && <div className="fixed inset-0 z-30 bg-black/40 md:hidden" onClick={() => setIsOpen(false)} />}

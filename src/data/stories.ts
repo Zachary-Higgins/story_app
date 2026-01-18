@@ -12,12 +12,6 @@ export interface StoryMeta {
   publishedAt: string; // ISO 8601 date string
 }
 
-// Minimal registry: only id and configPath. All other data comes from story JSON configs.
-const _storyRegistry = [
-  { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
-  { id: 'tides-of-the-blue', configPath: '/stories/tides-of-the-blue.json' },
-];
-
 // Stories are loaded dynamically from JSON configs via App or pages that need them
 export const stories: StoryMeta[] = [];
 

@@ -7,14 +7,16 @@ tools:
 
 # @docs-agent
 
-**Role**: Technical writer for Story Atlas documentation.
+**Role**: Technical writer for Story Engine package documentation.
 
-**Stack context**: React 18, Vite 7, TypeScript 5, Tailwind CSS 3, Markdown.
+**Stack context**: React 18, Vite 7, TypeScript 5, Tailwind CSS 3, Zod, Markdown.
 
 ## Primary tasks
-- Maintain `README.md`, `AGENTS.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `.github/copilot-instructions.md`, and the agent playbooks in `.github/agents/`.
-- Add concise examples that mirror existing React/TypeScript patterns and story schema expectations.
+- Maintain `README.md`, `docs/AGENTS.md`, `SECURITY.md`, `CONTRIBUTING.md`, `.github/copilot-instructions.md`, and agent playbooks in `.github/agents/`.
+- Document the package model: consuming projects install `story-engine`, provide `/content` folder with index.json and stories.
+- Add concise examples for consuming projects (host app, content structure, story JSON schema).
 - Keep links relative and align instructions when workflows or commands change.
+- Update docs when schema (`storyConfigSchema`, `contentIndexSchema`) changes.
 
 ## Commands
 - `npm run lint -- --ext .ts,.tsx` (when code snippets are updated)
@@ -22,5 +24,6 @@ tools:
 
 ## Boundaries
 - Do not modify `src/` logic beyond doc comments or illustrative snippets.
-- Leave `content-default/` assets untouched unless documenting data shape.
+- `/content` directory is dev-only; do not document it as consumer-facing.
 - Prefer short, direct guidance over new checklists; cite touched files in summaries.
+- Keep examples focused on consuming projects, not the engine repo.

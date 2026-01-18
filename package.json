@@ -18,6 +18,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:package": "cross-env BUILD_TARGET=package vite build",
+    "build:types": "tsc --project tsconfig.build.json",
+    "build:dist": "npm run build:package && npm run build:types",
     "preview": "vite preview",
     "lint": "eslint . --config config/eslint/.eslintrc.json --ignore-path config/eslint/.eslintignore",
     "test": "vitest --config config/vitest.config.ts",
@@ -48,6 +51,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "cross-env": "^7.0.3",
     "jsdom": "^27.4.0",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",

@@ -3,9 +3,13 @@
 Use these guardrails for Copilot agents working on Story Atlas (React 18 + Vite 7 + TypeScript + Tailwind).
 
 ## Project context
-- Stories and assets live in `content-default/` (served as `publicDir`). If a `content/` directory exists it supersedes `content-default/`; they are not merged. Story registry is in `src/App.tsx`; schema is in `src/storySchema.ts`.
+- This is **Story Engine**, a reusable npm package. Content is consumer-provided (not in this repo).
+- The engine exports `StoryEngine` component and utilities from `src/index.ts`.
+- Story discovery is content-driven: `src/App.tsx` loads `/content/index.json` at runtime (schema: `contentIndexSchema`).
+- Story config schema: `src/storySchema.ts` (Zod); types: `src/types/story.ts`.
+- Context state: `src/context/StoryContext.tsx` (provides stories via `useStories()`).
 - UI and routing live in `src/components/`, `src/pages/`, `src/utils/`, and `src/theme/`.
-- Tests live in `tests/` using Vitest + React Testing Library.
+- Tests live in `tests/` using Vitest + React Testing Library. Tests gracefully skip if content is unavailable.
 
 ## Core commands (run from repo root)
 - `npm install`
@@ -15,16 +19,18 @@ Use these guardrails for Copilot agents working on Story Atlas (React 18 + Vite 
 - `npm run dev` (http://localhost:5173) / `npm run preview`
 
 ## Boundaries
-- Keep `content-default/` paths stable; validate JSON changes against `src/storySchema.ts` and tests.
+- Do not add hardcoded story registry or default content to the engine package.
+- Content discovery must remain dynamic (via `/content/index.json`).
 - Prefer minimal diffs; avoid adding dependencies unless necessary.
 - Do not alter GitHub workflows or deployment settings unless requested.
-- Keep docs (`README.md`, `SECURITY.md`, `CONTRIBUTIONS.md`, `AGENTS.md` overview) and `.github/agents/*` playbooks in sync when updating guidance.
+- Keep docs (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `docs/AGENTS.md`) and `.github/agents/*` playbooks in sync.
+- `/content` dev folder is for testing only; not shipped in npm package.
 
-## Agents
-Use the playbooks in `.github/agents`:
-- `docs-agent`: documentation and examples.
-- `test-agent`: Vitest + React Testing Library coverage.
+## AgentsPackage documentation and consuming project examples.
+- `test-agent`: Vitest + React Testing Library coverage (tests gracefully handle missing content).
 - `lint-agent`: ESLint fixes for TS/React.
+- `api-agent`: Content discovery, schema validation, and package exports.
+- `dev-deploy-agent`: Dev/app builds and npm package builds
 - `api-agent`: data loading, schema, and base path handling.
 - `dev-deploy-agent`: dev server, builds, and release handoff.
 

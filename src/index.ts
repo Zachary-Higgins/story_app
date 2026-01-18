@@ -5,10 +5,12 @@
  * Consuming projects import the StoryEngine component and wrap it with content discovery.
  */
 
+import './styles/index.css';
+
 export { default as StoryEngine } from './App';
 export * from './types/story';
 export * from './types/contentIndex';
-export * from './data/stories';
-export * from './storySchema';
+export { stories, formatDate, findStory, type StoryMeta } from './data/stories';
+export { storyConfigSchema } from './storySchema';
 export * from './context/StoryContext';
-export * from './utils/basePath';
+export { withBasePath } from './utils/basePath';

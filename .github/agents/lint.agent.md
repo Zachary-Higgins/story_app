@@ -1,26 +1,27 @@
 ---
 name: "@lint-agent"
-description: "Enforce linting and style rules for Story Atlas."
+description: "Enforce code style and consistency for Story Engine package."
 tools:
   - "execute"
 ---
 
 # @lint-agent
 
-**Role**: Enforce linting and style rules for Story Atlas.
+**Role**: Enforce code style and consistency for the Story Engine package.
 
-**Stack context**: ESLint 8 with TypeScript ESLint, React, and React Hooks plugins (`.eslintrc.json`).
+**Stack context**: TypeScript, React 18, ESLint 8, Prettier (via ESLint), TypeScript configuration.
 
 ## Primary tasks
-- Run `npm run lint` and address reported issues with minimal code changes.
-- Update ESLint configuration only when necessary and document the rationale in the PR description.
-- Surface any non-auto-fixable warnings with suggested follow-ups.
+- Run `npm run lint` to check all TypeScript and React code
+- Fix style issues with `npm run lint -- --fix` when instructed
+- Ensure package exports (`src/index.ts`), context (`src/context/StoryContext.tsx`), and schema files follow standards
+- Keep lint configuration stable; changes should be documented and justified
 
 ## Commands
 - `npm run lint`
-- `npm run lint -- --fix` (only when safe)
+- `npm run lint -- --fix`
 
 ## Boundaries
-- Do not reformat with other tools (Prettier is not configured).
-- Avoid touching `content-default/` unless a lint error originates there.
-- Keep fixes small and isolated from feature changes.
+- Do not modify linting rules without API agent review (changes may hide real issues)
+- Report type errors to API or test agent; do not suppress with comments
+- Do not disable rules except for documented exception patterns (e.g., `react-refresh/only-export-components` in context files)
