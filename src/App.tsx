@@ -7,11 +7,8 @@ import { StoryView } from './pages/StoryView';
 import { AboutPage } from './pages/AboutPage';
 import { storyConfigSchema } from './storySchema';
 import { withBasePath } from './utils/basePath';
-
-const storyRegistry = [
-  { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
-  { id: 'tides-of-the-blue', configPath: '/stories/tides-of-the-blue.json' },
-];
+import { contentIndexSchema } from './types/contentIndex';
+import { StoryProvider } from './context/StoryContext';
 
 export default function App() {
   const [stories, setStories] = useState<StoryMeta[]>([]);
@@ -20,6 +17,25 @@ export default function App() {
   useEffect(() => {
     const loadStories = async () => {
       try {
+        // Load content index from /content/index.json
+        const indexPath = withBasePath('/index.json');
+        const indexRes = await fetch(indexPath);
+        if (!indexRes.ok) {
+          console.error('Failed to load content index');
+          setLoading(false);
+          return;
+        }
+        
+        const indexRaw = await indexRes.json();
+        const indexParsed = contentIndexSchema.safeParse(indexRaw);
+        if (!indexParsed.success) {
+          console.error('Invalid content index format:', indexParsed.error);
+          setLoading(false);
+          return;
+        }
+
+        const storyRegistry = indexParsed.data.stories;
+
         const loaded = await Promise.all(
           storyRegistry.map(async (reg) => {
             try {
@@ -72,16 +88,18 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen bg-surface text-text">
-      <Navigation stories={stories} />
-      <main className="relative min-h-screen px-4 pb-16 pt-10 pl-4 md:px-10 md:pl-80">
-        <Routes>
-          <Route path="/" element={<LandingPage stories={stories} />} />
-          <Route path="/story/:id" element={<StoryView />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-    </div>
+    <StoryProvider stories={stories}>
+      <div className="relative min-h-screen bg-surface text-text">
+        <Navigation stories={stories} />
+        <main className="relative min-h-screen px-4 pb-16 pt-10 pl-4 md:px-10 md:pl-80">
+          <Routes>
+            <Route path="/" element={<LandingPage stories={stories} />} />
+            <Route path="/story/:id" element={<StoryView />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+      </div>
+    </StoryProvider>
   );
 }

@@ -1,8 +1,20 @@
 {
-  "name": "story_app",
-  "private": true,
+  "name": "story-engine",
+  "description": "A reusable React storytelling component library with JSON-driven content discovery",
+  "private": false,
   "version": "0.0.1",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,11 +24,13 @@
     "test:ui": "vitest --ui --config config/vitest.config.ts",
     "test:coverage": "vitest --coverage --config config/vitest.config.ts"
   },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
   "dependencies": {
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.3",
     "zod": "^3.23.8"
   },

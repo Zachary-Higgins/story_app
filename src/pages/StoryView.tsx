@@ -12,11 +12,7 @@ import { SplitSection } from '../components/sections/SplitSection';
 import { TimelineSection } from '../components/sections/TimelineSection';
 import { ImmersiveSection } from '../components/sections/ImmersiveSection';
 import { withBasePath } from '../utils/basePath';
-
-const storyRegistry = [
-  { id: 'voyage-of-light', configPath: '/stories/voyage-of-light.json' },
-  { id: 'tides-of-the-blue', configPath: '/stories/tides-of-the-blue.json' },
-];
+import { useStories } from '../context/StoryContext';
 
 function renderSection(page: StoryPage, index: number) {
   switch (page.layout) {
@@ -36,6 +32,7 @@ function renderSection(page: StoryPage, index: number) {
 export function StoryView() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const storyRegistry = useStories().map((s) => ({ id: s.id, configPath: s.configPath }));
 
   const [meta, setMeta] = useState<StoryMeta | undefined>(undefined);
   const [story, setStory] = useState<StoryConfig | null>(null);
@@ -82,7 +79,7 @@ export function StoryView() {
       }
     };
     loadMeta();
-  }, [id]);
+  }, [id, storyRegistry]);
 
   useEffect(() => {
     applyTheme(theme);

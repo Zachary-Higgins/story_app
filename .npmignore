@@ -1,0 +1,26 @@
+# Development and build files
+src/
+tests/
+config/
+docs/
+research/
+content/
+build/
+
+# Dev dependencies
+*.test.ts
+*.test.tsx
+vitest.config.ts
+eslint.config.js
+tsconfig.node.json
+postcss.config.js
+tailwind.config.js
+
+# Development files
+.gitignore
+.env*
+CONTRIBUTING.md
+AGENTS.md
+STORY-AUTHORING.md
+vite.config.ts
+app.config.ts
