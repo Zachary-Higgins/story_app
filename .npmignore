@@ -5,6 +5,7 @@ config/
 docs/
 research/
 content/
+content-default/
 build/
 
 # Dev dependencies
@@ -20,7 +21,19 @@ tailwind.config.js
 .gitignore
 .env*
 CONTRIBUTING.md
-AGENTS.md
+SECURITY.md
 STORY-AUTHORING.md
+INTEGRATION.md
 vite.config.ts
 app.config.ts
+
+# GitHub
+.github/
+
+# Build artifacts
+story-engine-*.tgz
+*.tgz
+
+# IDE
+.vscode/
+.idea/

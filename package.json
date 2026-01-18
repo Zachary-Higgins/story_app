@@ -1,13 +1,34 @@
 {
   "name": "story-engine",
-  "description": "A reusable React storytelling component library with JSON-driven content discovery",
-  "private": false,
   "version": "0.0.1",
+  "description": "A reusable React storytelling component library with JSON-driven content discovery",
+  "author": "Zachary Higgins",
+  "license": "MIT",
+  "private": false,
   "type": "module",
+  "homepage": "https://github.com/Zachary-Higgins/story_app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zachary-Higgins/story_app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Zachary-Higgins/story_app/issues"
+  },
+  "keywords": [
+    "react",
+    "storytelling",
+    "content-driven",
+    "json",
+    "narrative",
+    "immersive",
+    "vite"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
@@ -22,15 +43,21 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:validate": "npm run lint && npm test",
     "build": "vite build",
+    "build:app": "npm run lint && npm test && npm run build",
     "build:package": "cross-env BUILD_TARGET=package vite build",
     "build:types": "tsc --project tsconfig.build.json",
     "build:dist": "npm run build:package && npm run build:types",
+    "build:release": "npm run lint && npm test && npm run build:dist",
     "preview": "vite preview",
     "lint": "eslint . --config config/eslint/.eslintrc.json --ignore-path config/eslint/.eslintignore",
     "test": "vitest --config config/vitest.config.ts",
     "test:ui": "vitest --ui --config config/vitest.config.ts",
-    "test:coverage": "vitest --coverage --config config/vitest.config.ts"
+    "test:coverage": "vitest --coverage --config config/vitest.config.ts",
+    "validate": "npm run build:release && npm run build:app",
+    "prepare": "npm run build:dist",
+    "prepublishOnly": "npm run build:release"
   },
   "peerDependencies": {
     "react": "^18.0.0",

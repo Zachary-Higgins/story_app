@@ -17,6 +17,28 @@ Your project provides the content: story JSON configs and media assets in a `/co
 
 ## Installation
 
+## Installation
+
+### From GitHub (Recommended)
+
+```bash
+npm install github:Zachary-Higgins/story_app#v1.0.0
+```
+
+Or add to `package.json`:
+
+```json
+{
+  "dependencies": {
+    "story-engine": "github:Zachary-Higgins/story_app#v1.0.0"
+  }
+}
+```
+
+See [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) for details.
+
+### From npm (if published)
+
 ```bash
 npm install story-engine
 ```
@@ -27,7 +49,7 @@ See [docs/INTEGRATION.md](docs/INTEGRATION.md) for complete setup instructions.
 
 **Summary:**
 
-1. **Install**: `npm install story-engine`
+1. **Install**: `npm install github:Zachary-Higgins/story_app#v1.0.0`
 2. **Configure Vite**: Add `storyEnginePlugin()` from `story-engine/plugin`
 3. **Create Content**: Add story JSON files to `content/stories/`
 4. **Use Component**: Import `<StoryEngine />` and the CSS
