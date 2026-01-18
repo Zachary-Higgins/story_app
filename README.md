@@ -4,6 +4,8 @@ JSON-driven React storytelling engine with auto-discovered stories. You supply `
 
 ## Install
 
+Requires Node.js 20.19+.
+
 Use the starter: https://github.com/Zachary-Higgins/story_app_template (preconfigured Vite + Story Engine + content folder).
 
 Or install directly: `npm install github:Zachary-Higgins/story_app#semver:*` (latest release).
@@ -43,4 +45,3 @@ See [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) for version pinni
 
 Build immersive stories with JSON. Install, configure, and create.
 ```
-
