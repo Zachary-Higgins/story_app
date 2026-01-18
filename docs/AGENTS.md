@@ -80,6 +80,7 @@ All stories must validate against `src/storySchema.ts` Zod schema. Schema includ
 - `pages` - array of StoryPage objects with layouts (hero, split, timeline, immersive)
 - `timeline`, `emphasis` - metadata arrays
 - `media` - asset definitions
+- For hands-on authoring guidance, see `docs/STORY-AUTHORING.md` and coordinate with `@story-author` (review `/research/` for any uploaded briefs before editing content).
 
 ### Audio Handling
 - Audio files in `content/audio/`
