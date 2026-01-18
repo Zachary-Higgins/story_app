@@ -24,6 +24,7 @@ Story JSON key fields:
 - `badge`: optional homepage badge text (e.g., "Featured")
 - `backgroundMusic`: URL for looping ambience
 - `pages[]`: each page supports `layout` (`hero`, `split`, `timeline`, `immersive`), `transition` (`fade`, `slide-up`, `slide-left`, `zoom`), `body` text, `background`/`foreground` media, and optional `actions` or `timeline` items.
+- See `docs/STORY-AUTHORING.md` for detailed story layout and media guidance.
 
 ### Audio assets
 
@@ -45,3 +46,4 @@ Themes are applied via CSS variables and Tailwind. Use the theme toggle in the h
 - Respect `storySchema` validation—invalid JSON will surface an error banner.
 - Media URLs in the samples use Unsplash/Pixabay; replace with your own assets for production.
 - If you bring your own content directory, keep the same structure (`stories/`, `audio/`, `images/`, `videos/`) and ensure `configPath` points to it.
+- Use the `/research/` folder to store briefs or reference assets; keep it intact when adding new content.
