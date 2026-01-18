@@ -4,7 +4,6 @@ import { StoryConfig, StoryPage, ThemeName } from '../types/story';
 import { storyConfigSchema } from '../storySchema';
 import { applyTheme } from '../theme/themes';
 import { StoryMeta, formatDate } from '../data/stories';
-import { ThemeToggle } from '../components/ThemeToggle';
 import { AudioController } from '../components/AudioController';
 import { ScrollProgress } from '../components/ScrollProgress';
 import { HeroSection } from '../components/sections/HeroSection';
@@ -112,7 +111,6 @@ export function StoryView() {
             <p className="text-xs text-muted/70">{formatDate(meta.publishedAt)}</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <ThemeToggle value={theme} onChange={setTheme} />
             <AudioController src={story?.backgroundMusic} />
           </div>
         </div>

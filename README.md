@@ -6,14 +6,14 @@ A reusable, JSON-driven React storytelling component library. Build once, tell i
 
 Story Engine is an npm package that transforms a `/content` folder into an immersive, multi-page storytelling experience. The engine handles:
 
-- **Story discovery** via a content index file
+- **Story discovery** via automatic JSON scanning (no manual index needed!)
 - **Dynamic page rendering** with multiple layout types (hero, split, timeline, immersive)
 - **Themes & styling** with CSS variables and Tailwind
 - **Navigation & routing** with React Router
 - **Media playback** (images, video, background audio)
 - **Animations** with Framer Motion
 
-Your project provides the content: story JSON configs, media assets, and a content index. The engine takes care of the rest.
+Your project provides the content: story JSON configs and media assets in a `/content` folder. The engine's Vite plugin automatically discovers stories and builds the index—no manual configuration required.
 
 ## Installation
 
@@ -23,31 +23,40 @@ npm install story-engine
 
 ## Quick Start
 
-### 1. Set up your host app
+See [docs/INTEGRATION.md](docs/INTEGRATION.md) for complete setup instructions.
 
-Create a minimal React app that wraps the Story Engine with content discovery:
+**Summary:**
+
+1. **Install**: `npm install story-engine`
+2. **Configure Vite**: Add `storyEnginePlugin()` from `story-engine/plugin`
+3. **Create Content**: Add story JSON files to `content/stories/`
+4. **Use Component**: Import `<StoryEngine />` and the CSS
 
 ```tsx
-// App.tsx
-import { useEffect, useState } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import StoryEngine from 'story-engine';
+// vite.config.ts
+import { storyEnginePlugin } from 'story-engine/plugin';
 
-export default function App() {
-  const [contentReady, setContentReady] = useState(false);
+export default defineConfig({
+  plugins: [react(), storyEnginePlugin()],
+  publicDir: 'content',
+});
 
-  useEffect(() => {
-    // Verify content is loadable before rendering
-    fetch('/index.json')
-      .then(() => setContentReady(true))
-      .catch(console.error);
-  }, []);
+// src/main.tsx
+import { StoryEngine } from 'story-engine';
+import 'story-engine/dist/story-engine.css';
 
-  if (!contentReady) {
-    return <div>Loading stories...</div>;
-  }
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <StoryEngine />
+  </StrictMode>
+);
+```
 
-  return (
+The plugin automatically scans `content/stories/*.json` and generates the story index. No manual setup required!
+
+## Story JSON Format
+
+Each story is a JSON file in `content/stories/` following this structure:
     <BrowserRouter>
       <StoryEngine />
     </BrowserRouter>

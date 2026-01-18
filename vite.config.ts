@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
 import { appConfig } from './app.config';
+import { storyEnginePlugin } from './src/plugins/contentDiscovery';
 
 const isBuildingPackage = process.env.BUILD_TARGET === 'package';
 const packageName = process.env.npm_package_name?.split('/').pop();
@@ -14,7 +15,7 @@ const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 // For dev server or standard app build, use content directory
 // For package build (library), don't include publicDir—it's handled by consumers
 let viteConfig = {
-  plugins: [react()],
+  plugins: [react(), storyEnginePlugin()],
   base: isGitHubPages ? `/${repoName}/` : '/',
   root: '.',
   server: {
@@ -38,19 +39,20 @@ if (!isBuildingPackage) {
     },
   };
 } else {
-  // Package build: output to dist, use lib mode
+  // Package build: output to dist, use lib mode with multiple entries
   viteConfig = {
     ...viteConfig,
     build: {
       lib: {
-        entry: path.resolve(__dirname, 'src/index.ts'),
-        name: 'StoryEngine',
-        fileName: 'index',
+        entry: {
+          index: path.resolve(__dirname, 'src/index.ts'),
+          plugin: path.resolve(__dirname, 'src/plugins/contentDiscovery.ts'),
+        },
         formats: ['es'],
       },
       outDir: 'dist',
       rollupOptions: {
-        external: ['react', 'react-dom', 'react-router-dom'],
+        external: ['react', 'react-dom', 'react-router-dom', 'fs', 'path', 'vite'],
         output: {
           globals: {
             react: 'React',

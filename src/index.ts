@@ -7,10 +7,12 @@
 
 import './styles/index.css';
 
+export { default } from './App';
 export { default as StoryEngine } from './App';
 export * from './types/story';
 export * from './types/contentIndex';
 export { stories, formatDate, findStory, type StoryMeta } from './data/stories';
 export { storyConfigSchema } from './storySchema';
+export { contentIndexSchema } from './types/contentIndex';
 export * from './context/StoryContext';
 export { withBasePath } from './utils/basePath';
