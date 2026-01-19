@@ -65,7 +65,7 @@ export function Navigation({ stories }: NavigationProps) {
           aria-label="Open menu"
           aria-expanded={false}
           onClick={() => setIsOpen(true)}
-          className="fixed left-3 top-3 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-elevated/90 text-white shadow-soft backdrop-blur-md"
+          className="fixed left-3 top-3 z-40 flex h-10 w-10 items-center justify-center text-white"
         >
           <span className="space-y-1">
             <span className="block h-0.5 w-5 rounded-full bg-white" />
@@ -88,7 +88,7 @@ export function Navigation({ stories }: NavigationProps) {
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
             onClick={() => setIsOpen((prev) => !prev)}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-elevated/80 text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-elevated"
+            className="flex h-10 w-10 items-center justify-center text-white transition hover:-translate-y-0.5"
           >
             <span className="space-y-1">
               <span className="block h-0.5 w-5 rounded-full bg-white" />
@@ -104,18 +104,12 @@ export function Navigation({ stories }: NavigationProps) {
             <Link
               to="/"
               className={clsx(
-                'flex items-center rounded-2xl border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
+                'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
                 isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
                 location.pathname === '/' && 'border-accent/60 bg-elevated/90 shadow-soft'
               )}
             >
-              <span
-                className={clsx(
-                  'text-xl text-accent transition-opacity duration-200',
-                  isOpen ? 'opacity-0' : 'opacity-100'
-                )}
-                aria-hidden={!isOpen}
-              >
+              <span className="text-xl text-accent transition-opacity duration-200">
                 ⌂
               </span>
               <span
@@ -145,7 +139,7 @@ export function Navigation({ stories }: NavigationProps) {
                   key={story.id}
                   to={`/story/${story.id}`}
                   className={clsx(
-                    'group relative flex items-center rounded-2xl border border-white/5 bg-elevated/70 text-sm text-white transition hover:border-accent/50 hover:bg-elevated',
+                    'group relative flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm text-white transition hover:border-accent/50 hover:bg-elevated',
                     isOpen ? 'h-16 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
                     active && 'border-accent/60 bg-elevated/90 shadow-soft'
                   )}
@@ -153,7 +147,7 @@ export function Navigation({ stories }: NavigationProps) {
                 >
                   <span
                     className={clsx(
-                      'flex-shrink-0 overflow-hidden rounded-xl bg-surface/80',
+                      'flex-shrink-0 overflow-hidden rounded-md bg-surface/80',
                       isOpen ? 'h-12 w-12' : 'h-10 w-10'
                     )}
                   >
@@ -177,18 +171,12 @@ export function Navigation({ stories }: NavigationProps) {
             <Link
               to="/about"
               className={clsx(
-                'flex items-center rounded-2xl border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
+                'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
                 isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
                 location.pathname === '/about' && 'border-accent/60 bg-elevated/90 shadow-soft'
               )}
             >
-              <span
-                className={clsx(
-                  'text-lg text-accent transition-opacity duration-200',
-                  isOpen ? 'opacity-0' : 'opacity-100'
-                )}
-                aria-hidden={!isOpen}
-              >
+              <span className="text-lg text-accent transition-opacity duration-200">
                 ✦
               </span>
               <span
@@ -213,7 +201,7 @@ export function Navigation({ stories }: NavigationProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-elevated/50 text-xs text-accent transition hover:border-accent/50 hover:bg-elevated/80"
+                  className="flex h-9 w-9 items-center justify-center rounded border border-white/10 bg-elevated/50 text-xs text-accent transition hover:border-accent/50 hover:bg-elevated/80"
                 >
                   {link.icon}
                 </a>

@@ -2,6 +2,17 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    borderRadius: {
+      none: '0',
+      sm: '0.125rem',
+      DEFAULT: '0.25rem',
+      md: '0.375rem',
+      lg: '0.5rem',
+      xl: '0.75rem',
+      '2xl': '1rem',
+      '3xl': '1.25rem',
+      full: '1.5rem',
+    },
     extend: {
       colors: {
         surface: 'rgb(var(--color-surface) / <alpha-value>)',

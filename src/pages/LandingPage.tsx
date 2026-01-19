@@ -88,7 +88,7 @@ export function LandingPage({ stories }: LandingPageProps) {
   }
   return (
     <div className="relative space-y-10">
-      <div className="rounded-3xl bg-gradient-to-br from-surface/90 via-elevated/80 to-surface/90 p-8 shadow-2xl md:p-12">
+      <div className="overflow-hidden rounded-3xl border border-accent/10 bg-gradient-to-br from-surface/90 via-surface/70 to-elevated/90 p-8 shadow-2xl md:p-12">
         <div className="grid gap-8 md:grid-cols-2 md:items-center">
           <div className="space-y-4">
             <p className="text-xs uppercase tracking-[0.3em] text-accent">{homeConfig.hero.kicker}</p>
@@ -117,7 +117,7 @@ export function LandingPage({ stories }: LandingPageProps) {
           <Link
             key={story.id}
             to={`/story/${story.id}`}
-            className="group relative overflow-hidden rounded-3xl border border-white/5 bg-elevated/70 shadow-2xl transition hover:-translate-y-1 hover:shadow-soft"
+            className="group relative overflow-hidden rounded-3xl bg-elevated/70 shadow-2xl transition hover:-translate-y-1 hover:shadow-soft"
           >
             <div className="relative h-56 w-full overflow-hidden">
               <img src={story.cover} alt={story.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />

@@ -39,7 +39,7 @@ export function AboutPage() {
   }
 
   return (
-    <div className="space-y-8 rounded-3xl bg-elevated/70 p-10 shadow-2xl">
+    <div className="overflow-hidden rounded-3xl bg-elevated/70 p-10 shadow-2xl space-y-8">
       <div className="space-y-3">
         <p className="text-xs uppercase tracking-[0.3em] text-accent">{aboutConfig.kicker}</p>
         <h1 className="font-display text-4xl text-white">{aboutConfig.title}</h1>
@@ -48,7 +48,7 @@ export function AboutPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {aboutConfig.sections.map((section) => (
-          <div key={section.title} className="rounded-2xl border border-white/5 bg-surface/70 p-5">
+          <div key={section.title} className="rounded-2xl bg-surface/70 p-5">
             <h2 className="text-xl font-semibold text-white">{section.title}</h2>
             {section.items ? (
               <ul className="mt-3 space-y-2 text-sm text-muted">

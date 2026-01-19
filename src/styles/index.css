@@ -79,7 +79,6 @@ body {
 
 .section-shell {
   position: relative;
-  overflow: hidden;
 }
 
 .section-shell::before {
@@ -87,7 +86,7 @@ body {
   position: absolute;
   inset: 0;
   background: var(--bg-overlay);
-  opacity: 0.4;
+  opacity: 0.2;
   pointer-events: none;
 }
 
