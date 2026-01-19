@@ -3,6 +3,7 @@ name: "@lint-agent"
 description: "Enforce code style and consistency for Story Engine package."
 tools:
   - "execute"
+  - "read"
 ---
 
 # @lint-agent

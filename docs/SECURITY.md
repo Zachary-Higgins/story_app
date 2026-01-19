@@ -1,177 +1,118 @@
-# Security Review Report
+# Security Guidelines
 
-**Date:** January 17, 2026  
-**Repository:** story_app  
-**Review Scope:** Codebase, dependencies, build configuration, CI/CD workflows
+This document provides security best practices for using and extending Story Engine.
 
----
+## For Package Users
 
-## Summary
+### Story Content Validation
 
-The project demonstrates good security practices overall with TypeScript strict mode, proper input validation via Zod, and secure workflow configurations. One moderate-severity dependency vulnerability was identified and requires updating.
+All story JSON files are validated against a strict Zod schema before rendering. This means:
+- Invalid JSON is rejected with clear errors
+- Type mismatches are caught early
+- Malformed story configs won't break your app
 
-**Overall Risk Level:** ✅ **LOW** (with one pending fix)
+**Best practice:** Validate your story JSON locally before deploying:
+```bash
+npm run build:dist
+npm test
+```
 
----
+### Safe Asset URLs
 
-## Findings
+Story Engine only allows relative paths and `https://` URLs in media assets. Protocol-relative URLs (`//example.com`) are blocked to prevent mixed-content attacks.
 
-### ✅ PASS: No Hardcoded Secrets
-- **Status:** No API keys, tokens, credentials, or secrets found in source code
-- **Details:** Code review shows no instances of `process.env`, hardcoded credentials, or sensitive data
-- **Recommendation:** Continue this practice; use environment variables for any future secrets
+**Allowed:**
+- `images/my-image.png` (relative)
+- `https://example.com/image.png` (HTTPS)
 
-### ⚠️ FAIL: Dependency Vulnerability
-- **Status:** 2 moderate-severity vulnerabilities detected
-- **Issue:** `esbuild <=0.24.2` vulnerability (GHSA-67mh-4wv8-2f99)
-  - Affects: Vite (development dependency)
-  - Risk: esbuild development server can process requests from any website and return responses
-  - Impact: **Medium** — affects development environment only, not production builds
-- **Fix Required:** Run `npm audit fix` or update Vite to ≥5.25.0
-- **Action:** ✅ Completed — update Vite to latest version
-- **Timeline:** Immediate
+**Blocked:**
+- `//example.com/image.png` (protocol-relative)
+- `http://example.com/image.png` (HTTP)
+- `javascript:alert('xss')` (any non-URL protocol)
 
-### ✅ PASS: TypeScript Strict Mode
-- **Status:** Enabled
-- **Details:** All strict compiler options active:
-  - `strict: true`
-  - `noUnusedLocals: true`
-  - `noUnusedParameters: true`
-  - `noFallthroughCasesInSwitch: true`
-- **Benefit:** Prevents entire classes of type-related bugs and unsafe patterns
+### Content Security Policy
 
-### ✅ PASS: No XSS Vulnerabilities
-- **Status:** No dangerous patterns detected
-- **Details:**
-  - No `dangerouslySetInnerHTML` usage
-  - No `innerHTML` assignments
-  - No `eval()` or `Function()` constructors
-  - React JSX escapes content by default
-- **Recommendation:** Maintain this practice
+Story Engine generates no inline scripts or styles. If you deploy to a custom domain, add CSP headers to protect against XSS:
 
-### ✅ PASS: Input Validation with Zod
-- **Status:** All story configurations validated against schema
-- **Details:**
-  - `storyConfigSchema` enforces type safety for all JSON inputs
-  - Pages, timeline entries, and media assets are validated
-  - Invalid stories are rejected with clear errors
-- **Benefit:** Prevents injection attacks via malformed JSON
+```html
+<meta http-equiv="Content-Security-Policy" 
+  content="default-src 'self'; 
+           style-src 'self' https://fonts.googleapis.com; 
+           font-src 'self' https://fonts.gstatic.com; 
+           img-src 'self' https:; 
+           script-src 'self';" />
+```
 
-### ✅ PASS: GitHub Actions Workflow Security
-- **Status:** Best practices followed
-- **Details:**
-  - ✅ Permissions are minimally scoped
-    - `test.yml`: Implicit default (read-only)
-    - `deploy.yml`: Explicit minimal permissions (contents:read, pages:write, id-token:write)
-  - ✅ No self-hosted runners used (GitHub-hosted only)
-  - ✅ No inline secrets or env vars in workflows
-  - ✅ Actions use specific versions (v4)
-  - ✅ `npm ci` used instead of `npm install` (prevents lockfile tampering)
-  - ✅ Concurrency controls prevent simultaneous deploys
-- **Recommendation:** Continue pinning action versions in future updates
+### Secrets & Environment Variables
 
-### ✅ PASS: Environment Isolation
-- **Status:** No sensitive files tracked
-- **Details:**
-  - `.env*` files properly ignored in `.gitignore`
-  - Node modules ignored
-  - Content directory (user configs) can be ignored if provided
-- **Recommendation:** Never commit `.env` files; use GitHub Secrets for sensitive data if needed
+Never commit `.env` files or hardcode secrets in your content. Use GitHub Secrets or your deployment platform's secret management.
 
-### ✅ PASS: Build Output Security
-- **Status:** Proper build configuration
-- **Details:**
-  - Static site (no server-side code exposure)
-  - Build output (`build/`) is gitignored
-  - Content folder properly separated from source code
-  - No build artifacts leak sensitive data
+## For Contributors
 
-### ⚠️ WARN: External Asset Dependencies
-- **Status:** Sample images use Unsplash (external URLs)
-- **Risk:** Low — demonstration assets only
-- **Recommendation:** 
-  - For production, replace with self-hosted images in `content-default/images/`
-  - Verify all external URLs are from trusted sources
-  - Consider Content Security Policy (CSP) headers for deployment
+### Dependency Updates
 
-### ✅ PASS: Content Security
-- **Status:** JSON-driven, schema-validated content
-- **Details:**
-  - All story content stored in JSON and validated
-  - No dynamic code execution
-  - Media paths are relative and controlled
-- **Benefit:** User content cannot introduce code vulnerabilities
+Keep dependencies current:
+```bash
+npm audit
+npm audit fix
+npm update
+```
 
----
+Before merging PRs, verify:
+- `npm run lint` passes
+- `npm test` passes
+- `npm run build:dist` succeeds
+- No new `npm audit` warnings
 
-## Recommendations
+### Code Review Checklist
 
-### Priority 1 (Immediate)
-1. **Update Vite and dependencies** to fix esbuild vulnerability
-   ```bash
-   npm audit fix
-   # or
-   npm update vite
-   git add package*.json
-   git commit -m "security: update vite to fix esbuild vulnerability"
-   ```
+When reviewing changes:
+- ✅ No `dangerouslySetInnerHTML` or `innerHTML` usage
+- ✅ No `eval()` or `Function()` constructors
+- ✅ No hardcoded secrets or credentials
+- ✅ TypeScript strict mode enabled (`tsconfig.json`)
+- ✅ User input validated before use
+- ✅ External URLs use HTTPS only
 
-### Priority 2 (Before Production)
-1. **Add GitHub Secrets** (if needed for deployment):
-   - Only if you need to deploy to external services (Vercel, AWS, etc.)
-   - Never hardcode API keys in code or workflows
+### Story Schema Enforcement
 
-2. **Enable branch protection** on `main`:
-   - Require PR reviews before merge
-   - Require status checks to pass (CI workflows)
-   - Dismiss stale PR approvals on new commits
-   - Restrict force pushes
+All story configurations must pass validation. The schema enforces:
+- Type safety (TypeScript + Zod)
+- Safe URLs (HTTPS or relative paths only)
+- Allowed layouts (hero, split, timeline, immersive)
+- Valid themes (dark-cinematic, light-editorial, bold-gradient)
 
-3. **Configure GitHub Pages deployment**:
-   - Enable GitHub Pages in repo settings
-   - Use custom domain with HTTPS if applicable
-   - Consider adding CNAME file to `content-default/` if using custom domain
+Invalid stories are rejected during build time, not runtime.
 
-### Priority 3 (Nice to Have)
-1. **Add Content Security Policy headers** to deployment:
-   - If deploying to custom domain, add CSP meta tags or headers
-   - Example: `<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https:; font-src 'self' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">`
+## Reporting Security Issues
 
-2. **Add SECURITY.md** to repo:
-   - Document how to report security issues privately
-   - GitHub will display a "Report a vulnerability" button
+If you discover a security vulnerability:
 
-3. **Enable Dependabot** alerts:
-   - GitHub automatically notifies you of new vulnerabilities
-   - Configure auto-merge for patch updates if desired
+1. **Do not** open a public GitHub issue
+2. Email: [security contact - add when decided]
+3. Include:
+   - Description of the vulnerability
+   - Steps to reproduce
+   - Potential impact
+   - Suggested fix (if any)
 
-4. **Regular audits**:
-   - Run `npm audit` before each deployment
-   - Keep dependencies updated (minor/patch versions)
+We'll acknowledge your report within 48 hours and work on a fix.
 
----
+## Deployment Checklist
 
-## Checklist for Production
+Before deploying to production:
 
-- [ ] ✅ Update Vite to fix esbuild vulnerability
-- [ ] Enable branch protection on `main`
-- [ ] Configure GitHub Pages (Settings → Pages → Source: GitHub Actions)
-- [ ] Replace sample Unsplash images with local assets in `content-default/images/`
-- [ ] Test deployment workflow manually
-- [ ] Verify HTTPS is enabled on GitHub Pages domain
-- [ ] Add SECURITY.md to document vulnerability reporting
-- [ ] Document any secrets needed for deployments in GitHub Secrets (not in code)
-- [ ] Enable Dependabot alerts (Settings → Security → Dependabot)
+- [ ] Update dependencies: `npm audit fix`
+- [ ] Run tests: `npm test`
+- [ ] Build package: `npm run build:release`
+- [ ] Enable HTTPS on your domain
+- [ ] Add CSP headers (see above)
+- [ ] Replace sample images with your own content
+- [ ] Enable branch protection on main branch
+- [ ] Configure Dependabot alerts (GitHub Settings → Security)
 
----
+## Additional Resources
 
-## Conclusion
-
-The **story_app** project is **security-conscious** with good practices in place. The single vulnerability is in a development-only dependency and should be resolved via `npm audit fix`. Once that's complete and the production checklist is addressed, the app is safe to deploy to production.
-
-**No critical issues found.** ✅
-
----
-
-**Reviewed by:** AI Security Scanner  
-**Next Review:** Recommended after 30 days or any major dependency updates
+- [Zod Documentation](https://zod.dev) — Schema validation
+- [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) — MDN guide
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/) — Web security best practices

@@ -1,10 +1,13 @@
+[![Validate Package](https://github.com/Zachary-Higgins/story_app/actions/workflows/test.yml/badge.svg)](https://github.com/Zachary-Higgins/story_app/actions/workflows/test.yml)
+[![Create Release](https://github.com/Zachary-Higgins/story_app/actions/workflows/release.yml/badge.svg)](https://github.com/Zachary-Higgins/story_app/actions/workflows/release.yml)
+
 # Story Engine
 
 JSON-driven React storytelling engine with auto-discovered stories. You supply `/content`; the engine handles routing, themes, and rendering.
 
-## Install
+![Story Engine Screenshot](docs/images/screenshot.png)
 
-Requires Node.js 20.19+.
+## Install
 
 Use the starter: https://github.com/Zachary-Higgins/story_app_template (preconfigured Vite + Story Engine + content folder).
 
@@ -31,7 +34,6 @@ See [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) for version pinni
 - [docs/INTEGRATION.md](docs/INTEGRATION.md) — full setup guide
 - [docs/STORY-AUTHORING.md](docs/STORY-AUTHORING.md) — schema & examples
 - [CONTRIBUTING.md](CONTRIBUTING.md) — dev workflow
-- [CHANGELOG.md](CHANGELOG.md) — release notes
 - Template: https://github.com/Zachary-Higgins/story_app_template — ready-to-use starter
 
 ## Scripts
@@ -40,8 +42,3 @@ See [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) for version pinni
 - `npm test` — tests
 - `npm run build:dist` — package build
 - `npm run build:release` — lint + test + package build
-
----
-
-Build immersive stories with JSON. Install, configure, and create.
-```

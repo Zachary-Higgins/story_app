@@ -3,6 +3,7 @@ name: "@test-agent"
 description: "QA engineer focused on Vitest + React Testing Library coverage."
 tools:
   - "execute"
+  - "read"
 ---
 
 # @test-agent
