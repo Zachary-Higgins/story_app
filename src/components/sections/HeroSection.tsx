@@ -19,7 +19,7 @@ export function HeroSection({ page, index }: HeroSectionProps) {
         <div className="relative z-10 grid gap-8 md:grid-cols-2 md:items-center">
           <div className="space-y-4">
             {page.kicker && (
-              <div className="inline-flex items-center gap-2 rounded-full bg-elevated/60 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
+              <div className="inline-flex items-center gap-2 rounded-lg bg-elevated/60 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 {page.kicker}
               </div>
@@ -48,7 +48,7 @@ export function HeroSection({ page, index }: HeroSectionProps) {
                   <a
                     key={action.label}
                     href={action.href}
-                    className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-surface shadow-lg shadow-accent/30 transition hover:-translate-y-0.5 hover:bg-accentStrong"
+                    className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-surface shadow-lg shadow-accent/30 transition hover:-translate-y-0.5 hover:bg-accentStrong"
                   >
                     {action.label}
                   </a>

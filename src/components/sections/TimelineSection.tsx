@@ -11,7 +11,7 @@ export function TimelineSection({ page, index }: TimelineSectionProps) {
   const items = page.timeline ?? [];
   return (
     <SectionShell page={page} index={index}>
-      <div className="rounded-3xl bg-elevated/70 p-8 md:p-10">
+      <div className="overflow-hidden rounded-3xl bg-elevated/70 p-8 md:p-10">
         <div className="max-w-4xl space-y-3">
           <p className="text-sm uppercase tracking-[0.18em] text-accent">{page.kicker}</p>
           <h2 className="font-display text-3xl text-white md:text-4xl">{page.title}</h2>
