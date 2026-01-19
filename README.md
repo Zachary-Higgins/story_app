@@ -1,6 +1,11 @@
+[![Validate Package](https://github.com/Zachary-Higgins/story_app/actions/workflows/test.yml/badge.svg)](https://github.com/Zachary-Higgins/story_app/actions/workflows/test.yml)
+[![Create Release](https://github.com/Zachary-Higgins/story_app/actions/workflows/release.yml/badge.svg)](https://github.com/Zachary-Higgins/story_app/actions/workflows/release.yml)
+
 # Story Engine
 
 JSON-driven React storytelling engine with auto-discovered stories. You supply `/content`; the engine handles routing, themes, and rendering.
+
+![Story Engine Screenshot](docs/images/screenshot.png)
 
 ## Install
 
@@ -38,9 +43,3 @@ See [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) for version pinni
 - `npm test` — tests
 - `npm run build:dist` — package build
 - `npm run build:release` — lint + test + package build
-
----
-
-Build immersive stories with JSON. Install, configure, and create.
-```
-
