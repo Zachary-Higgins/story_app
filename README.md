@@ -34,7 +34,6 @@ See [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) for version pinni
 - [docs/INTEGRATION.md](docs/INTEGRATION.md) — full setup guide
 - [docs/STORY-AUTHORING.md](docs/STORY-AUTHORING.md) — schema & examples
 - [CONTRIBUTING.md](CONTRIBUTING.md) — dev workflow
-- [CHANGELOG.md](CHANGELOG.md) — release notes
 - Template: https://github.com/Zachary-Higgins/story_app_template — ready-to-use starter
 
 ## Scripts

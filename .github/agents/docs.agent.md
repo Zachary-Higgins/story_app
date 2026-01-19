@@ -3,6 +3,9 @@ name: "@docs-agent"
 description: "Technical writer for Story Atlas documentation."
 tools:
   - "execute"
+  - "read"
+  - "edit"
+  - "search"
 ---
 
 # @docs-agent
