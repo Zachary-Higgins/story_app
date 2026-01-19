@@ -96,7 +96,7 @@ export function LandingPage({ stories }: LandingPageProps) {
             <p className="text-lg text-muted">{homeConfig.hero.body}</p>
             <div className="flex flex-wrap gap-3 text-sm text-muted">
               {homeConfig.hero.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-accent/40 px-3 py-1 text-accent">
+                <span key={tag} className="rounded-lg border border-accent/20 px-3 py-1 text-accent">
                   {tag}
                 </span>
               ))}

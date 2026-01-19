@@ -133,16 +133,16 @@ export function StoryView() {
 
         {!loading && pageContent.map((page, idx) => renderSection(page, idx))}
 
-        <div className="flex flex-wrap gap-3 rounded-3xl bg-elevated/60 px-6 py-4 text-sm text-muted">
+        <div className="flex flex-wrap gap-3 rounded-2xl bg-elevated/60 px-6 py-4 text-sm text-muted">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-full border border-accent/30 px-4 py-2 font-semibold text-accent hover:border-accent"
+            className="inline-flex items-center gap-2 rounded-lg border border-accent/30 px-4 py-2 font-semibold text-accent hover:border-accent"
           >
             ← Back to all stories
           </Link>
           <button
             onClick={() => navigate(0)}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 font-semibold text-white/80 hover:border-accent"
+            className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 font-semibold text-white/80 hover:border-accent"
           >
             Refresh story
           </button>

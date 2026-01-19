@@ -20,8 +20,18 @@ interface SocialLink {
 }
 
 export function Navigation({ stories }: NavigationProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isCompact, setIsCompact] = useState<boolean>(false); // aspect ratio <= 1 (portrait/square)
+  const [isOpen, setIsOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth > window.innerHeight;
+    }
+    return false;
+  });
+  const [isCompact, setIsCompact] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth <= window.innerHeight;
+    }
+    return false;
+  }); // aspect ratio <= 1 (portrait/square)
   const [homeConfig, setHomeConfig] = useState<HomeConfig>({ navTitle: 'Story Atlas' });
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const location = useLocation();
@@ -40,7 +50,10 @@ export function Navigation({ stories }: NavigationProps) {
     const updateScreen = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      setIsCompact(w <= h);
+      const compact = w <= h;
+      setIsCompact(compact);
+      // Auto-expand on desktop/landscape, auto-collapse on mobile/portrait
+      setIsOpen(!compact);
     };
     updateScreen();
     window.addEventListener('resize', updateScreen);
@@ -114,8 +127,8 @@ export function Navigation({ stories }: NavigationProps) {
               </span>
               <span
                 className={clsx(
-                  'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-serif tracking-wide',
-                  isOpen ? 'opacity-100 max-w-[160px] text-lg' : 'opacity-0 max-w-0 text-base'
+                  'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
+                  isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
                 )}
               >
                 Home
@@ -181,8 +194,8 @@ export function Navigation({ stories }: NavigationProps) {
               </span>
               <span
                 className={clsx(
-                  'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-serif tracking-wide',
-                  isOpen ? 'opacity-100 max-w-[160px] text-lg' : 'opacity-0 max-w-0 text-base'
+                  'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
+                  isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
                 )}
               >
                 About

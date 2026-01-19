@@ -59,22 +59,50 @@ body {
   min-height: 100vh;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-accent) / 0.15);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-accent) / 0.3);
+}
+
 .bg-overlay {
   background-image: var(--bg-overlay);
   pointer-events: none;
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .card-surface {
-  background: rgb(var(--color-surface-strong) / 0.72);
-  border: 1px solid rgb(var(--color-accent) / 0.08);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+  background: rgb(var(--color-surface-strong) / 0.8);
+  border: 1px solid rgb(var(--color-accent) / 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.2, 0, 0.2, 1), border-color 0.4s ease;
+}
+
+.card-surface:hover {
+  border-color: rgb(var(--color-accent) / 0.3);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
 }
 
 .section-shell {
