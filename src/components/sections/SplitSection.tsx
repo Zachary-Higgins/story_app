@@ -44,7 +44,7 @@ export function SplitSection({ page, index, flip = false }: SplitSectionProps) {
 
   return (
     <SectionShell page={page} index={index}>
-      <div className="grid gap-8 rounded-3xl bg-elevated/60 p-8 md:grid-cols-2 md:p-12">
+      <div className="grid gap-8 overflow-hidden rounded-3xl bg-elevated/60 p-8 md:grid-cols-2 md:p-12">
         {flip ? (
           <>
             {visual}

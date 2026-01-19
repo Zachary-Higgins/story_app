@@ -103,7 +103,7 @@ export function StoryView() {
       <ScrollProgress />
       <div className="pointer-events-none fixed inset-0 bg-overlay opacity-70" aria-hidden />
       <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-2 pb-16 pt-4 md:px-4">
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-elevated/70 p-5 backdrop-blur">
+        <div className="flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-3xl border border-accent/10 bg-elevated/70 p-5 backdrop-blur">
           <div className="space-y-1">
             <p className="text-xs uppercase tracking-[0.28em] text-accent">Interactive Story</p>
             <h1 className="font-display text-2xl text-white md:text-3xl">{story?.title ?? meta.title}</h1>
@@ -133,16 +133,16 @@ export function StoryView() {
 
         {!loading && pageContent.map((page, idx) => renderSection(page, idx))}
 
-        <div className="flex flex-wrap gap-3 rounded-3xl bg-elevated/60 px-6 py-4 text-sm text-muted">
+        <div className="flex flex-wrap gap-3 rounded-2xl bg-elevated/60 px-6 py-4 text-sm text-muted">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-full border border-accent/30 px-4 py-2 font-semibold text-accent hover:border-accent"
+            className="inline-flex items-center gap-2 rounded-lg border border-accent/30 px-4 py-2 font-semibold text-accent hover:border-accent"
           >
             ← Back to all stories
           </Link>
           <button
             onClick={() => navigate(0)}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 font-semibold text-white/80 hover:border-accent"
+            className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 font-semibold text-white/80 hover:border-accent"
           >
             Refresh story
           </button>
