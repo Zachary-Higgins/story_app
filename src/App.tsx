@@ -5,6 +5,7 @@ import { StoryMeta } from './data/stories';
 import { LandingPage } from './pages/LandingPage';
 import { StoryView } from './pages/StoryView';
 import { AboutPage } from './pages/AboutPage';
+import { EditorPage } from './pages/EditorPage';
 import { storyConfigSchema } from './storySchema';
 import { withBasePath } from './utils/basePath';
 import { contentIndexSchema } from './types/contentIndex';
@@ -96,6 +97,7 @@ export default function App() {
             <Route path="/" element={<LandingPage stories={stories} />} />
             <Route path="/story/:id" element={<StoryView />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/editor" element={<EditorPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

@@ -20,6 +20,7 @@ interface SocialLink {
 }
 
 export function Navigation({ stories }: NavigationProps) {
+  const isDev = import.meta.env.DEV;
   const [isOpen, setIsOpen] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth > window.innerHeight;
@@ -202,6 +203,32 @@ export function Navigation({ stories }: NavigationProps) {
               </span>
             </Link>
           </div>
+
+          {isDev && (
+            <div className="pt-4 space-y-2">
+              <Link
+                to="/editor"
+                className={clsx(
+                  'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
+                  isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
+                  location.pathname === '/editor' && 'border-accent/60 bg-elevated/90 shadow-soft'
+                )}
+                tabIndex={isCompact && !isOpen ? -1 : 0}
+              >
+                <span className="text-lg text-accent transition-opacity duration-200">
+                  ✎
+                </span>
+                <span
+                  className={clsx(
+                    'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
+                    isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
+                  )}
+                >
+                  Editor
+                </span>
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="border-t border-white/5 px-3 py-3 text-[11px] text-muted">
