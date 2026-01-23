@@ -267,10 +267,10 @@ export function EditorPage() {
     applyStoryUpdate({ ...story, pages: nextPages });
   };
 
-  const openMediaPicker = <T extends MediaLibraryType>(
-    types: T[],
-    activeType: T,
-    onSelect: (path: string, type: T) => void
+  const openMediaPicker = (
+    types: MediaLibraryType[],
+    activeType: MediaLibraryType,
+    onSelect: (path: string, type: MediaLibraryType) => void
   ) => {
     setMediaPicker({ open: true, types, activeType, onSelect });
   };
@@ -416,6 +416,7 @@ export function EditorPage() {
                     onOpenMediaPicker={(pageIndex, key, type) =>
                       openMediaPicker(['image', 'video'], type, (path, selectedType) => {
                         if (!story) return;
+                        if (selectedType === 'audio') return;
                         const page = story.pages[pageIndex];
                         const current = page[key] ?? { type: selectedType, src: path, alt: '' };
                         const next = { ...current, type: selectedType, src: path };
