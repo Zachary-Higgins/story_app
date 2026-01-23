@@ -25,6 +25,11 @@ const actionLinkSchema = z.object({
   href: safeUrlString,
 });
 
+const citationSchema = z.object({
+  label: z.string(),
+  url: safeUrlString,
+});
+
 const storyPageSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -37,6 +42,7 @@ const storyPageSchema = z.object({
   actions: z.array(actionLinkSchema).optional(),
   timeline: z.array(timelineEntrySchema).optional(),
   emphasis: z.string().optional(),
+  citations: z.array(citationSchema).optional(),
 });
 
 export const storyConfigSchema = z.object({
@@ -47,6 +53,7 @@ export const storyConfigSchema = z.object({
   publishedAt: z.string().optional(), // ISO 8601 date string
   backgroundMusic: safeUrlString.optional(),
   badge: z.string().optional(),
+  citations: z.array(citationSchema).optional(),
   pages: z.array(storyPageSchema),
 });
 

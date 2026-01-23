@@ -9,6 +9,7 @@ import { StoryPagesPanel } from './editor/StoryPagesPanel';
 import { JsonEditorPanel } from './editor/JsonEditorPanel';
 import { PreviewPanel } from './editor/PreviewPanel';
 import { EditorToc } from './editor/EditorToc';
+import { MediaLibraryModal, type MediaLibraryType } from './editor/MediaLibraryModal';
 import { STORY_ID_PATTERN, createPageTemplate, createStoryTemplate, moveItem } from './editor/helpers';
 
 interface StoryIndexEntry {
@@ -31,6 +32,12 @@ export function EditorPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<EditorTab>('editor');
+  const [mediaPicker, setMediaPicker] = useState<{
+    open: boolean;
+    types: MediaLibraryType[];
+    activeType: MediaLibraryType;
+    onSelect: (path: string, type: MediaLibraryType) => void;
+  } | null>(null);
 
   const previewPages = useMemo(() => story?.pages ?? [], [story]);
 
@@ -258,6 +265,14 @@ export function EditorPage() {
     applyStoryUpdate({ ...story, pages: nextPages });
   };
 
+  const openMediaPicker = (types: MediaLibraryType[], activeType: MediaLibraryType, onSelect: (path: string, type: MediaLibraryType) => void) => {
+    setMediaPicker({ open: true, types, activeType, onSelect });
+  };
+
+  const closeMediaPicker = () => {
+    setMediaPicker((prev) => (prev ? { ...prev, open: false } : prev));
+  };
+
   if (!isDev) {
     return (
       <div className="rounded-3xl bg-elevated/70 p-6 text-muted">
@@ -371,7 +386,14 @@ export function EditorPage() {
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start">
             <div className="space-y-6">
               <div id="editor-story-details">
-                <StoryDetailsPanel story={story} selectedId={selectedId} onUpdateStoryField={updateStoryField} />
+                <StoryDetailsPanel
+                  story={story}
+                  selectedId={selectedId}
+                  onUpdateStoryField={updateStoryField}
+                  onPickAudio={() =>
+                    openMediaPicker(['audio'], 'audio', (path) => updateStoryField('backgroundMusic', path))
+                  }
+                />
               </div>
               {story && (
                 <div id="editor-story-pages">
@@ -385,6 +407,15 @@ export function EditorPage() {
                     onUpdatePageActions={setPageActions}
                     onUpdatePageTimeline={setPageTimeline}
                     onUpdatePageMedia={setPageMedia}
+                    onOpenMediaPicker={(pageIndex, key, type) =>
+                      openMediaPicker(['image', 'video'], type, (path, selectedType) => {
+                        if (!story) return;
+                        const page = story.pages[pageIndex];
+                        const current = page[key] ?? { type: selectedType, src: path, alt: '' };
+                        const next = { ...current, type: selectedType, src: path };
+                        setPageMedia(pageIndex, key, next);
+                      })
+                    }
                   />
                 </div>
               )}
@@ -414,6 +445,19 @@ export function EditorPage() {
 
         {activeTab === 'preview' && <PreviewPanel story={story} pages={previewPages} />}
       </div>
+
+      {mediaPicker && (
+        <MediaLibraryModal
+          open={mediaPicker.open}
+          types={mediaPicker.types}
+          initialType={mediaPicker.activeType}
+          onSelect={(path, type) => {
+            mediaPicker.onSelect(path, type);
+            closeMediaPicker();
+          }}
+          onClose={closeMediaPicker}
+        />
+      )}
     </div>
   );
 }

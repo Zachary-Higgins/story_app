@@ -38,6 +38,13 @@ export function createActionTemplate(): ActionLink {
   };
 }
 
+export function createCitationTemplate() {
+  return {
+    label: 'Source',
+    url: 'https://example.com',
+  };
+}
+
 export function createTimelineTemplate(): TimelineEntry {
   return {
     title: 'Milestone',

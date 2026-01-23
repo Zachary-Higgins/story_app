@@ -30,6 +30,7 @@ interface SectionShellProps extends PropsWithChildren {
 
 export function SectionShell({ page, index, children }: SectionShellProps) {
   const variants = transitionVariants[page.transition ?? 'fade'] ?? defaultVariants;
+  const citations = page.citations ?? [];
   return (
     <motion.section
       id={page.id}
@@ -41,6 +42,24 @@ export function SectionShell({ page, index, children }: SectionShellProps) {
       variants={variants}
     >
       {children}
+      {citations.length > 0 && (
+        <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-muted">
+          <span className="uppercase tracking-[0.2em] text-muted/70">Citations</span>
+          <div className="flex flex-wrap gap-2">
+            {citations.map((citation, idx) => (
+              <a
+                key={`${citation.label}-${idx}`}
+                href={citation.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/10 px-2 py-1 text-[11px] text-white/70 hover:text-white"
+              >
+                [{idx + 1}] {citation.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </motion.section>
   );
 }

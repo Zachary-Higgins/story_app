@@ -19,6 +19,11 @@ export interface ActionLink {
   href: string;
 }
 
+export interface Citation {
+  label: string;
+  url: string;
+}
+
 export interface TimelineEntry {
   title: string;
   subtitle?: string;
@@ -38,6 +43,7 @@ export interface StoryPage {
   actions?: ActionLink[];
   timeline?: TimelineEntry[];
   emphasis?: string;
+  citations?: Citation[];
 }
 
 export interface StoryConfig {
@@ -48,5 +54,6 @@ export interface StoryConfig {
   publishedAt?: string;
   backgroundMusic?: string;
   badge?: string;
+  citations?: Citation[];
   pages: StoryPage[];
 }

@@ -1,6 +1,7 @@
-import type { ActionLink, MediaAsset, StoryConfig, StoryPage, TimelineEntry } from '../../types/story';
+import type { ActionLink, Citation, MediaAsset, StoryConfig, StoryPage, TimelineEntry } from '../../types/story';
 import {
   createActionTemplate,
+  createCitationTemplate,
   createMediaTemplate,
   createTimelineTemplate,
   moveItem,
@@ -17,6 +18,7 @@ interface StoryPagesPanelProps {
   onUpdatePageActions: (pageIndex: number, actions: ActionLink[] | undefined) => void;
   onUpdatePageTimeline: (pageIndex: number, timeline: TimelineEntry[] | undefined) => void;
   onUpdatePageMedia: (pageIndex: number, key: 'background' | 'foreground', value?: MediaAsset) => void;
+  onOpenMediaPicker: (pageIndex: number, key: 'background' | 'foreground', type: MediaAsset['type']) => void;
 }
 
 export function StoryPagesPanel({
@@ -29,6 +31,7 @@ export function StoryPagesPanel({
   onUpdatePageActions,
   onUpdatePageTimeline,
   onUpdatePageMedia,
+  onOpenMediaPicker,
 }: StoryPagesPanelProps) {
   const updateBodyEntry = (pageIndex: number, entryIndex: number, value: string) => {
     const body = [...story.pages[pageIndex].body];
@@ -119,6 +122,24 @@ export function StoryPagesPanel({
     onUpdatePageMedia(pageIndex, mediaKey, createMediaTemplate());
   };
 
+  const updatePageCitation = (pageIndex: number, entryIndex: number, key: keyof Citation, value: string) => {
+    const citations = [...(story.pages[pageIndex].citations ?? [])];
+    const current = citations[entryIndex] ?? createCitationTemplate();
+    citations[entryIndex] = { ...current, [key]: value };
+    onUpdatePageField(pageIndex, 'citations', citations.length ? citations : undefined);
+  };
+
+  const addPageCitation = (pageIndex: number) => {
+    const citations = [...(story.pages[pageIndex].citations ?? []), createCitationTemplate()];
+    onUpdatePageField(pageIndex, 'citations', citations);
+  };
+
+  const removePageCitation = (pageIndex: number, entryIndex: number) => {
+    const citations = [...(story.pages[pageIndex].citations ?? [])];
+    citations.splice(entryIndex, 1);
+    onUpdatePageField(pageIndex, 'citations', citations.length ? citations : undefined);
+  };
+
   const renderMediaEditor = (page: StoryPage, pageIndex: number, mediaKey: 'background' | 'foreground', label: string) => {
     const media = page[mediaKey];
     return (
@@ -151,11 +172,20 @@ export function StoryPagesPanel({
             </div>
             <div className="space-y-1">
               <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Source</label>
-              <input
-                value={media.src}
-                onChange={(event) => updateMediaField(pageIndex, mediaKey, 'src', event.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-surface/60 px-3 py-2 text-sm text-white"
-              />
+              <div className="flex flex-wrap gap-2">
+                <input
+                  value={media.src}
+                  onChange={(event) => updateMediaField(pageIndex, mediaKey, 'src', event.target.value)}
+                  className="flex-1 min-w-[200px] rounded-lg border border-white/10 bg-surface/60 px-3 py-2 text-sm text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => onOpenMediaPicker(pageIndex, mediaKey, media.type)}
+                  className="rounded-md border border-white/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white/70"
+                >
+                  Browse
+                </button>
+              </div>
             </div>
             <div className="space-y-1">
               <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Alt</label>
@@ -497,6 +527,48 @@ export function StoryPagesPanel({
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {renderMediaEditor(page, index, 'background', 'Background')}
               {renderMediaEditor(page, index, 'foreground', 'Foreground')}
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Citations</h4>
+                <button
+                  type="button"
+                  onClick={() => addPageCitation(index)}
+                  className="rounded-md border border-white/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white/70"
+                >
+                  Add citation
+                </button>
+              </div>
+              <div className="space-y-2">
+                {(page.citations ?? []).map((citation, citationIndex) => (
+                  <div
+                    key={`${page.id}-citation-${citationIndex}`}
+                    className="grid gap-2 md:grid-cols-[1fr_1.2fr_auto]"
+                  >
+                    <input
+                      value={citation.label}
+                      onChange={(event) => updatePageCitation(index, citationIndex, 'label', event.target.value)}
+                      placeholder="Label"
+                      className="rounded-lg border border-white/10 bg-surface/60 px-3 py-2 text-sm text-white"
+                    />
+                    <input
+                      value={citation.url}
+                      onChange={(event) => updatePageCitation(index, citationIndex, 'url', event.target.value)}
+                      placeholder="https://example.com"
+                      className="rounded-lg border border-white/10 bg-surface/60 px-3 py-2 text-sm text-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removePageCitation(index, citationIndex)}
+                      className="rounded-md border border-red-400/30 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-red-200"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                {(page.citations ?? []).length === 0 && <p className="text-xs text-muted">No citations yet.</p>}
+              </div>
             </div>
           </div>
         ))}

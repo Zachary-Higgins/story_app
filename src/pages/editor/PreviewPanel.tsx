@@ -32,7 +32,11 @@ export function PreviewPanel({ story, pages }: PreviewPanelProps) {
         {story && <span className="text-xs text-muted">{story.pages.length} sections</span>}
       </div>
       {!story && <p className="text-sm text-muted">Load a story to preview.</p>}
-      {story && pages.map((page, index) => renderPreviewSection(page, index))}
+      {story && (
+        <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-2 pb-16 pt-4 md:px-4">
+          {pages.map((page, index) => renderPreviewSection(page, index))}
+        </div>
+      )}
     </div>
   );
 }
