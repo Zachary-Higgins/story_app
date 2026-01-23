@@ -7,6 +7,7 @@ import {
   moveItem,
   normalizeOptional,
 } from './helpers';
+import { InfoTip } from './InfoTip';
 
 interface StoryPagesPanelProps {
   story: StoryConfig;
@@ -145,7 +146,10 @@ export function StoryPagesPanel({
     return (
       <div className="rounded-2xl border border-white/5 bg-surface/40 p-4">
         <div className="flex items-center justify-between gap-2">
-          <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">{label}</h4>
+          <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+            {label}
+            <InfoTip text={`Optional ${label.toLowerCase()} media asset.`} />
+          </h4>
           <button
             type="button"
             onClick={() => toggleMedia(pageIndex, mediaKey)}
@@ -160,7 +164,10 @@ export function StoryPagesPanel({
         {media && (
           <div className="mt-3 space-y-3">
             <div className="space-y-1">
-              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Type</label>
+              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                Type
+                <InfoTip text="Image or video for this media slot." />
+              </label>
               <select
                 value={media.type}
                 onChange={(event) => updateMediaField(pageIndex, mediaKey, 'type', event.target.value as MediaAsset['type'])}
@@ -171,7 +178,10 @@ export function StoryPagesPanel({
               </select>
             </div>
             <div className="space-y-1">
-              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Source</label>
+              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                Source
+                <InfoTip text="Path under /content or a safe external URL." />
+              </label>
               <div className="flex flex-wrap gap-2">
                 <input
                   value={media.src}
@@ -188,7 +198,10 @@ export function StoryPagesPanel({
               </div>
             </div>
             <div className="space-y-1">
-              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Alt</label>
+              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                Alt
+                <InfoTip text="Accessibility description for the media." />
+              </label>
               <input
                 value={media.alt ?? ''}
                 onChange={(event) => updateMediaField(pageIndex, mediaKey, 'alt', normalizeOptional(event.target.value))}
@@ -228,7 +241,10 @@ export function StoryPagesPanel({
   return (
     <div className="rounded-3xl border border-white/5 bg-elevated/70 p-6">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-white">Story Pages</h2>
+        <h2 className="text-lg font-semibold text-white">
+          Story Pages
+          <InfoTip text="Each page renders as a section in the story." />
+        </h2>
         <button
           type="button"
           onClick={onAddPage}
@@ -279,7 +295,10 @@ export function StoryPagesPanel({
 
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Id</label>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                  Id
+                  <InfoTip text="Unique anchor used for navigation and deep links." />
+                </label>
                 <input
                   value={page.id}
                   onChange={(event) => onUpdatePageField(index, 'id', event.target.value)}
@@ -287,7 +306,10 @@ export function StoryPagesPanel({
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Layout</label>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                  Layout
+                  <InfoTip text="Select the section layout style." />
+                </label>
                 <select
                   value={page.layout}
                   onChange={(event) => onUpdatePageField(index, 'layout', event.target.value as StoryPage['layout'])}
@@ -300,7 +322,10 @@ export function StoryPagesPanel({
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Title</label>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                  Title
+                  <InfoTip text="Section headline shown in the story." />
+                </label>
                 <input
                   value={page.title}
                   onChange={(event) => onUpdatePageField(index, 'title', event.target.value)}
@@ -308,7 +333,10 @@ export function StoryPagesPanel({
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Kicker</label>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                  Kicker
+                  <InfoTip text="Short label shown above the title." />
+                </label>
                 <input
                   value={page.kicker ?? ''}
                   onChange={(event) => onUpdatePageField(index, 'kicker', normalizeOptional(event.target.value))}
@@ -316,7 +344,10 @@ export function StoryPagesPanel({
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Transition</label>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                  Transition
+                  <InfoTip text="Animation used when the section scrolls into view." />
+                </label>
                 <select
                   value={page.transition ?? 'fade'}
                   onChange={(event) => onUpdatePageField(index, 'transition', event.target.value as StoryPage['transition'])}
@@ -329,7 +360,10 @@ export function StoryPagesPanel({
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Emphasis</label>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                  Emphasis
+                  <InfoTip text="Optional highlight text used in some layouts." />
+                </label>
                 <input
                   value={page.emphasis ?? ''}
                   onChange={(event) => onUpdatePageField(index, 'emphasis', normalizeOptional(event.target.value))}
@@ -341,7 +375,10 @@ export function StoryPagesPanel({
             <div className="mt-4 space-y-4">
               <div>
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Body</h4>
+                  <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+                    Body
+                    <InfoTip text="Paragraphs of narrative content." />
+                  </h4>
                   <button
                     type="button"
                     onClick={() => addBodyEntry(index)}
@@ -391,7 +428,10 @@ export function StoryPagesPanel({
 
               <div>
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Actions</h4>
+                  <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+                    Actions
+                    <InfoTip text="Optional call-to-action links." />
+                  </h4>
                   <button
                     type="button"
                     onClick={() => addActionEntry(index)}
@@ -450,7 +490,10 @@ export function StoryPagesPanel({
 
               <div>
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Timeline</h4>
+                  <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+                    Timeline
+                    <InfoTip text="Timeline milestones for the section." />
+                  </h4>
                   <button
                     type="button"
                     onClick={() => addTimelineEntry(index)}
@@ -531,7 +574,10 @@ export function StoryPagesPanel({
 
             <div className="mt-4 space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Citations</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+                  Citations
+                  <InfoTip text="Sources for this section shown as footnotes." />
+                </h4>
                 <button
                   type="button"
                   onClick={() => addPageCitation(index)}

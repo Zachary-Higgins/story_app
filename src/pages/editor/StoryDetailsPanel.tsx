@@ -1,6 +1,7 @@
 import type { Citation, StoryConfig, ThemeName } from '../../types/story';
 import { THEMES, themeLabels } from '../../theme/themes';
 import { createCitationTemplate, normalizeOptional } from './helpers';
+import { InfoTip } from './InfoTip';
 
 interface StoryDetailsPanelProps {
   story: StoryConfig | null;
@@ -43,7 +44,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
       {story && (
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Theme</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Theme
+              <InfoTip text="Select the visual theme for this story." />
+            </label>
             <select
               value={story.theme}
               onChange={(event) => onUpdateStoryField('theme', event.target.value as ThemeName)}
@@ -58,7 +62,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Title</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Title
+              <InfoTip text="Main story title shown on the landing page and story header." />
+            </label>
             <input
               value={story.title}
               onChange={(event) => onUpdateStoryField('title', event.target.value)}
@@ -67,7 +74,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Subtitle</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Subtitle
+              <InfoTip text="Optional supporting line displayed under the story title." />
+            </label>
             <input
               value={story.subtitle ?? ''}
               onChange={(event) => onUpdateStoryField('subtitle', normalizeOptional(event.target.value))}
@@ -76,7 +86,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Badge</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Badge
+              <InfoTip text="Optional badge shown on story cards (e.g., Draft, New)." />
+            </label>
             <input
               value={story.badge ?? ''}
               onChange={(event) => onUpdateStoryField('badge', normalizeOptional(event.target.value))}
@@ -85,7 +98,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Description</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Description
+              <InfoTip text="Short summary used on the landing page and previews." />
+            </label>
             <textarea
               value={story.description ?? ''}
               onChange={(event) => onUpdateStoryField('description', normalizeOptional(event.target.value))}
@@ -94,7 +110,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Published At</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Published At
+              <InfoTip text="ISO 8601 timestamp for sorting and display." />
+            </label>
             <input
               value={story.publishedAt ?? ''}
               onChange={(event) => onUpdateStoryField('publishedAt', normalizeOptional(event.target.value))}
@@ -104,7 +123,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
           </div>
 
           <div className="space-y-2">
-            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Background Music</label>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Background Music
+              <InfoTip text="Optional audio track path under /content/audio." />
+            </label>
             <div className="flex flex-wrap gap-2">
               <input
                 value={story.backgroundMusic ?? ''}
@@ -124,7 +146,10 @@ export function StoryDetailsPanel({ story, selectedId, onUpdateStoryField, onPic
 
           <div className="space-y-2 md:col-span-2">
             <div className="flex items-center justify-between gap-2">
-              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Citations</label>
+              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                Citations
+                <InfoTip text="Story-level sources that apply across sections." />
+              </label>
               <button
                 type="button"
                 onClick={addCitation}

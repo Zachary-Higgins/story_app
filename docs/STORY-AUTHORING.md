@@ -9,8 +9,9 @@ Use this guide to craft or update JSON story configs in `content/` (or `content-
 
 ## Story config shape
 Top-level fields (see `StoryConfig` in `src/storySchema.ts`):
+- Story id is derived from the filename (e.g., `content/stories/my-story.json` becomes `id: "my-story"` in `content/index.json`).
 - `theme`: one of `dark-cinematic`, `light-editorial`, `bold-gradient`.
-- `title`, `subtitle?`, `description?`, `badge?`, `publishedAt?` (ISO 8601), `backgroundMusic?` (e.g., `/audio/ambient.mp3`).
+- `title`, `subtitle?`, `description?`, `badge?`, `publishedAt?` (ISO 8601), `backgroundMusic?` (e.g., `/audio/ambient.mp3`), `citations?`.
 - `pages`: array of page objects described below.
 
 Media objects:
@@ -18,6 +19,10 @@ Media objects:
 - `src`: relative or https URL (schema blocks other protocols)
 - `alt?`: accessible description
 - `loop?`, `autoPlay?`: optional hints (video renders muted, looping, inline by default)
+
+Citations:
+- `citations`: array of `{ label, url }` objects; rendered at the bottom of a story or page.
+- Keep `label` short (e.g., “NOAA 2023”), `url` should be `https://`.
 
 Actions and timeline helpers:
 - `actions?`: `{ label, href }[]` rendered as CTA buttons on `hero` and `split` pages.
@@ -35,6 +40,6 @@ Each page needs `id`, `title`, `body` (string array), `layout`, and optional `ki
 ## Workflow for new stories
 1. Copy a sample from `content-default/stories/` into `content/stories/your-id.json`.
 2. Update metadata, theme, and pages using the layouts above; keep media paths relative to the content root (e.g., `/images/cover.jpg`).
-3. Add `{ id: 'your-id', configPath: '/stories/your-id.json' }` to `storyRegistry` in `src/App.tsx`.
+3. Run `npm run dev` or build to regenerate `content/index.json` via the plugin.
 4. Run `npm test` to validate JSON against the schema.
 5. When shipping, keep the `/research/` artifacts untouched and commit only JSON plus required media.

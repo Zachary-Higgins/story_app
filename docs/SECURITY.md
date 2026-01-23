@@ -17,6 +17,10 @@ npm run build:dist
 npm test
 ```
 
+### Dev Editor Endpoints
+
+The story/content editors and media manager are available only in dev (`npm run dev`) via a Vite middleware. They are not registered in production builds. Do not expose the dev server to the public internet.
+
 ### Safe Asset URLs
 
 Story Engine only allows relative paths and `https://` URLs in media assets. Protocol-relative URLs (`//example.com`) are blocked to prevent mixed-content attacks.

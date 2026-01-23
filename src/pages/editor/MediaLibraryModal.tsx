@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { withBasePath } from '../../utils/basePath';
+import { InfoTip } from './InfoTip';
 
 export type MediaLibraryType = 'image' | 'video' | 'audio';
 
@@ -153,6 +154,10 @@ export function MediaLibraryModal({ open, types, initialType, onSelect, onClose 
         )}
 
         <div className="mt-4 rounded-2xl border border-dashed border-white/10 bg-elevated/50 p-6 text-center text-sm text-muted" onDrop={handleDrop} onDragOver={(event) => event.preventDefault()}>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+            Upload
+            <InfoTip text="Drag a file in or browse to upload into the current media folder." />
+          </p>
           <p>Drag & drop a file here to upload to {activeType}.</p>
           <label className="mt-3 inline-flex cursor-pointer items-center justify-center rounded-full border border-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/80 hover:text-white">
             Browse files
@@ -165,12 +170,18 @@ export function MediaLibraryModal({ open, types, initialType, onSelect, onClose 
 
         <div className="mt-6">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search by file name..."
-              className="w-full max-w-sm rounded-lg border border-white/10 bg-surface/60 px-3 py-2 text-sm text-white focus:border-accent/60 focus:outline-none"
-            />
+            <div className="flex flex-col gap-2">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                Search
+                <InfoTip text="Filter files by name." />
+              </label>
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search by file name..."
+                className="w-full max-w-sm rounded-lg border border-white/10 bg-surface/60 px-3 py-2 text-sm text-white focus:border-accent/60 focus:outline-none"
+              />
+            </div>
             <span className="text-xs text-muted">{filteredFiles.length} files</span>
           </div>
           {isLoading && <p className="text-sm text-muted">Loading files...</p>}
