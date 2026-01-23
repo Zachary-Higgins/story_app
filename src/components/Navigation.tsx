@@ -160,11 +160,11 @@ export function Navigation({ stories }: NavigationProps) {
             </Link>
           </div>
 
-          <div className="pt-1.5">
+          <div className="pt-1.5 pb-2">
             <div className="mx-3 border-t border-white/5" />
             <p
               className={clsx(
-                'mt-0.5 px-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-muted overflow-hidden transition-[opacity,max-height] duration-300',
+                'mt-3 px-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-muted overflow-hidden transition-[opacity,max-height] duration-300',
                 isOpen ? 'opacity-100 max-h-6' : 'opacity-0 max-h-0'
               )}
             >
@@ -209,10 +209,10 @@ export function Navigation({ stories }: NavigationProps) {
 
           {isDev && (
             <div className="space-y-2">
-              <div className="pt-1.5">
+              <div className="pt-1.5 pb-2">
                 <div className="mx-3 border-t border-white/5" />
                 {isOpen && (
-                  <p className="mt-0.5 px-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-muted">
+                  <p className="mt-3 px-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-muted">
                     Editors
                   </p>
                 )}
