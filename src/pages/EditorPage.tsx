@@ -267,7 +267,11 @@ export function EditorPage() {
     applyStoryUpdate({ ...story, pages: nextPages });
   };
 
-  const openMediaPicker = (types: MediaLibraryType[], activeType: MediaLibraryType, onSelect: (path: string, type: MediaLibraryType) => void) => {
+  const openMediaPicker = <T extends MediaLibraryType>(
+    types: T[],
+    activeType: T,
+    onSelect: (path: string, type: T) => void
+  ) => {
     setMediaPicker({ open: true, types, activeType, onSelect });
   };
 
