@@ -6,6 +6,7 @@ import { LandingPage } from './pages/LandingPage';
 import { StoryView } from './pages/StoryView';
 import { AboutPage } from './pages/AboutPage';
 import { EditorPage } from './pages/EditorPage';
+import { ContentEditorPage } from './pages/ContentEditorPage';
 import { storyConfigSchema } from './storySchema';
 import { withBasePath } from './utils/basePath';
 import { contentIndexSchema } from './types/contentIndex';
@@ -98,6 +99,14 @@ export default function App() {
             <Route path="/story/:id" element={<StoryView />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/editor" element={<EditorPage />} />
+            <Route
+              path="/editor/home"
+              element={<ContentEditorPage file="home.json" title="Home Editor" description="Edit the home page content JSON." />}
+            />
+            <Route
+              path="/editor/about"
+              element={<ContentEditorPage file="about.json" title="About Editor" description="Edit the about page content JSON." />}
+            />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

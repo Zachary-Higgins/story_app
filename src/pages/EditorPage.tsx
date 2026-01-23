@@ -106,6 +106,7 @@ export function EditorPage() {
     }
   };
 
+
   const saveStoryToId = async (id: string, payload: StoryConfig) => {
     setIsSaving(true);
     setNotice(null);
@@ -211,6 +212,7 @@ export function EditorPage() {
     setRawJson(next);
     setRawDirty(true);
   };
+
 
   const updateStoryField = <K extends keyof StoryConfig>(key: K, value: StoryConfig[K]) => {
     if (!story) return;

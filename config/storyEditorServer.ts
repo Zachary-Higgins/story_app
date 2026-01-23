@@ -10,6 +10,7 @@ const MEDIA_TYPE_FOLDERS: Record<'image' | 'video' | 'audio', string> = {
   video: 'videos',
   audio: 'audio',
 };
+const CONTENT_FILES = new Set(['home.json', 'about.json']);
 
 interface StoryIndexEntry {
   id: string;
@@ -132,6 +133,33 @@ export function storyEditorServer(): Plugin {
             return sendJson(res, 200, { ok: true });
           } catch {
             return sendJson(res, 500, { error: 'Failed to delete story.' });
+          }
+        }
+
+        if (req.method === 'GET' && url.pathname === '/content') {
+          const file = url.searchParams.get('file') ?? '';
+          if (!CONTENT_FILES.has(file)) return sendJson(res, 400, { error: 'Invalid content file.' });
+          const filePath = path.join(publicDir, file);
+          if (!fs.existsSync(filePath)) return sendJson(res, 404, { error: 'Content file not found.' });
+          try {
+            const raw = fs.readFileSync(filePath, 'utf-8');
+            return sendJson(res, 200, JSON.parse(raw));
+          } catch {
+            return sendJson(res, 500, { error: 'Failed to read content file.' });
+          }
+        }
+
+        if (req.method === 'PUT' && url.pathname === '/content') {
+          const file = url.searchParams.get('file') ?? '';
+          if (!CONTENT_FILES.has(file)) return sendJson(res, 400, { error: 'Invalid content file.' });
+          const filePath = path.join(publicDir, file);
+          try {
+            const body = await readRequestBody(req);
+            const parsed = JSON.parse(body);
+            fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2), 'utf-8');
+            return sendJson(res, 200, { ok: true });
+          } catch {
+            return sendJson(res, 500, { error: 'Failed to write content file.' });
           }
         }
 
