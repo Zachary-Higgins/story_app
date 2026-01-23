@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { withBasePath } from '../utils/basePath';
+import { aboutConfigSchema } from '../contentSchema';
 
 interface AboutConfig {
   kicker: string;
@@ -22,7 +23,11 @@ export function AboutPage() {
     fetch(withBasePath('/about.json'))
       .then((res) => res.json())
       .then((data) => {
-        setAboutConfig(data);
+        const parsed = aboutConfigSchema.safeParse(data);
+        if (!parsed.success) {
+          throw new Error('Invalid about configuration.');
+        }
+        setAboutConfig(parsed.data);
         setLoading(false);
       })
       .catch(() => {

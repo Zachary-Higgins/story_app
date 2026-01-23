@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StoryMeta, formatDate } from '../data/stories';
 import { storyConfigSchema } from '../storySchema';
+import { homeConfigSchema } from '../contentSchema';
 import { withBasePath } from '../utils/basePath';
 
 interface LandingPageProps {
@@ -29,11 +30,15 @@ export function LandingPage({ stories }: LandingPageProps) {
     fetch(withBasePath('/home.json'))
       .then((res) => res.json())
       .then((data) => {
+        const parsed = homeConfigSchema.safeParse(data);
+        if (!parsed.success) {
+          throw new Error('Invalid home configuration.');
+        }
         setHomeConfig({
-          ...data,
+          ...parsed.data,
           hero: {
-            ...data.hero,
-            image: withBasePath(data.hero.image),
+            ...parsed.data.hero,
+            image: withBasePath(parsed.data.hero.image),
           },
         });
         setLoading(false);

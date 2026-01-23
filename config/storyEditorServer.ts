@@ -3,6 +3,7 @@ import type { Plugin } from 'vite';
 import fs from 'fs';
 import path from 'path';
 import { storyConfigSchema } from '../src/storySchema';
+import { aboutConfigSchema, homeConfigSchema } from '../src/contentSchema';
 
 const STORY_ID_PATTERN = /^[a-zA-Z0-9-_]+$/;
 const MEDIA_TYPE_FOLDERS: Record<'image' | 'video' | 'audio', string> = {
@@ -11,6 +12,12 @@ const MEDIA_TYPE_FOLDERS: Record<'image' | 'video' | 'audio', string> = {
   audio: 'audio',
 };
 const CONTENT_FILES = new Set(['home.json', 'about.json']);
+const MAX_UPLOAD_BYTES = 25 * 1024 * 1024; // 25 MB
+const MEDIA_EXTENSIONS: Record<'image' | 'video' | 'audio', string[]> = {
+  image: ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'],
+  video: ['.mp4', '.webm', '.mov', '.m4v'],
+  audio: ['.mp3', '.wav', '.ogg', '.m4a'],
+};
 
 interface StoryIndexEntry {
   id: string;
@@ -75,6 +82,30 @@ function sanitizeFileName(name: string) {
   return path.basename(name);
 }
 
+function isAllowedOrigin(req: IncomingMessage) {
+  const origin = req.headers.origin;
+  const host = req.headers.host;
+  if (!origin || !host) return true;
+  try {
+    const originHost = new URL(origin).host;
+    return originHost === host;
+  } catch {
+    return false;
+  }
+}
+
+function validateContent(file: string, payload: unknown) {
+  if (file === 'home.json') return homeConfigSchema.safeParse(payload);
+  if (file === 'about.json') return aboutConfigSchema.safeParse(payload);
+  return { success: false };
+}
+
+function isAllowedExtension(type: string, fileName: string) {
+  const ext = path.extname(fileName).toLowerCase();
+  const allowed = MEDIA_EXTENSIONS[type as keyof typeof MEDIA_EXTENSIONS] ?? [];
+  return allowed.includes(ext);
+}
+
 export function storyEditorServer(): Plugin {
   return {
     name: 'story-editor-server',
@@ -87,6 +118,9 @@ export function storyEditorServer(): Plugin {
         if (!req.url) return next();
         const url = new URL(req.url, 'http://localhost');
         const mediaType = url.searchParams.get('type') ?? '';
+        if (req.method && req.method !== 'GET' && !isAllowedOrigin(req)) {
+          return sendJson(res, 403, { error: 'Invalid origin.' });
+        }
 
         if (req.method === 'GET' && url.pathname === '/index') {
           return sendJson(res, 200, { stories: listStories(storiesDir) });
@@ -156,7 +190,11 @@ export function storyEditorServer(): Plugin {
           try {
             const body = await readRequestBody(req);
             const parsed = JSON.parse(body);
-            fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2), 'utf-8');
+            const validated = validateContent(file, parsed);
+            if (!validated.success) {
+              return sendJson(res, 400, { error: 'Content file failed validation.' });
+            }
+            fs.writeFileSync(filePath, JSON.stringify(validated.data, null, 2), 'utf-8');
             return sendJson(res, 200, { ok: true });
           } catch {
             return sendJson(res, 500, { error: 'Failed to write content file.' });
@@ -179,13 +217,23 @@ export function storyEditorServer(): Plugin {
               return sendJson(res, 400, { error: 'Missing file name or data.' });
             }
             const fileName = sanitizeFileName(parsed.name);
+            if (!isAllowedExtension(mediaType, fileName)) {
+              return sendJson(res, 400, { error: 'Unsupported file type.' });
+            }
             const data = parsed.data.split(',')[1] ?? '';
             if (!data) {
               return sendJson(res, 400, { error: 'Invalid file data.' });
             }
             fs.mkdirSync(mediaDir, { recursive: true });
             const targetPath = path.join(mediaDir, fileName);
-            fs.writeFileSync(targetPath, Buffer.from(data, 'base64'));
+            if (fs.existsSync(targetPath)) {
+              return sendJson(res, 409, { error: 'File already exists.' });
+            }
+            const buffer = Buffer.from(data, 'base64');
+            if (buffer.length > MAX_UPLOAD_BYTES) {
+              return sendJson(res, 400, { error: 'File is too large.' });
+            }
+            fs.writeFileSync(targetPath, buffer);
             return sendJson(res, 200, { ok: true, path: `/${MEDIA_TYPE_FOLDERS[mediaType as keyof typeof MEDIA_TYPE_FOLDERS]}/${fileName}` });
           } catch {
             return sendJson(res, 500, { error: 'Failed to upload file.' });

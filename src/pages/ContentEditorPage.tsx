@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { withBasePath } from '../utils/basePath';
+import { aboutConfigSchema, homeConfigSchema } from '../contentSchema';
 
 interface ContentEditorPageProps {
   file: 'home.json' | 'about.json';
@@ -67,6 +68,10 @@ export function ContentEditorPage({ file, title, description }: ContentEditorPag
         throw new Error(data?.error ?? 'Failed to load content file.');
       }
       const payload = await res.json();
+      const validated = isHome ? homeConfigSchema.safeParse(payload) : aboutConfigSchema.safeParse(payload);
+      if (!validated.success) {
+        throw new Error('Content file failed validation.');
+      }
       const formatted = JSON.stringify(payload, null, 2);
       setRawJson(formatted);
       setLastSavedJson(formatted);
@@ -107,6 +112,11 @@ export function ContentEditorPage({ file, title, description }: ContentEditorPag
   const applyJsonToGui = () => {
     try {
       const parsed = JSON.parse(rawJson);
+      const validated = isHome ? homeConfigSchema.safeParse(parsed) : aboutConfigSchema.safeParse(parsed);
+      if (!validated.success) {
+        setNotice({ tone: 'error', message: 'JSON failed validation.' });
+        return;
+      }
       setContentData(parsed as HomeContent | AboutContent);
       setNotice({ tone: 'success', message: 'JSON applied to editor.' });
     } catch {
