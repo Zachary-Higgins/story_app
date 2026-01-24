@@ -235,7 +235,14 @@ export function storyEditorServer(): Plugin {
             }
             fs.writeFileSync(targetPath, buffer);
             return sendJson(res, 200, { ok: true, path: `/${MEDIA_TYPE_FOLDERS[mediaType as keyof typeof MEDIA_TYPE_FOLDERS]}/${fileName}` });
-          } catch {
+          } catch (err) {
+            if (process.env.NODE_ENV !== 'production') {
+              // Log detailed error information in development to help debug upload failures.
+              // eslint-disable-next-line no-console
+              console.error('[storyEditorServer] Failed to upload media file:', err);
+              const message = err instanceof Error ? err.message : String(err);
+              return sendJson(res, 500, { error: 'Failed to upload file.', details: message });
+            }
             return sendJson(res, 500, { error: 'Failed to upload file.' });
           }
         }
