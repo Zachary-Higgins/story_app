@@ -9,6 +9,7 @@ import './styles/index.css';
 
 export { default } from './App';
 export { default as StoryEngine } from './App';
+export type { StoryEngineProps } from './App';
 export * from './types/story';
 export * from './types/contentIndex';
 export { stories, formatDate, findStory, type StoryMeta } from './data/stories';

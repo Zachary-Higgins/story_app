@@ -11,6 +11,7 @@ import { PreviewPanel } from './editor/PreviewPanel';
 import { EditorToc } from './editor/EditorToc';
 import { MediaLibraryModal, type MediaLibraryType } from './editor/MediaLibraryModal';
 import { STORY_ID_PATTERN, createPageTemplate, createStoryTemplate, moveItem } from './editor/helpers';
+import { useEditorEnabled } from '../context/StoryContext';
 
 interface StoryIndexEntry {
   id: string;
@@ -20,7 +21,7 @@ interface StoryIndexEntry {
 type NoticeTone = 'info' | 'success' | 'error';
 
 export function EditorPage() {
-  const isDev = import.meta.env.DEV;
+  const editorEnabled = useEditorEnabled();
   const [stories, setStories] = useState<StoryIndexEntry[]>([]);
   const [selectedId, setSelectedId] = useState('');
   const [story, setStory] = useState<StoryConfig | null>(null);
@@ -105,9 +106,9 @@ export function EditorPage() {
   }, [loadStory, selectedId]);
 
   useEffect(() => {
-    if (!isDev) return;
+    if (!editorEnabled) return;
     void loadIndex();
-  }, [isDev, loadIndex]);
+  }, [editorEnabled, loadIndex]);
 
 
   const saveStoryToId = async (id: string, payload: StoryConfig) => {
@@ -282,7 +283,7 @@ export function EditorPage() {
     setMediaPicker((prev) => (prev ? { ...prev, open: false } : prev));
   };
 
-  if (!isDev) {
+  if (!editorEnabled) {
     return (
       <div className="rounded-3xl bg-elevated/70 p-6 text-muted">
         The editor is only available in dev mode.

@@ -4,6 +4,7 @@ import { StoryMeta } from '../data/stories';
 
 interface StoryContextType {
   stories: StoryMeta[];
+  editorEnabled: boolean;
 }
 
 const StoryContext = createContext<StoryContextType | undefined>(undefined);
@@ -16,11 +17,20 @@ export function useStories() {
   return context.stories;
 }
 
+export function useEditorEnabled() {
+  const context = useContext(StoryContext);
+  if (!context) {
+    throw new Error('useEditorEnabled must be used within StoryProvider');
+  }
+  return context.editorEnabled;
+}
+
 interface StoryProviderProps {
   children: ReactNode;
   stories: StoryMeta[];
+  editorEnabled?: boolean;
 }
 
-export function StoryProvider({ children, stories }: StoryProviderProps) {
-  return <StoryContext.Provider value={{ stories }}>{children}</StoryContext.Provider>;
+export function StoryProvider({ children, stories, editorEnabled = false }: StoryProviderProps) {
+  return <StoryContext.Provider value={{ stories, editorEnabled }}>{children}</StoryContext.Provider>;
 }

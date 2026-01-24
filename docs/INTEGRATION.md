@@ -10,19 +10,22 @@ npm install github:Zachary-Higgins/story_app#semver:*
 
 ### 1. Configure Vite
 
-Import the plugin from the separate plugin entry point in your `vite.config.ts`:
+Import the plugins from the separate plugin entry point in your `vite.config.ts`:
 
 ```typescript
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { storyEnginePlugin } from 'story-engine/plugin';
+import { storyEnginePlugin, storyEditorServer } from 'story-engine/plugin';
 
-export default defineConfig({
-  plugins: [
-    react(),
-    storyEnginePlugin(), // Auto-discovers stories from content/stories/*.json
-  ],
-  publicDir: 'content', // Serve content directory as static files
+export default defineConfig(({ command }) => {
+  const plugins = [react(), storyEnginePlugin()]; // Auto-discovers stories from content/stories/*.json
+  if (command === 'serve') {
+    plugins.push(storyEditorServer());
+  }
+  return {
+    plugins,
+    publicDir: 'content', // Serve content directory as static files
+  };
 });
 ```
 
@@ -60,7 +63,7 @@ import 'story-engine/dist/story-engine.css';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>
-      <StoryEngine />
+      <StoryEngine editorEnabled={import.meta.env.DEV} />
     </HashRouter>
   </StrictMode>
 );

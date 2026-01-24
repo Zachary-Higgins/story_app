@@ -29,6 +29,8 @@ export function storyEnginePlugin(): Plugin {
   };
 }
 
+export { storyEditorServer } from './storyEditorServer';
+
 function generateIndexJson(contentDir: string, storiesDir: string) {
   if (!fs.existsSync(storiesDir)) {
     console.warn('[story-engine] No content/stories directory found');

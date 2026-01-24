@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { StoryMeta } from '../data/stories';
 import { clsx } from 'clsx';
 import { withBasePath } from '../utils/basePath';
+import { useEditorEnabled } from '../context/StoryContext';
 
 interface NavigationProps {
   stories: StoryMeta[];
@@ -20,7 +21,7 @@ interface SocialLink {
 }
 
 export function Navigation({ stories }: NavigationProps) {
-  const isDev = import.meta.env.DEV;
+  const editorEnabled = useEditorEnabled();
   const [isOpen, setIsOpen] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth > window.innerHeight;
@@ -207,7 +208,7 @@ export function Navigation({ stories }: NavigationProps) {
             })}
           </div>
 
-          {isDev && (
+          {editorEnabled && (
             <div className="space-y-2">
               <div className="pt-1.5 pb-2">
                 <div className="mx-3 border-t border-white/5" />
@@ -241,7 +242,7 @@ export function Navigation({ stories }: NavigationProps) {
             </div>
           )}
 
-          {isDev && (
+          {editorEnabled && (
             <div className="space-y-2">
               <Link
                 to="/editor/home"

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { EditorPage } from '../src/pages/EditorPage';
+import { StoryProvider } from '../src/context/StoryContext';
 
 const storyPayload = {
   theme: 'dark-cinematic',
@@ -43,7 +44,11 @@ describe('EditorPage', () => {
   });
 
   it('loads the first story and shows the editor panels', async () => {
-    render(<EditorPage />);
+    render(
+      <StoryProvider stories={[]} editorEnabled>
+        <EditorPage />
+      </StoryProvider>
+    );
     expect(await screen.findByText('Dev Mode Workspace')).toBeInTheDocument();
     expect(await screen.findByText('Story Pages')).toBeInTheDocument();
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/__story-editor/index'));

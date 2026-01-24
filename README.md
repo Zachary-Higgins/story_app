@@ -41,6 +41,8 @@ The dev server includes editors for content and stories (not shipped in producti
 
 These routes are only enabled in dev (`npm run dev`) and use a dev-only Vite middleware for saving JSON and managing media assets.
 
+For consuming projects, pass `editorEnabled={import.meta.env.DEV}` to `<StoryEngine />` and add `storyEditorServer()` to the Vite plugins when `command === 'serve'`.
+
 ## Scripts
 
 - `npm run dev` — local dev with content folder

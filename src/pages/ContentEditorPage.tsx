@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { withBasePath } from '../utils/basePath';
 import { aboutConfigSchema, homeConfigSchema } from '../contentSchema';
+import { useEditorEnabled } from '../context/StoryContext';
 
 interface ContentEditorPageProps {
   file: 'home.json' | 'about.json';
@@ -42,7 +43,7 @@ interface AboutContent {
 }
 
 export function ContentEditorPage({ file, title, description }: ContentEditorPageProps) {
-  const isDev = import.meta.env.DEV;
+  const editorEnabled = useEditorEnabled();
   const [rawJson, setRawJson] = useState('');
   const [lastSavedJson, setLastSavedJson] = useState('');
   const [dirty, setDirty] = useState(false);
@@ -78,10 +79,10 @@ export function ContentEditorPage({ file, title, description }: ContentEditorPag
   }, [file, isHome]);
 
   useEffect(() => {
-    if (!isDev) return;
+    if (!editorEnabled) return;
     setContentData(null);
     void loadContent();
-  }, [isDev, file, loadContent]);
+  }, [editorEnabled, file, loadContent]);
 
   const saveContent = async () => {
     setIsSaving(true);
@@ -136,7 +137,7 @@ export function ContentEditorPage({ file, title, description }: ContentEditorPag
     setDirty(next !== lastSavedJson);
   };
 
-  if (!isDev) {
+  if (!editorEnabled) {
     return (
       <div className="rounded-3xl bg-elevated/70 p-6 text-muted">
         The editor is only available in dev mode.

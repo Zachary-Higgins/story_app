@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ContentEditorPage } from '../src/pages/ContentEditorPage';
+import { StoryProvider } from '../src/context/StoryContext';
 
 const homePayload = {
   navTitle: 'Story Engine',
@@ -35,7 +36,9 @@ describe('ContentEditorPage', () => {
 
   it('renders the home editor and loads content', async () => {
     render(
-      <ContentEditorPage file="home.json" title="Home Editor" description="Edit the home page content JSON." />
+      <StoryProvider stories={[]} editorEnabled>
+        <ContentEditorPage file="home.json" title="Home Editor" description="Edit the home page content JSON." />
+      </StoryProvider>
     );
 
     expect(await screen.findByText('Home Editor')).toBeInTheDocument();
