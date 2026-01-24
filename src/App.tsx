@@ -17,16 +17,9 @@ export interface StoryEngineProps {
 }
 
 export default function App({ editorEnabled }: StoryEngineProps) {
-  const isEditorEnabled = import.meta.env.DEV && (editorEnabled ?? true);
-  const showEditorWarning = Boolean(editorEnabled) && !import.meta.env.DEV;
+  const isEditorEnabled = editorEnabled ?? false;
   const [stories, setStories] = useState<StoryMeta[]>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!import.meta.env.DEV && editorEnabled) {
-      console.warn('[story-engine] editorEnabled is ignored outside dev builds.');
-    }
-  }, [editorEnabled]);
 
   useEffect(() => {
     const loadStories = async () => {
@@ -106,11 +99,6 @@ export default function App({ editorEnabled }: StoryEngineProps) {
       <div className="relative min-h-screen bg-surface text-text">
         <Navigation stories={stories} />
         <main className="relative min-h-screen px-4 pb-16 pt-10 pl-4 md:px-10 md:pl-80">
-          {showEditorWarning && (
-            <div className="mb-6 rounded-2xl border border-amber-400/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-              Editor access is disabled in production builds even if `editorEnabled` is set.
-            </div>
-          )}
           <Routes>
             <Route path="/" element={<LandingPage stories={stories} />} />
             <Route path="/story/:id" element={<StoryView />} />
