@@ -85,7 +85,10 @@ function sanitizeFileName(name: string) {
 function isAllowedOrigin(req: IncomingMessage) {
   const origin = req.headers.origin;
   const host = req.headers.host;
-  if (!origin || !host) return true;
+  // In dev mode we allow requests that omit both Origin and Host headers (e.g. some local tools),
+  // but otherwise require a valid same-origin request.
+  if (!origin && !host) return true;
+  if (!origin || !host) return false;
   try {
     const originHost = new URL(origin).host;
     return originHost === host;
