@@ -19,6 +19,7 @@ tools:
 - Document GitHub installation: `npm install github:Zachary-Higgins/story_app#semver:*` (latest release)
 - Document plugin usage: `storyEnginePlugin()` from `story-engine/plugin` (separate entry point)
 - Document auto-discovery: plugin scans `content/stories/*.json` and generates `content/index.json`
+- Document dev-only editors (`/#/editor`, `/#/editor/home`, `/#/editor/about`) and citations when schema changes
 - Keep `docs/INTEGRATION.md`, `docs/INSTALL-FROM-GITHUB.md`, `docs/STORY-AUTHORING.md` current
 - Update docs when schema (`storyConfigSchema`, `contentIndexSchema`) or plugin behavior changes
 

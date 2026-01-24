@@ -10,6 +10,7 @@ Use these guardrails for Copilot agents working on Story Engine (React 18 + Vite
 - Context state: `src/context/StoryContext.tsx` (provides stories via `useStories()`).
 - UI and routing live in `src/components/`, `src/pages/`, `src/utils/`, and `src/theme/`.
 - Tests live in `tests/` using Vitest + React Testing Library. Tests gracefully skip if content is unavailable.
+- Dev-only editors live at `/#/editor`, `/#/editor/home`, `/#/editor/about` and are backed by the `storyEditorServer` middleware (dev server only).
 
 ## Core commands (run from repo root)
 - `npm install`

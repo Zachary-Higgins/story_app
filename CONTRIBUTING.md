@@ -165,9 +165,9 @@ npm run build:dist
 
 ## Adding New Stories
 
-1. Create a new JSON file in `content-default/stories/` (or your content dir) following `src/storySchema.ts`.
+1. Create a new JSON file in `content/stories/` (or your content dir) following `src/storySchema.ts`.
 2. Include `title`, `theme`, `pages`, and recommended `description`, `badge`, `publishedAt`.
-3. Add `{ id, configPath }` to `storyRegistry` in `src/App.tsx`.
+3. Run `npm run dev` or build to regenerate `content/index.json` via the plugin.
 
 ## Testing
 

@@ -20,6 +20,7 @@ interface SocialLink {
 }
 
 export function Navigation({ stories }: NavigationProps) {
+  const isDev = import.meta.env.DEV;
   const [isOpen, setIsOpen] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth > window.innerHeight;
@@ -112,7 +113,7 @@ export function Navigation({ stories }: NavigationProps) {
           {isOpen && <span className="text-xs text-muted">{homeConfig.navTitle}</span>}
         </div>
 
-        <div className="flex-1 space-y-3 overflow-y-auto px-2 pb-6">
+        <div className="flex-1 space-y-2 overflow-y-auto px-2 pb-6">
           <div className="space-y-2">
             <Link
               to="/"
@@ -136,14 +137,40 @@ export function Navigation({ stories }: NavigationProps) {
             </Link>
           </div>
 
-          <p
-            className={clsx(
-              'px-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-muted overflow-hidden transition-[opacity,max-height] duration-300',
-              isOpen ? 'opacity-100 max-h-6' : 'opacity-0 max-h-0'
-            )}
-          >
-            Stories
-          </p>
+          <div className="space-y-2">
+            <Link
+              to="/about"
+              className={clsx(
+                'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
+                isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
+                location.pathname === '/about' && 'border-accent/60 bg-elevated/90 shadow-soft'
+              )}
+            >
+              <span className="text-lg text-accent transition-opacity duration-200">
+                ✦
+              </span>
+              <span
+                className={clsx(
+                  'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
+                  isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
+                )}
+              >
+                About
+              </span>
+            </Link>
+          </div>
+
+          <div className="pt-1.5 pb-2">
+            <div className="mx-3 border-t border-white/5" />
+            <p
+              className={clsx(
+                'mt-3 px-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-muted overflow-hidden transition-[opacity,max-height] duration-300',
+                isOpen ? 'opacity-100 max-h-6' : 'opacity-0 max-h-0'
+              )}
+            >
+              Stories
+            </p>
+          </div>
           <div className="space-y-2">
             {stories.map((story) => {
               const active = location.pathname.includes(story.id);
@@ -180,28 +207,86 @@ export function Navigation({ stories }: NavigationProps) {
             })}
           </div>
 
-          <div className="pt-4 space-y-2">
-            <Link
-              to="/about"
-              className={clsx(
-                'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
-                isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
-                location.pathname === '/about' && 'border-accent/60 bg-elevated/90 shadow-soft'
-              )}
-            >
-              <span className="text-lg text-accent transition-opacity duration-200">
-                ✦
-              </span>
-              <span
-                className={clsx(
-                  'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
-                  isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
+          {isDev && (
+            <div className="space-y-2">
+              <div className="pt-1.5 pb-2">
+                <div className="mx-3 border-t border-white/5" />
+                {isOpen && (
+                  <p className="mt-3 px-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-muted">
+                    Editors
+                  </p>
                 )}
+              </div>
+              <Link
+                to="/editor"
+                className={clsx(
+                  'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
+                  isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
+                  location.pathname === '/editor' && 'border-accent/60 bg-elevated/90 shadow-soft'
+                )}
+                tabIndex={isCompact && !isOpen ? -1 : 0}
               >
-                About
-              </span>
-            </Link>
-          </div>
+                <span className="text-lg text-accent transition-opacity duration-200">
+                  ✎
+                </span>
+                <span
+                  className={clsx(
+                    'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
+                    isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
+                  )}
+                >
+                  Story Editor
+                </span>
+              </Link>
+            </div>
+          )}
+
+          {isDev && (
+            <div className="space-y-2">
+              <Link
+                to="/editor/home"
+                className={clsx(
+                  'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
+                  isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
+                  location.pathname === '/editor/home' && 'border-accent/60 bg-elevated/90 shadow-soft'
+                )}
+                tabIndex={isCompact && !isOpen ? -1 : 0}
+              >
+                <span className="text-lg text-accent transition-opacity duration-200">
+                  ✺
+                </span>
+                <span
+                  className={clsx(
+                    'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
+                    isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
+                  )}
+                >
+                  Home Editor
+                </span>
+              </Link>
+              <Link
+                to="/editor/about"
+                className={clsx(
+                  'flex items-center rounded-lg border border-white/5 bg-elevated/70 text-sm font-semibold text-white transition hover:border-accent/50 hover:bg-elevated',
+                  isOpen ? 'h-14 gap-3 px-3' : 'h-14 w-14 justify-center p-0',
+                  location.pathname === '/editor/about' && 'border-accent/60 bg-elevated/90 shadow-soft'
+                )}
+                tabIndex={isCompact && !isOpen ? -1 : 0}
+              >
+                <span className="text-lg text-accent transition-opacity duration-200">
+                  ❖
+                </span>
+                <span
+                  className={clsx(
+                    'overflow-hidden transition-[opacity,max-width] duration-300 ease-out font-semibold',
+                    isOpen ? 'opacity-100 max-w-[160px]' : 'opacity-0 max-w-0'
+                  )}
+                >
+                  About Editor
+                </span>
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="border-t border-white/5 px-3 py-3 text-[11px] text-muted">

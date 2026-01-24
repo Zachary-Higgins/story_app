@@ -7,7 +7,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 const loadConfig = async () => {
   const configModule = await import('../vite.config');
-  return configModule.default as UserConfig;
+  const configFactory = configModule.default as unknown as (env: { command: string; mode: string }) => UserConfig;
+  return configFactory({ command: 'serve', mode: 'development' });
 };
 
 describe('vite.config base', () => {

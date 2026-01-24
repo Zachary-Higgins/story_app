@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-npm install story-engine
+npm install github:Zachary-Higgins/story_app#semver:*
 ```
 
 ## Basic Setup
@@ -47,18 +47,21 @@ your-project/
 
 ### 3. Use the Component
 
-Import the StoryEngine component and CSS in your app:
+Import the StoryEngine component and CSS in your app. Use `HashRouter` for static hosts like GitHub Pages (no server-side rewrites):
 
 ```typescript
 // src/main.tsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { HashRouter } from 'react-router-dom';
 import { StoryEngine } from 'story-engine';
 import 'story-engine/dist/story-engine.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <StoryEngine />
+    <HashRouter>
+      <StoryEngine />
+    </HashRouter>
   </StrictMode>
 );
 ```
@@ -68,6 +71,7 @@ createRoot(document.getElementById('root')!).render(
 1. **Plugin**: The `storyEnginePlugin()` scans your `content/stories/` directory at build and dev time
 2. **Auto-Discovery**: It generates a `content/index.json` file listing all story configs
 3. **Component**: The `<StoryEngine />` component loads the index and renders stories dynamically
+4. **Story IDs**: Story ids come from filenames (e.g., `content/stories/my-story.json` → `id: "my-story"`)
 
 ## Story JSON Format
 
@@ -75,16 +79,21 @@ Each story JSON file should follow this schema (see [STORY-AUTHORING.md](STORY-A
 
 ```json
 {
-  "id": "my-story",
   "title": "My Story Title",
   "subtitle": "A compelling subtitle",
-  "publishDate": "2024-01-15",
-  "theme": "dark",
-  "sections": [
+  "publishedAt": "2024-01-15",
+  "theme": "dark-cinematic",
+  "citations": [
+    { "label": "NOAA 2023", "url": "https://example.com/source" }
+  ],
+  "pages": [
     {
-      "type": "hero",
+      "id": "opening",
       "title": "Welcome",
-      "subtitle": "Start your journey"
+      "body": ["Start your journey."],
+      "layout": "hero",
+      "background": { "type": "image", "src": "/images/cover.jpg" },
+      "citations": [{ "label": "Dataset A", "url": "https://example.com" }]
     }
   ]
 }

@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { withBasePath } from '../utils/basePath';
+import { aboutConfigSchema } from '../contentSchema';
 
 interface AboutConfig {
   kicker: string;
   title: string;
-  description: string;
+  description?: string;
   sections: Array<{
     title: string;
     items?: string[];
     content?: string;
     tags?: string[];
   }>;
-  cta: string;
+  cta?: string;
 }
 
 export function AboutPage() {
@@ -22,7 +23,11 @@ export function AboutPage() {
     fetch(withBasePath('/about.json'))
       .then((res) => res.json())
       .then((data) => {
-        setAboutConfig(data);
+        const parsed = aboutConfigSchema.safeParse(data);
+        if (!parsed.success) {
+          throw new Error('Invalid about configuration.');
+        }
+        setAboutConfig(parsed.data);
         setLoading(false);
       })
       .catch(() => {
@@ -43,7 +48,7 @@ export function AboutPage() {
       <div className="space-y-3">
         <p className="text-xs uppercase tracking-[0.3em] text-accent">{aboutConfig.kicker}</p>
         <h1 className="font-display text-4xl text-white">{aboutConfig.title}</h1>
-        <p className="text-lg text-muted">{aboutConfig.description}</p>
+        {aboutConfig.description && <p className="text-lg text-muted">{aboutConfig.description}</p>}
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -74,9 +79,11 @@ export function AboutPage() {
         ))}
       </div>
 
-      <div className="rounded-2xl border border-accent/20 bg-surface/80 p-5 text-sm text-muted">
-        {aboutConfig.cta}
-      </div>
+      {aboutConfig.cta && (
+        <div className="rounded-2xl border border-accent/20 bg-surface/80 p-5 text-sm text-muted">
+          {aboutConfig.cta}
+        </div>
+      )}
     </div>
   );
 }

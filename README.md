@@ -3,42 +3,53 @@
 
 # Story Engine
 
-JSON-driven React storytelling engine with auto-discovered stories. You supply `/content`; the engine handles routing, themes, and rendering.
+JSON-driven React storytelling engine. You supply a `content/` folder with story files and assets; the engine handles routing, themes, and rendering.
 
 ![Story Engine Screenshot](docs/images/screenshot.png)
 
 ## Install
 
-Use the starter: https://github.com/Zachary-Higgins/story_app_template (preconfigured Vite + Story Engine + content folder).
+Recommended: start from the template (pre-wired Vite + Story Engine + content folder).
+https://github.com/Zachary-Higgins/story_app_template
 
-Or install directly: `npm install github:Zachary-Higgins/story_app#semver:*` (latest release).
-
-See [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) for version pinning and other options.
+Or install directly:
+```bash
+npm install github:Zachary-Higgins/story_app#semver:*
+```
 
 ## Quick Start
 
-1) Start from the template: https://github.com/Zachary-Higgins/story_app_template (pre-wired Vite config, StoryEngine usage, and content folder)
-2) Add stories in `content/stories/*.json` (plugin generates `content/index.json` automatically)
-3) Add media under `content/images`, `content/videos`, `content/audio`
-4) Run dev/build scripts (below) and deploy your app
+1) Create `content/stories/*.json` (the plugin generates `content/index.json` for you).
+2) Add media under `content/images`, `content/videos`, `content/audio`.
+3) Start the dev server: `npm run dev`.
 
 ## Content Basics
 
 - Story files: `content/stories/{id}.json`
-- Required fields: `id`, `title`, `theme`, `pages[]`
+- Required fields: `title`, `theme`, `pages[]`
+- Optional `citations[]` on the story and each page (rendered at the bottom of each card)
 - Layouts: `hero`, `split`, `timeline`, `immersive`
 - Themes: `dark-cinematic`, `light-editorial`, `bold-gradient`
+
+## Dev Editors
+
+The dev server includes editors for content and stories (not shipped in production builds):
+
+- Story Editor: `/#/editor`
+- Home Editor: `/#/editor/home`
+- About Editor: `/#/editor/about`
+
+These routes are only enabled in dev (`npm run dev`) and use a dev-only Vite middleware for saving JSON and managing media assets.
+
+## Scripts
+
+- `npm run dev` — local dev with content folder
+- `npm test` — tests
+- `npm run build:dist` — package build
+- `npm run build:release` — lint + test + package build
 
 ## Docs
 - [docs/INSTALL-FROM-GITHUB.md](docs/INSTALL-FROM-GITHUB.md) — install & version pinning
 - [docs/INTEGRATION.md](docs/INTEGRATION.md) — full setup guide
 - [docs/STORY-AUTHORING.md](docs/STORY-AUTHORING.md) — schema & examples
 - [CONTRIBUTING.md](CONTRIBUTING.md) — dev workflow
-- Template: https://github.com/Zachary-Higgins/story_app_template — ready-to-use starter
-
-## Scripts
-- `npm run dev` — local dev with sample content
-- `npm run lint` — lint
-- `npm test` — tests
-- `npm run build:dist` — package build
-- `npm run build:release` — lint + test + package build
