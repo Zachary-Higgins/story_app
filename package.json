@@ -1,6 +1,6 @@
 {
   "name": "story-engine",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A reusable React storytelling component library with JSON-driven content discovery",
   "author": "Zachary Higgins",
   "license": "MIT",
