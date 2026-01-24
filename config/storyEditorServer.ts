@@ -85,7 +85,10 @@ function sanitizeFileName(name: string) {
 function isAllowedOrigin(req: IncomingMessage) {
   const origin = req.headers.origin;
   const host = req.headers.host;
-  if (!origin || !host) return true;
+  // In dev mode we allow requests that omit both Origin and Host headers (e.g. some local tools),
+  // but otherwise require a valid same-origin request.
+  if (!origin && !host) return true;
+  if (!origin || !host) return false;
   try {
     const originHost = new URL(origin).host;
     return originHost === host;
@@ -235,7 +238,14 @@ export function storyEditorServer(): Plugin {
             }
             fs.writeFileSync(targetPath, buffer);
             return sendJson(res, 200, { ok: true, path: `/${MEDIA_TYPE_FOLDERS[mediaType as keyof typeof MEDIA_TYPE_FOLDERS]}/${fileName}` });
-          } catch {
+          } catch (err) {
+            if (process.env.NODE_ENV !== 'production') {
+              // Log detailed error information in development to help debug upload failures.
+              // eslint-disable-next-line no-console
+              console.error('[storyEditorServer] Failed to upload media file:', err);
+              const message = err instanceof Error ? err.message : String(err);
+              return sendJson(res, 500, { error: 'Failed to upload file.', details: message });
+            }
             return sendJson(res, 500, { error: 'Failed to upload file.' });
           }
         }

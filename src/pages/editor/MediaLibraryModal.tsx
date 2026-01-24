@@ -122,11 +122,18 @@ export function MediaLibraryModal({ open, types, initialType, onSelect, onClose 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="dialog" aria-modal="true">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="media-library-title"
+    >
       <div className="w-full max-w-4xl rounded-3xl border border-white/10 bg-surface/95 p-6 shadow-2xl">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">Media Library</p>
+            <p id="media-library-title" className="text-xs uppercase tracking-[0.3em] text-accent">
+              Media Library
+            </p>
             <h2 className="text-xl font-semibold text-white">Manage {activeType} files</h2>
           </div>
           <button
