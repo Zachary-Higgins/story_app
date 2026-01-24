@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { storyConfigSchema } from '../storySchema';
 import { aboutConfigSchema, homeConfigSchema } from '../contentSchema';
+import type { SafeParseReturnType } from 'zod';
 
 const STORY_ID_PATTERN = /^[a-zA-Z0-9-_]+$/;
 const MEDIA_TYPE_FOLDERS: Record<'image' | 'video' | 'audio', string> = {
@@ -97,10 +98,10 @@ function isAllowedOrigin(req: IncomingMessage) {
   }
 }
 
-function validateContent(file: string, payload: unknown) {
+function validateContent(file: string, payload: unknown): SafeParseReturnType<unknown, unknown> | null {
   if (file === 'home.json') return homeConfigSchema.safeParse(payload);
   if (file === 'about.json') return aboutConfigSchema.safeParse(payload);
-  return { success: false };
+  return null;
 }
 
 function isAllowedExtension(type: string, fileName: string) {
@@ -194,7 +195,7 @@ export function storyEditorServer(): Plugin {
             const body = await readRequestBody(req);
             const parsed = JSON.parse(body);
             const validated = validateContent(file, parsed);
-            if (!validated.success) {
+            if (!validated || !validated.success) {
               return sendJson(res, 400, { error: 'Content file failed validation.' });
             }
             fs.writeFileSync(filePath, JSON.stringify(validated.data, null, 2), 'utf-8');
