@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { withBasePath } from '../../utils/basePath';
 import { InfoTip } from './InfoTip';
 
@@ -40,12 +40,7 @@ export function MediaLibraryModal({ open, types, initialType, onSelect, onClose 
     }
   }, [open, initialType]);
 
-  useEffect(() => {
-    if (!open) return;
-    void loadFiles(activeType);
-  }, [open, activeType]);
-
-  const loadFiles = async (type: MediaLibraryType) => {
+  const loadFiles = useCallback(async (type: MediaLibraryType) => {
     setIsLoading(true);
     setNotice(null);
     try {
@@ -62,7 +57,12 @@ export function MediaLibraryModal({ open, types, initialType, onSelect, onClose 
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    void loadFiles(activeType);
+  }, [open, activeType, loadFiles]);
 
   const uploadFile = async (file: File) => {
     if (!open) return;
