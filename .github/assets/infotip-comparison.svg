@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#0f172a"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-size="24" fill="#ffffff" font-weight="bold" text-anchor="middle">
+    InfoTip Keyboard Accessibility Improvement
+  </text>
+  
+  <!-- Before Section -->
+  <g transform="translate(50, 80)">
+    <rect width="330" height="350" rx="8" fill="#1e293b"/>
+    <text x="165" y="30" font-size="18" fill="#ef4444" font-weight="bold" text-anchor="middle">
+      ❌ Before: Non-accessible
+    </text>
+    
+    <!-- Code snippet -->
+    <text x="20" y="70" font-size="12" fill="#94a3b8" font-family="monospace">&lt;span</text>
+    <text x="20" y="90" font-size="12" fill="#94a3b8" font-family="monospace">  title={text}</text>
+    <text x="20" y="110" font-size="12" fill="#94a3b8" font-family="monospace">  aria-label={text}</text>
+    <text x="20" y="130" font-size="12" fill="#94a3b8" font-family="monospace">  className="..."</text>
+    <text x="20" y="150" font-size="12" fill="#94a3b8" font-family="monospace">&gt;</text>
+    <text x="20" y="170" font-size="12" fill="#94a3b8" font-family="monospace">  &lt;svg&gt;...&lt;/svg&gt;</text>
+    <text x="20" y="190" font-size="12" fill="#94a3b8" font-family="monospace">&lt;/span&gt;</text>
+    
+    <!-- Issues -->
+    <text x="20" y="230" font-size="14" fill="#ffffff" font-weight="bold">Issues:</text>
+    <text x="20" y="255" font-size="12" fill="#fca5a5">⚠ Not keyboard focusable</text>
+    <text x="20" y="275" font-size="12" fill="#fca5a5">⚠ Cannot be reached via Tab</text>
+    <text x="20" y="295" font-size="12" fill="#fca5a5">⚠ No focus indicator</text>
+    <text x="20" y="315" font-size="12" fill="#fca5a5">⚠ Fails WCAG 2.1.1</text>
+  </g>
+  
+  <!-- After Section -->
+  <g transform="translate(420, 80)">
+    <rect width="330" height="350" rx="8" fill="#1e293b"/>
+    <text x="165" y="30" font-size="18" fill="#10b981" font-weight="bold" text-anchor="middle">
+      ✅ After: Keyboard accessible
+    </text>
+    
+    <!-- Code snippet -->
+    <text x="20" y="70" font-size="12" fill="#94a3b8" font-family="monospace">&lt;button</text>
+    <text x="20" y="90" font-size="12" fill="#94a3b8" font-family="monospace">  type="button"</text>
+    <text x="20" y="110" font-size="12" fill="#94a3b8" font-family="monospace">  title={text}</text>
+    <text x="20" y="130" font-size="12" fill="#94a3b8" font-family="monospace">  aria-label={text}</text>
+    <text x="20" y="150" font-size="12" fill="#94a3b8" font-family="monospace">  className="... focus:ring-2"</text>
+    <text x="20" y="170" font-size="12" fill="#94a3b8" font-family="monospace">&gt;</text>
+    <text x="20" y="190" font-size="12" fill="#94a3b8" font-family="monospace">  &lt;svg&gt;...&lt;/svg&gt;</text>
+    <text x="20" y="210" font-size="12" fill="#94a3b8" font-family="monospace">&lt;/button&gt;</text>
+    
+    <!-- Benefits -->
+    <text x="20" y="250" font-size="14" fill="#ffffff" font-weight="bold">Benefits:</text>
+    <text x="20" y="275" font-size="12" fill="#86efac">✓ Keyboard focusable</text>
+    <text x="20" y="295" font-size="12" fill="#86efac">✓ Tab navigation works</text>
+    <text x="20" y="315" font-size="12" fill="#86efac">✓ Visible focus ring</text>
+    <text x="20" y="335" font-size="12" fill="#86efac">✓ WCAG 2.1.1 compliant</text>
+  </g>
+  
+  <!-- Arrow -->
+  <g transform="translate(385, 250)">
+    <line x1="0" y1="0" x2="20" y2="0" stroke="#3b82f6" stroke-width="3"/>
+    <polygon points="20,0 15,-5 15,5" fill="#3b82f6"/>
+  </g>
+</svg>
