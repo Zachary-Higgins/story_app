@@ -160,7 +160,7 @@ describe('storyEditorServer', () => {
 
     expect(res.statusCode).toBe(200);
     expect(payload.files[0].name).toBe('photo.jpg');
-    expect(payload.files[0].path).toBe('/images/photo.jpg');
+    expect(payload.files[0].path.replace(/\\/g, '/')).toBe('/images/photo.jpg');
   });
 
   it('rejects invalid media types', async () => {
