@@ -6,6 +6,27 @@ import os from 'os';
 import { Readable } from 'stream';
 import { storyEditorServer } from '../config/storyEditorServer';
 
+interface MockRequest extends Readable {
+  method?: string;
+  url?: string;
+  headers?: Record<string, string>;
+}
+
+interface MockResponse {
+  statusCode: number;
+  headers: Record<string, string>;
+  body?: string;
+  setHeader: (key: string, value: string) => void;
+  end: (data: string) => void;
+}
+
+type MiddlewareHandler = (req: MockRequest, res: MockResponse, next: () => void) => void | Promise<void>;
+
+interface TestServer {
+  config: { publicDir: string };
+  middlewares: { use: (path: string, handler: MiddlewareHandler) => void };
+}
+
 function createTempContentDir() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'story-editor-'));
   fs.mkdirSync(path.join(dir, 'stories'), { recursive: true });
@@ -14,21 +35,22 @@ function createTempContentDir() {
 }
 
 function createHandler(publicDir: string) {
-  const handlers: Array<(req: any, res: any, next: () => void) => void | Promise<void>> = [];
+  const handlers: MiddlewareHandler[] = [];
   const plugin = storyEditorServer();
-  plugin.configureServer?.({
+  const server: TestServer = {
     config: { publicDir },
     middlewares: {
-      use: (_path: string, handler: any) => {
+      use: (_path, handler) => {
         handlers.push(handler);
       },
     },
-  } as any);
-  return handlers[0];
+  };
+  plugin.configureServer?.(server as unknown as Parameters<NonNullable<typeof plugin.configureServer>>[0]);
+  return handlers[0]!;
 }
 
 async function runRequest(
-  handler: (req: any, res: any, next: () => void) => void | Promise<void>,
+  handler: MiddlewareHandler,
   {
     method,
     url,
@@ -36,11 +58,11 @@ async function runRequest(
     headers = {},
   }: { method: string; url: string; body?: string; headers?: Record<string, string> }
 ) {
-  const req = Readable.from(body ? [Buffer.from(body)] : []) as any;
+  const req = Readable.from(body ? [Buffer.from(body)] : []) as MockRequest;
   req.method = method;
   req.url = url;
   req.headers = headers;
-  const res: any = {
+  const res: MockResponse = {
     statusCode: 200,
     headers: {},
     setHeader(key: string, value: string) {

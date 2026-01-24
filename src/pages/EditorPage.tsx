@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ActionLink, MediaAsset, StoryConfig, StoryPage, TimelineEntry } from '../types/story';
 import { storyConfigSchema } from '../storySchema';
 import { applyTheme } from '../theme/themes';
@@ -42,24 +42,45 @@ export function EditorPage() {
   const previewPages = useMemo(() => story?.pages ?? [], [story]);
 
   useEffect(() => {
-    if (!isDev) return;
-    void loadIndex();
-  }, [isDev]);
-
-  useEffect(() => {
     if (story?.theme) {
       applyTheme(story.theme);
     }
   }, [story?.theme]);
 
-  const applyStoryUpdate = (next: StoryConfig) => {
+  const applyStoryUpdate = useCallback((next: StoryConfig) => {
     setStory(next);
     setRawJson(JSON.stringify(next, null, 2));
     setRawDirty(false);
     setValidationErrors([]);
-  };
+  }, []);
 
-  const loadIndex = async () => {
+  const loadStory = useCallback(
+    async (id: string) => {
+      if (!id) return;
+      setIsLoading(true);
+      setNotice(null);
+      try {
+        const res = await fetch(withBasePath(`/__story-editor/story?id=${encodeURIComponent(id)}`));
+        if (!res.ok) {
+          throw new Error('Failed to load story.');
+        }
+        const payload = await res.json();
+        const parsed = storyConfigSchema.safeParse(payload);
+        if (!parsed.success) {
+          setValidationErrors(parsed.error.errors.map((entry) => entry.message));
+          throw new Error('Story config failed validation.');
+        }
+        applyStoryUpdate(parsed.data);
+      } catch (err) {
+        setNotice({ tone: 'error', message: (err as Error).message });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [applyStoryUpdate]
+  );
+
+  const loadIndex = useCallback(async () => {
     setIsLoading(true);
     try {
       const res = await fetch(withBasePath('/__story-editor/index'));
@@ -78,33 +99,15 @@ export function EditorPage() {
       }
     } catch (err) {
       setNotice({ tone: 'error', message: (err as Error).message });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      } finally {
+        setIsLoading(false);
+      }
+  }, [loadStory, selectedId]);
 
-  const loadStory = async (id: string) => {
-    if (!id) return;
-    setIsLoading(true);
-    setNotice(null);
-    try {
-      const res = await fetch(withBasePath(`/__story-editor/story?id=${encodeURIComponent(id)}`));
-      if (!res.ok) {
-        throw new Error('Failed to load story.');
-      }
-      const payload = await res.json();
-      const parsed = storyConfigSchema.safeParse(payload);
-      if (!parsed.success) {
-        setValidationErrors(parsed.error.errors.map((entry) => entry.message));
-        throw new Error('Story config failed validation.');
-      }
-      applyStoryUpdate(parsed.data);
-    } catch (err) {
-      setNotice({ tone: 'error', message: (err as Error).message });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  useEffect(() => {
+    if (!isDev) return;
+    void loadIndex();
+  }, [isDev, loadIndex]);
 
 
   const saveStoryToId = async (id: string, payload: StoryConfig) => {
