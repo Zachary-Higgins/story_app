@@ -89,6 +89,8 @@ export function MediaLibraryModal({ open, types, initialType, onSelect, onClose 
 
   const deleteFile = async (file: MediaFile) => {
     if (!open) return;
+    const confirmed = window.confirm(`Delete ${file.name}?`);
+    if (!confirmed) return;
     setNotice(null);
     try {
       const res = await fetch(withBasePath(`/__story-editor/media?type=${activeType}&name=${encodeURIComponent(file.name)}`), {

@@ -1,4 +1,4 @@
-import type { ActionLink, MediaAsset, StoryConfig, StoryPage, TimelineEntry } from '../../types/story';
+import type { ActionLink, Citation, MediaAsset, StoryConfig, StoryPage, TimelineEntry } from '../../types/story';
 
 export const STORY_ID_PATTERN = /^[a-zA-Z0-9-_]+$/;
 const DEFAULT_MEDIA_IMAGE = '/images/reef_card1_bg.jpg';
@@ -38,7 +38,7 @@ export function createActionTemplate(): ActionLink {
   };
 }
 
-export function createCitationTemplate() {
+export function createCitationTemplate(): Citation {
   return {
     label: 'Source',
     url: 'https://example.com',
