@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { withBasePath } from '../utils/basePath';
 import { aboutConfigSchema, homeConfigSchema } from '../contentSchema';
 
@@ -53,13 +53,7 @@ export function ContentEditorPage({ file, title, description }: ContentEditorPag
 
   const isHome = file === 'home.json';
 
-  useEffect(() => {
-    if (!isDev) return;
-    setContentData(null);
-    void loadContent();
-  }, [isDev, file]);
-
-  const loadContent = async () => {
+  const loadContent = useCallback(async () => {
     setNotice(null);
     try {
       const res = await fetch(withBasePath(`/__story-editor/content?file=${file}`));
@@ -81,7 +75,13 @@ export function ContentEditorPage({ file, title, description }: ContentEditorPag
       setNotice({ tone: 'error', message: (err as Error).message });
       setContentData(null);
     }
-  };
+  }, [file, isHome]);
+
+  useEffect(() => {
+    if (!isDev) return;
+    setContentData(null);
+    void loadContent();
+  }, [isDev, file, loadContent]);
 
   const saveContent = async () => {
     setIsSaving(true);
